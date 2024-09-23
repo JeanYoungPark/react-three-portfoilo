@@ -18,13 +18,13 @@ function App() {
         {
             element: <Layout />,
             errorElement: <div>잘못된 접근입니다.</div>,
-            loader: async () => {
-                return new Promise((res) => {
-                    setTimeout(() => {
-                        return res("finish");
-                    }, 3000);
-                });
-            },
+            // loader: async () => {
+            //     return new Promise((res) => {
+            //         setTimeout(() => {
+            //             return res("finish");
+            //         }, 3000);
+            //     });
+            // },
             children: [
                 { path: "/", element: <Main /> },
                 { path: "/about", element: <About /> },
