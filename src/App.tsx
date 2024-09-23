@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Layout } from "./components/Layout";
+import { Main } from "./pages/Main";
+import { About } from "./pages/About";
+import { Portfolio } from "./pages/Portfolio";
+import { Contact } from "./pages/Contact";
+import "./css/common.min.css";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    /**
+     * createHashRouter
+     * 정적인 페이지에 적합
+     * 검색 엔진으로 읽지 못함
+     * github-pagers 배포가 간편
+     */
+    const router = createBrowserRouter([
+        {
+            element: <Layout />,
+            errorElement: <div>잘못된 접근입니다.</div>,
+            loader: async () => {
+                return new Promise((res) => {
+                    setTimeout(() => {
+                        return res("finish");
+                    }, 3000);
+                });
+            },
+            children: [
+                { path: "/", element: <Main /> },
+                { path: "/about", element: <About /> },
+                { path: "/portfolio", element: <Portfolio /> },
+                { path: "/contact", element: <Contact /> },
+            ],
+        },
+    ]);
+
+    return <RouterProvider router={router} fallbackElement={<div>Loading</div>} />;
 }
 
 export default App;
