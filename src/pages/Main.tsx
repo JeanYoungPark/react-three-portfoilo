@@ -1,5 +1,11 @@
+import { Canvas } from "@react-three/fiber";
 import React from "react";
 
 export const Main = () => {
-    return <div>Main</div>;
+    return (
+        <Canvas>
+            <ambientLight />
+            <directionalLight />
+        </Canvas>
+    );
 };
