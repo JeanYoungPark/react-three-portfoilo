@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import "../css/portfolio.min.css";
 
 export const Portfolio = () => {
@@ -7,7 +7,6 @@ export const Portfolio = () => {
     const [clickedCardIndex, setClickedCardIndex] = useState<number | null>(null);
 
     const containerRef = useRef<HTMLDivElement>(null);
-    const infoRef = useRef<HTMLDivElement>(null);
     const isFirst = useRef(false);
 
     const slideUp = () => {
