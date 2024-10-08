@@ -25,6 +25,7 @@ body .lock {
   top: 20px;
   display: flex;
   align-items: center;
+  z-index: 100;
 }
 #menu nav {
   display: flex;
