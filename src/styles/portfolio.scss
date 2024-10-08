@@ -72,23 +72,12 @@
                     &:nth-of-type(#{$i}) {
                         transform: rotate(#{($i - 1) * 45}deg);
 
-                        .inner {
-                            transform: rotate(#{(($i - 1) + 8) * -45}deg) rotateX(-30deg) translateZ(-100px);
-                        }
-
-                        &.active {
-                            .inner {
-                                transform: rotate(-360deg) rotateX(-30deg) translateZ(-100px);
-                            }
-                        }
-
                         &.clicked {
                             z-index: 11;
 
                             .inner {
                                 width: 600px;
                                 height: 550px;
-                                transform: rotate(#{(($i - 1) + 8) * -45}deg) rotateX(0deg) translateZ(100px) translateY(-100px) translateX(-200px);
                                 box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.25);
 
                                 .text,
@@ -120,12 +109,12 @@
     top: 50%;
     transform: translateY(-50%);
     display: flex;
-    animation: showInfo 1s forwards 1s;
+    animation: showInfo 0.5s forwards 0.5s;
     opacity: 0;
 
     &.hide {
         opacity: 1;
-        animation: hideInfo 1s forwards 2s;
+        animation: hideInfo 0.5s forwards;
     }
 
     p {
