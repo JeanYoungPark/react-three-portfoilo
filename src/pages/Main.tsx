@@ -6,6 +6,7 @@ import "../css/main.min.css";
 import { Forest } from "../components/Forest";
 import { CharacterContainer } from "../components/CharacterContainer";
 import { Floor } from "../components/Floor";
+import { Chicken } from "../components/Chicken";
 
 export const Main = () => {
     return (
@@ -15,6 +16,7 @@ export const Main = () => {
             <OrbitControls />
             <Physics>
                 <Floor />
+                <Chicken />
                 {/* <Forest />
                 <CharacterContainer /> */}
             </Physics>
