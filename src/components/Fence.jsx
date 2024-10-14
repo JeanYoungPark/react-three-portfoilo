@@ -1,5 +1,7 @@
 import { useGLTF } from "@react-three/drei";
-import React from "react";
+import { useFrame } from "@react-three/fiber";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
+import { Box3 } from "three";
 
 const fence = [
     { position: [0, 0, 0], rotation: [0, Math.PI / 2, 0], isCorner: true },
@@ -22,14 +24,15 @@ const fence = [
     { position: [10, 0, 8], rotation: [0, -(Math.PI / 2), 0], isCorner: true },
 ];
 
-export const Fence = () => {
+export const Fence = forwardRef((props, fenceRef) => {
+    const chickRef = useRef();
     const fence_center = useGLTF("./models/minecreft/Fence Center.glb");
     const fence_corner = useGLTF("./models/minecreft/Fence Corner.glb");
 
     return (
         <>
             {/* 울타리 */}
-            <group position={[2, 2, 5]}>
+            <group position={[2, 2, 5]} ref={fenceRef}>
                 {fence.map((data, idx) => (
                     <mesh
                         geometry={data.isCorner ? fence_corner.nodes.Fence_Corner.geometry : fence_center.nodes.Fence_Center.geometry}
@@ -42,4 +45,4 @@ export const Fence = () => {
             </group>
         </>
     );
-};
+});
