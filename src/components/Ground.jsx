@@ -13,27 +13,6 @@ const ground = [
     [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ];
 
-const fence = [
-    { position: [0, 0, 0], rotation: [0, Math.PI / 2, 0], isCorner: true },
-    { position: [2, 0, 0], rotation: [0, 0, 0], isCorner: false },
-    { position: [4, 0, 0], rotation: [0, 0, 0], isCorner: false },
-    { position: [6, 0, 0], rotation: [0, 0, 0], isCorner: false },
-    { position: [8, 0, 0], rotation: [0, 0, 0], isCorner: false },
-    { position: [10, 0, 0], rotation: [0, 0, 0], isCorner: true },
-    { position: [0, 0, 2], rotation: [0, Math.PI / 2, 0], isCorner: false },
-    { position: [10, 0, 2], rotation: [0, Math.PI / 2, 0], isCorner: false },
-    { position: [0, 0, 4], rotation: [0, Math.PI / 2, 0], isCorner: false },
-    { position: [10, 0, 4], rotation: [0, Math.PI / 2, 0], isCorner: false },
-    { position: [0, 0, 6], rotation: [0, Math.PI / 2, 0], isCorner: false },
-    { position: [10, 0, 6], rotation: [0, Math.PI / 2, 0], isCorner: false },
-    { position: [0, 0, 8], rotation: [0, Math.PI, 0], isCorner: true },
-    { position: [2, 0, 8], rotation: [0, 0, 0], isCorner: false },
-    { position: [4, 0, 8], rotation: [0, 0, 0], isCorner: false },
-    { position: [6, 0, 8], rotation: [0, 0, 0], isCorner: false },
-    { position: [8, 0, 8], rotation: [0, 0, 0], isCorner: false },
-    { position: [10, 0, 8], rotation: [0, -(Math.PI / 2), 0], isCorner: true },
-];
-
 const rail = [
     { position: [0, 0, 0], rotation: [0, 0, 0], isCorner: false, isIncline: false },
     { position: [2, 0, 0], rotation: [0, 0, 0], isCorner: false, isIncline: false },
@@ -64,15 +43,12 @@ export const Ground = () => {
     const tree = useGLTF("./models/minecreft/Tree.glb");
     const tree3 = useGLTF("./models/minecreft/Tree3.glb");
 
-    const fence_center = useGLTF("./models/minecreft/Fence Center.glb");
-    const fence_corner = useGLTF("./models/minecreft/Fence Corner.glb");
-
     const { nodes: rail_corner } = useGLTF("./models/minecreft/Rail Corner.glb");
     const { nodes: rail_incline } = useGLTF("./models/minecreft/Rail Incline.glb");
     const { nodes: rail_straight } = useGLTF("./models/minecreft/Rail Straight.glb");
     const minecart = useGLTF("./models/minecreft/minecart.glb");
     const wood_chest = useGLTF("./models/minecreft/Wood Chest.glb");
-    console.log(flower2);
+
     return (
         <group>
             <RigidBody type='fixed' colliders='trimesh'>
@@ -89,19 +65,6 @@ export const Ground = () => {
                             />
                         ))
                     )}
-                </group>
-
-                {/* 울타리 */}
-                <group position={[2, 2, 5]}>
-                    {fence.map((data, idx) => (
-                        <mesh
-                            geometry={data.isCorner ? fence_corner.nodes.Fence_Corner.geometry : fence_center.nodes.Fence_Center.geometry}
-                            position={data.position}
-                            rotation={data.rotation}
-                            scale={[100, 100, 100]}
-                            material={fence_corner.materials.Atlas}
-                        />
-                    ))}
                 </group>
 
                 {/* 레일 */}

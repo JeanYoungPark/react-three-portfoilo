@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { Physics } from "@react-three/rapier";
+import { Physics, RigidBody } from "@react-three/rapier";
 import React, { useEffect, useRef, useState } from "react";
 import { OrbitControls } from "@react-three/drei";
 import "../css/main.min.css";
@@ -8,6 +8,7 @@ import { Chicken } from "../components/Chicken";
 import { Group, Vector3 } from "three";
 import { Ground } from "../components/Ground";
 import { Chickens } from "../components/Chickens";
+import { Fence } from "../components/Fence";
 
 export const Main = () => {
     return (
@@ -16,7 +17,12 @@ export const Main = () => {
             <directionalLight position={[-2, 4, 10]} intensity={2} />
             <OrbitControls target={new Vector3(6, 0, 4)} />
             <Physics>
-                <Ground />
+                <group>
+                    <RigidBody type='fixed' colliders='trimesh'>
+                        <Ground />
+                        <Fence />
+                    </RigidBody>
+                </group>
                 <Chickens />
                 {/* <Floor ref={floorRef} />
                 <Chicken /> */}
