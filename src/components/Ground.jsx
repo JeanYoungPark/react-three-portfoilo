@@ -13,22 +13,6 @@ const ground = [
     [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ];
 
-const rail = [
-    { position: [0, 0, 0], rotation: [0, 0, 0], isCorner: false, isIncline: false },
-    { position: [2, 0, 0], rotation: [0, 0, 0], isCorner: false, isIncline: false },
-    { position: [4, 0, 0], rotation: [0, 0, 0], isCorner: false, isIncline: false },
-    { position: [6, 0, 0], rotation: [0, 0, 0], isCorner: false, isIncline: false },
-    { position: [8, 0, 0], rotation: [0, 0, 0], isCorner: false, isIncline: false },
-    { position: [11, -1, 0], rotation: [0, 0, Math.PI / 2], isCorner: false, isIncline: true },
-    { position: [12, -2, 0], rotation: [0, -(Math.PI / 2), 0], isCorner: true, isIncline: false },
-    { position: [12, -2, 2], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: false },
-    { position: [12, -2, 4], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: false },
-    { position: [12, -2, 6], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: false },
-    { position: [12, -2, 8], rotation: [0, Math.PI / 2, 0], isCorner: true, isIncline: false },
-    { position: [14, -2, 8], rotation: [0, 0, 0], isCorner: false, isIncline: false },
-    { position: [16, -2, 8], rotation: [0, 0, 0], isCorner: false, isIncline: false },
-    { position: [18, -2, 8], rotation: [0, 0, 0], isCorner: false, isIncline: false },
-];
 
 export const Ground = () => {
     const grass_block = useGLTF("./models/minecreft/Grass Block.glb");
@@ -42,12 +26,6 @@ export const Ground = () => {
     const rock_large = useGLTF("./models/minecreft/Rock Large.glb");
     const tree = useGLTF("./models/minecreft/Tree.glb");
     const tree3 = useGLTF("./models/minecreft/Tree3.glb");
-
-    const { nodes: rail_corner } = useGLTF("./models/minecreft/Rail Corner.glb");
-    const { nodes: rail_incline } = useGLTF("./models/minecreft/Rail Incline.glb");
-    const { nodes: rail_straight } = useGLTF("./models/minecreft/Rail Straight.glb");
-    const minecart = useGLTF("./models/minecreft/minecart.glb");
-    const wood_chest = useGLTF("./models/minecreft/Wood Chest.glb");
 
     return (
         <group>
@@ -65,65 +43,6 @@ export const Ground = () => {
                             />
                         ))
                     )}
-                </group>
-
-                {/* 레일 */}
-                <group position={[2, 3, 2]}>
-                    <group position={[0, 0.1, 0]}>
-                        <primitive object={minecart.nodes.Cart} />
-                    </group>
-
-                    {rail.map((data, index) => {
-                        // 메쉬 복사본을 생성
-                        const mesh = data.isCorner
-                            ? rail_corner.Rail_Corner.clone()
-                            : data.isIncline
-                            ? rail_incline.Rail_Incline.clone()
-                            : rail_straight.Rail_Straight.clone();
-
-                        return (
-                            <group key={index} position={data.position} rotation={data.rotation}>
-                                <primitive object={mesh} />
-                            </group>
-                        );
-                    })}
-
-                    <group position={[20, -2, 8]} rotation={[0, -(Math.PI / 2), 0]}>
-                        <primitive object={wood_chest.nodes.Chest_Closed} />
-                    </group>
-
-                    <group>
-                        <mesh
-                            geometry={grass_block.nodes.Block_Grass.geometry}
-                            position={[0, -1, 0]}
-                            scale={[100, 100, 100]}
-                            material={grass_block.materials.Atlas}
-                        />
-                        <mesh
-                            geometry={grass_block.nodes.Block_Grass.geometry}
-                            position={[2, -1, 0]}
-                            scale={[100, 100, 100]}
-                            material={grass_block.materials.Atlas}
-                        />
-                        <mesh
-                            geometry={grass_block.nodes.Block_Grass.geometry}
-                            position={[4, -1, 0]}
-                            scale={[100, 100, 100]}
-                            material={grass_block.materials.Atlas}
-                        />
-                        <mesh
-                            geometry={grass_block.nodes.Block_Grass.geometry}
-                            position={[6, -1, 0]}
-                            scale={[100, 100, 100]}
-                            material={grass_block.materials.Atlas}
-                        />
-                        <mesh
-                            geometry={grass_block.nodes.Block_Grass.geometry}
-                            position={[8, -1, 0]}
-                            scale={[100, 100, 100]}
-                            material={grass_block.materials.Atlas}
-                        />
-                    </group>
                 </group>
 
                 <group>
