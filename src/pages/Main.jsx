@@ -15,16 +15,14 @@ export const Main = () => {
     const fenceRef = useRef();
 
     return (
-        <Canvas camera={{ position: [12, 6, 20], fov: 75 }}>
+        <Canvas camera={{ position: [25, 12, 22], fov: 75 }}>
             <ambientLight intensity={1.5} />
             <directionalLight position={[-2, 4, 10]} intensity={2} />
-            <OrbitControls target={new Vector3(6, 0, 4)} />
+            <OrbitControls target={new Vector3(13, 0, 5)} />
             <Suspense />
             <Physics debug>
                 <group>
-                    <RigidBody type='fixed' colliders='trimesh'>
-                        <Ground />
-                    </RigidBody>
+                    <Ground />
                 </group>
                 <group>
                     <Fence ref={fenceRef} />

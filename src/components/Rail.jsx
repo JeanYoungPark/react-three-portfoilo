@@ -1,7 +1,7 @@
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { CapsuleCollider, RigidBody } from "@react-three/rapier";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MathUtils, Vector3 } from "three";
 
 const rail = [
@@ -25,73 +25,62 @@ export const Rail = () => {
     const grass_block = useGLTF("./models/minecreft/Grass Block.glb");
     const cartRef = useRef();
     const currentRailIndex = useRef(0);
-    const angle = useRef(6);
+    const [chestOpen, setChestOpen] = useState(false);
     let speed = 0.05;
 
     const { nodes: rail_corner } = useGLTF("./models/minecreft/Rail Corner.glb");
     const { nodes: rail_incline } = useGLTF("./models/minecreft/Rail Incline.glb");
     const { nodes: rail_straight } = useGLTF("./models/minecreft/Rail Straight.glb");
     const minecart = useGLTF("./models/minecreft/minecart.glb");
-    const wood_chest = useGLTF("./models/minecreft/Wood Chest.glb");
+    const wood_chest_close = useGLTF("./models/minecreft/Wood Chest.glb");
+    const wood_chest_open = useGLTF("./models/minecreft/Chest Open.glb");
 
     useFrame(() => {
-        if (cartRef.current && rail.length > 0 && currentRailIndex.current < rail.length) {
-            const currentPosition = cartRef.current.position.clone();
-            // console.log(currentPosition);
-            const targetPosition = new Vector3(...rail[currentRailIndex.current].position);
-            const targetPositionXZ = targetPosition.clone().setY(targetPosition.y + 0.2);
+        if (cartRef.current && rail.length > 0) {
+            if (currentRailIndex.current < rail.length) {
+                const currentPosition = cartRef.current.position.clone();
+                // console.log(currentPosition);
+                const targetPosition = new Vector3(...rail[currentRailIndex.current].position);
+                const targetPositionXZ = targetPosition.clone().setY(targetPosition.y + 0.2);
 
-            // 목표 위치에 도달했는지 확인
-            const distance = currentPosition.distanceTo(targetPositionXZ);
+                const targetRotation = new Vector3(...rail[currentRailIndex.current].rotation);
 
-            if (distance < 0.1) {
-                // 다음 레일 섹션으로 이동
-                currentRailIndex.current = currentRailIndex.current + 1;
-            } else {
-                // 내리막길
-                if (rail[currentRailIndex.current].isIncline) {
-                    speed = 0.07;
+                // 목표 위치에 도달했는지 확인
+                const distance = currentPosition.distanceTo(targetPositionXZ);
 
-                    if (targetPositionXZ.x / 2 < cartRef.current.position.x) {
-                        cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, -(Math.PI / 4), 0.1);
-                    }
-
-                    if ((targetPositionXZ.x / 4) * 3 > cartRef.current.position.x) {
-                        cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, 0, 0.1);
-                    }
+                if (distance < 0.1) {
+                    // 다음 레일 섹션으로 이동
+                    currentRailIndex.current = currentRailIndex.current + 1;
                 } else {
-                    if (rail[currentRailIndex.current].isCorner) {
-                        speed = 0.05;
-                        cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, 0, 0.1);
+                    // 내리막길
+                    if (rail[currentRailIndex.current].isIncline) {
+                        speed = 0.08;
 
-                        if (cartRef.current.rotation.y === Math.PI / 2) {
-                            cartRef.current.rotation.y = MathUtils.lerp(cartRef.current.rotation.y, Math.PI / 2, 0.1);
-                        } else if (cartRef.current.rotation.y === -(Math.PI / 2)) {
-                            cartRef.current.rotation.y = MathUtils.lerp(cartRef.current.rotation.y, Math.PI / 2, 0.1);
+                        if (targetPositionXZ.x / 2 < cartRef.current.position.x) {
+                            cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, -(Math.PI / 4), 0.1);
+                        }
+
+                        if ((targetPositionXZ.x / 4) * 3 > cartRef.current.position.x) {
+                            cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, 0, 0.1);
+                        }
+                    } else {
+                        if (rail[currentRailIndex.current].isCorner) {
+                            speed = 0.07;
+                            cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, 0, 0.1);
+                            if (targetRotation.y * (180 / Math.PI) === -90) {
+                                cartRef.current.rotation.y = MathUtils.lerp(cartRef.current.rotation.y, -(Math.PI / 2), 0.1);
+                            } else if (targetRotation.y * (180 / Math.PI) === 90) {
+                                cartRef.current.rotation.y = MathUtils.lerp(cartRef.current.rotation.y, 0, 0.1);
+                            }
                         }
                     }
+
+                    // 목표 위치로 슬라이드
+                    const direction = targetPositionXZ.clone().sub(currentPosition).normalize();
+                    cartRef.current.position.add(direction.multiplyScalar(speed));
                 }
-
-                // if (rail[currentRailIndex.current].isIncline) {
-                //     speed = 0.07;
-                //     // const tiltAngle = Math.PI / 4; // Adjust the angle based on the steepness of your incline
-                //     // cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, -tiltAngle, 0.1); // Smoothly tilt on incline
-                //     cartRef.current.rotation.x = MathUtils.lerp(cartRef.current.rotation.x, targetRotation.x, 0.1);
-                //     cartRef.current.rotation.y = MathUtils.lerp(cartRef.current.rotation.y, targetRotation.y, 0.1);
-                //     cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, -(Math.PI / 4), 0.1);
-                // } else {
-                //     speed = 0.05;
-                //     cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, 0, 0.1);
-                // }
-
-                // 목표 위치로 슬라이드
-                const direction = targetPositionXZ.clone().sub(currentPosition).normalize();
-                cartRef.current.position.add(direction.multiplyScalar(speed));
-
-                // const targetRotation = new Vector3(...rail[currentRailIndex.current].rotation); // 해당 레일의 회전값
-                // cartRef.current.rotation.x = MathUtils.lerp(cartRef.current.rotation.x, targetRotation.x, 0.1);
-                // cartRef.current.rotation.y = MathUtils.lerp(cartRef.current.rotation.y, targetRotation.y, 0.1);
-                // cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, targetRotation.z, 0.1);
+            } else {
+                setChestOpen(true);
             }
         }
     });
@@ -120,9 +109,15 @@ export const Rail = () => {
                     );
                 })}
 
-                <group position={[20, -2, 8]} rotation={[0, -(Math.PI / 2), 0]}>
-                    <primitive object={wood_chest.nodes.Chest_Closed} />
-                </group>
+                {chestOpen ? (
+                    <group position={[20, -2, 8]} rotation={[0, -(Math.PI / 2), 0]}>
+                        <primitive object={wood_chest_open.nodes.Chest_Open} />
+                    </group>
+                ) : (
+                    <group position={[20, -2, 8]} rotation={[0, -(Math.PI / 2), 0]}>
+                        <primitive object={wood_chest_close.nodes.Chest_Closed} />
+                    </group>
+                )}
 
                 <group>
                     <mesh
