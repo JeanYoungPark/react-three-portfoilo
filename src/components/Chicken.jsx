@@ -76,8 +76,12 @@ export const Chicken = ({ fenceRef }) => {
                     } else {
                         // 목적지 도착
                         setAnimation(null);
-                        setIsActing((prev) => ({ ...prev, Idle: false }));
+                        setIsActing((prev) => ({ ...prev, Run: false }));
                     }
+                } else {
+                    // 목적지 도착
+                    setAnimation(null);
+                    setIsActing((prev) => ({ ...prev, Run: false }));
                 }
             } else {
                 setIsActing((prev) => ({ ...prev, Run: true }));

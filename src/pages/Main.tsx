@@ -25,10 +25,10 @@ export const Main = () => {
 
     return (
         <KeyboardControls map={keyboardMap}>
-            <Canvas camera={{ position: [25, 12, 22], fov: 75 }} shadows>
+            <Canvas camera={{ position: [25, 12, 22], fov: 75, far: 50 }} shadows>
                 <ambientLight intensity={1.5} />
                 <directionalLight position={[-2, 4, 10]} intensity={2} />
-                <OrbitControls target={new Vector3(13, 0, 5)} />
+                <OrbitControls target={new Vector3(13, 0, 5)} minDistance={15} maxDistance={40} maxPolarAngle={Math.PI / 2} />
                 <Suspense />
                 <Physics debug>
                     <Ground />

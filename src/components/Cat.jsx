@@ -45,7 +45,7 @@ export const Cat = () => {
     const { actions } = useAnimations(animations, group);
     const [anim, setAnim] = useState("Idle");
     const [, get] = useKeyboardControls();
-    console.log(actions);
+
     useEffect(() => {
         if (anim) {
             // 애니메이션 'Idle'을 실행
@@ -61,7 +61,7 @@ export const Cat = () => {
     useFrame(() => {
         if (rb.current) {
             const vel = rb.current.linvel();
-
+            console.log(vel);
             const movement = {
                 x: 0,
                 z: 0,
@@ -90,6 +90,7 @@ export const Cat = () => {
                 characterRotationTarget.current = Math.atan2(movement.x, movement.z);
                 vel.x = Math.sin(rotationTarget.current + characterRotationTarget.current) * speed;
                 vel.z = Math.cos(rotationTarget.current + characterRotationTarget.current) * speed;
+
                 if (speed === RUN_SPEED) {
                     setAnim("Run");
                 } else {
@@ -100,15 +101,14 @@ export const Cat = () => {
             }
 
             group.current.rotation.y = lerpAngle(group.current.rotation.y, characterRotationTarget.current, 0.1);
-
             rb.current.setLinvel(vel, true);
         }
     });
 
     return (
-        <RigidBody colliders={false} lockRotations ref={rb}>
-            <group position={[18, 1.7, 4]}>
-                <primitive ref={group} object={nodes.AnimalArmature} />
+        <RigidBody colliders={false} lockRotations ref={rb} position={[18, 1.7, 4]}>
+            <group ref={group}>
+                <primitive object={nodes.AnimalArmature} />
                 <skinnedMesh name='Ch14' geometry={nodes.Cat.geometry} material={materials.AtlasMaterial} skeleton={nodes.Cat.skeleton} />
             </group>
             <CapsuleCollider args={[0.08, 0.15]} />
