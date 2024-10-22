@@ -17,14 +17,15 @@
   position: relative;
   font-size: 2em;
   font-weight: 600;
+  text-shadow: #999 1px 1px 4px;
 }
 .typing-container .typing .text.first {
   padding-right: 10px;
   color: #f1f0e8;
 }
 .typing-container .typing .text.sec {
-  color: #96b6c5;
-  text-shadow: 0 0 5px #96b6c5;
+  color: #da8359;
+  text-shadow: 0 0 5px #da8359;
 }
 .typing-container .typing .text.sec::after {
   content: "";
@@ -33,8 +34,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: #eee0c9;
-  border-left: 2px solid #96b6c5;
+  background: #ecdfcc;
+  border-left: 2px solid #da8359;
   animation: animateTyping 4s steps(12) infinite;
 }
 
@@ -61,7 +62,7 @@
   left: 0;
   width: 100%;
   height: 300vh;
-  background: #eee0c9;
+  background: #ecdfcc;
   z-index: 0;
 }
 .about-container .description {
@@ -71,6 +72,7 @@
   z-index: 1;
   padding: 0 20vw;
   color: #f1f0e8;
+  text-shadow: #999 1px 1px 4px;
 }
 .about-container .description.active {
   position: fixed;
@@ -110,7 +112,7 @@
      object-fit: contain;
 }
 .about-container .description span.active {
-  color: #96b6c5;
+  color: #da8359;
 }
 
 .skill-container {
@@ -128,7 +130,7 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  background: #eee0c9;
+  background: #ecdfcc;
   z-index: 2;
 }
 .skill-container .skills {

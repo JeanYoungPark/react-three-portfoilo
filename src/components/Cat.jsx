@@ -1,6 +1,7 @@
-import { useAnimations, useFaceControls, useGLTF, useKeyboardControls } from "@react-three/drei";
+import { useAnimations, useGLTF, useKeyboardControls } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { CapsuleCollider, RigidBody } from "@react-three/rapier";
+import { useControls } from "leva";
 import React, { useEffect, useRef, useState } from "react";
 import { degToRad } from "three/src/math/MathUtils";
 
@@ -26,17 +27,8 @@ const lerpAngle = (start, end, t) => {
 };
 
 export const Cat = () => {
-    const { WALK_SPEED, RUN_SPEED, ROTATION_SPEED } = useFaceControls("Character Control", {
-        WALK_SPEED: { value: 0.8, min: 0.1, max: 4, step: 0.1 },
-        RUN_SPEED: { value: 1.6, min: 0.2, max: 12, step: 0.1 },
-        ROTATION_SPEED: {
-            value: degToRad(0.5),
-            min: degToRad(0.1),
-            max: degToRad(5),
-            step: degToRad(0.1),
-        },
-    });
-
+    const WALK_SPEED = 0.8;
+    const RUN_SPEED = 1.6;
     const rb = useRef();
     const group = useRef();
     const rotationTarget = useRef(0);
@@ -48,43 +40,30 @@ export const Cat = () => {
 
     useEffect(() => {
         if (anim) {
-            // 애니메이션 'Idle'을 실행
             actions[`AnimalArmature|AnimalArmature|AnimalArmature|${anim}`].play();
 
-            return () => {
-                // 컴포넌트가 언마운트될 때 애니메이션 중지
-                actions[`AnimalArmature|AnimalArmature|AnimalArmature|${anim}`].stop();
-            };
+            // return () => {
+            //     actions[`AnimalArmature|AnimalArmature|AnimalArmature|${anim}`].stop();
+            // };
         }
     }, [actions, anim]);
 
     useFrame(() => {
         if (rb.current) {
             const vel = rb.current.linvel();
-            console.log(vel);
+
             const movement = {
                 x: 0,
                 z: 0,
             };
 
-            if (get().forward) {
-                movement.z = 0.01;
-            }
-            if (get().backward) {
-                movement.z = -0.01;
-            }
-            if (get().left) {
-                movement.x = 0.01;
-            }
-            if (get().right) {
-                movement.x = -0.01;
-            }
+            // 키보드 입력에 따른 움직임 설정
+            if (get().forward) movement.z = 1;
+            if (get().backward) movement.z = -1;
+            if (get().left) movement.x = -1;
+            if (get().right) movement.x = 1;
 
             let speed = get().run ? RUN_SPEED : WALK_SPEED;
-
-            if (movement.x !== 0) {
-                rotationTarget.current += ROTATION_SPEED * movement.x;
-            }
 
             if (movement.x !== 0 || movement.z !== 0) {
                 characterRotationTarget.current = Math.atan2(movement.x, movement.z);
@@ -100,13 +79,13 @@ export const Cat = () => {
                 setAnim("Idle");
             }
 
-            group.current.rotation.y = lerpAngle(group.current.rotation.y, characterRotationTarget.current, 0.1);
             rb.current.setLinvel(vel, true);
+            group.current.rotation.y = lerpAngle(group.current.rotation.y, characterRotationTarget.current, 0.1);
         }
     });
 
     return (
-        <RigidBody colliders={false} lockRotations ref={rb} position={[18, 1.7, 4]}>
+        <RigidBody colliders={false} lockRotations ref={rb} type='dynamic' position={[18, 1.7, 4]}>
             <group ref={group}>
                 <primitive object={nodes.AnimalArmature} />
                 <skinnedMesh name='Ch14' geometry={nodes.Cat.geometry} material={materials.AtlasMaterial} skeleton={nodes.Cat.skeleton} />

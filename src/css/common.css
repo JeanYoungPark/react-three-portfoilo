@@ -13,7 +13,7 @@ a {
 }
 
 body {
-  background-color: #eee0c9;
+  background-color: #ecdfcc;
 }
 body .lock {
   overflow: hidden;
@@ -34,13 +34,15 @@ body .lock {
   display: block;
   margin-left: 20px;
   color: #f1f0e8;
+  font-weight: bold;
   transition: 0.5s;
+  text-shadow: #999 1px 1px 4px;
 }
 #menu nav a:hover {
-  color: #222831;
+  color: #da8359;
 }
 #menu nav a.active {
-  color: #222831;
+  color: #da8359;
 }
 
 #hamburger {
@@ -65,7 +67,7 @@ body .lock {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #eee0c9;
+  background: #ecdfcc;
   transform-origin: center center;
   transform: scale(0);
   transition: 0.3s;
@@ -80,7 +82,7 @@ body .lock {
 }
 #menu-popup ul li {
   position: relative;
-  background: #adc4ce;
+  background: #a5b68d;
   width: 200px;
   transition: 0.5s;
   padding: 20px;
@@ -95,7 +97,7 @@ body .lock {
   left: -40px;
   height: 100%;
   width: 40px;
-  background: #adc4ce;
+  background: #a5b68d;
   filter: brightness(0.7);
   transform-origin: right;
   transform: skewY(45deg);
@@ -108,14 +110,14 @@ body .lock {
   position: absolute;
   top: -40px;
   left: 0;
-  background: #adc4ce;
+  background: #a5b68d;
   filter: brightness(0.8);
   transform-origin: bottom;
   transform: skewX(45deg);
   transition: 0.5s;
 }
 #menu-popup ul li:last-child::after {
-  box-shadow: -150px 150px 30px #eee0c9;
+  box-shadow: -150px 150px 30px #ecdfcc;
 }
 #menu-popup ul li span {
   position: absolute;
@@ -133,11 +135,11 @@ body .lock {
 }
 #menu-popup ul li:hover {
   transform: translate(20px, 20px);
-  background: #96b6c5;
+  background: #da8359;
   color: #222831;
 }
 #menu-popup ul li:hover::after, #menu-popup ul li:hover::before {
-  background: #96b6c5;
+  background: #da8359;
 }
 #menu-popup ul li:hover span {
   opacity: 1;

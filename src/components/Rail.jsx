@@ -49,7 +49,7 @@ export const Rail = () => {
             if (start) {
                 if (currentRailIndex.current < rail.length) {
                     const currentPosition = cartRef.current.position.clone();
-                    // console.log(currentPosition);
+
                     const targetPosition = new Vector3(...rail[currentRailIndex.current].position);
                     const targetPositionXZ = targetPosition.clone().setY(targetPosition.y + 0.2);
 
@@ -102,11 +102,10 @@ export const Rail = () => {
 
     return (
         <group position={[2, 3, 2]}>
-            <RigidBody type='dynamic' lockRotations colliders='cuboid' mass={1}>
+            <RigidBody type='dynamic' lockRotations colliders='cuboid'>
                 <group ref={cartRef} position={[0, 0.2, 0]}>
                     <primitive object={minecart.nodes.Cart} />
                 </group>
-                <CapsuleCollider args={[0.08, 0.15]} />
             </RigidBody>
             <RigidBody type='fixed' colliders='trimesh'>
                 {rail.map((data, index) => {

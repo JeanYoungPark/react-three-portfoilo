@@ -38,14 +38,16 @@ body {
             display: block;
             margin-left: 20px;
             color: $text-color-bright;
+            font-weight: bold;
             transition: 0.5s;
+            text-shadow: #999 1px 1px 4px;
 
             &:hover {
-                color: $text-color-dark;
+                color: $point-color;
             }
 
             &.active {
-                color: $text-color-dark;
+                color: $point-color;
             }
         }
     }

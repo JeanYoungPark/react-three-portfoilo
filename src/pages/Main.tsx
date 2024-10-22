@@ -1,11 +1,10 @@
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Physics, RigidBody } from "@react-three/rapier";
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import { Canvas } from "@react-three/fiber";
+import { Physics } from "@react-three/rapier";
+import React, { Suspense, useRef } from "react";
 import { KeyboardControls, OrbitControls } from "@react-three/drei";
 import "../css/main.min.css";
-import { Floor } from "../components/Floor";
 import { Chicken } from "../components/Chicken";
-import { Box3, Group, Vector3 } from "three";
+import { Vector3 } from "three";
 import { Ground } from "../components/Ground";
 import { Chick } from "../components/Chick";
 import { Fence } from "../components/Fence";
@@ -18,6 +17,7 @@ const keyboardMap = [
     { name: "left", keys: ["ArrowLeft", "KeyA"] },
     { name: "right", keys: ["ArrowRight", "KeyD"] },
     { name: "run", keys: ["Shift"] },
+    { name: "jump", keys: ["Space"] },
 ];
 
 export const Main = () => {
@@ -25,12 +25,12 @@ export const Main = () => {
 
     return (
         <KeyboardControls map={keyboardMap}>
-            <Canvas camera={{ position: [25, 12, 22], fov: 75, far: 50 }} shadows>
-                <ambientLight intensity={1.5} />
+            <Canvas camera={{ position: [22, 12, 25], fov: 75, far: 50 }} shadows>
+                <ambientLight intensity={2} />
                 <directionalLight position={[-2, 4, 10]} intensity={2} />
-                <OrbitControls target={new Vector3(13, 0, 5)} minDistance={15} maxDistance={40} maxPolarAngle={Math.PI / 2} />
+                <OrbitControls target={new Vector3(11, 0, 8)} minDistance={15} maxDistance={40} maxPolarAngle={Math.PI / 2} />
                 <Suspense />
-                <Physics debug>
+                <Physics>
                     <Ground />
                     <group>
                         <Fence ref={fenceRef} />
@@ -43,8 +43,6 @@ export const Main = () => {
                     </group>
                     <Rail />
                     <Cat />
-                    {/* <Floor ref={floorRef} />
-                <Chicken /> */}
                 </Physics>
             </Canvas>
         </KeyboardControls>
