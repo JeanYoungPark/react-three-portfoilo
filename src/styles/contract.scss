@@ -24,12 +24,12 @@ svg {
             left: -30px;
             width: 300px;
             height: 100px;
-            background: rgba($text-color-dark, 0.1);
+            background: rgba($color-dark, 0.1);
             transform: translateZ(80px);
-            border: 1px solid rgba($text-color-bright, 0.5);
-            border-top: 1px solid rgba($text-color-bright, 0.75);
-            border-left: 1px solid rgba($text-color-bright, 0.75);
-            box-shadow: 0 25px 45px rgba($text-color-dark, 0.05);
+            border: 1px solid rgba($color-bright, 0.5);
+            border-top: 1px solid rgba($color-bright, 0.75);
+            border-left: 1px solid rgba($color-bright, 0.75);
+            box-shadow: 0 25px 45px rgba($color-dark, 0.05);
             border-radius: 10px;
 
             &.bg::before {
@@ -55,10 +55,10 @@ svg {
                     width: calc(100% - 20px);
                     border-radius: 8px;
                     border-radius: 8px;
-                    border: 1px solid rgba($text-color-bright, 0.5);
-                    border-top: 1px solid rgba($text-color-bright, 0.75);
-                    border-left: 1px solid rgba($text-color-bright, 0.75);
-                    box-shadow: 0 25px 45px rgba($text-color-dark, 0.05);
+                    border: 1px solid rgba($color-bright, 0.5);
+                    border-top: 1px solid rgba($color-bright, 0.75);
+                    border-left: 1px solid rgba($color-bright, 0.75);
+                    box-shadow: 0 25px 45px rgba($color-dark, 0.05);
                 }
             }
 
@@ -74,7 +74,7 @@ svg {
                 backdrop-filter: blur(0);
                 border: none;
                 box-shadow: none;
-                color: $text-color-bright;
+                color: $color-bright;
             }
 
             &.content {
@@ -89,7 +89,7 @@ svg {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                color: $text-color-bright;
+                color: $color-bright;
 
                 p {
                     position: relative;
@@ -100,15 +100,15 @@ svg {
 
         .backCard {
             position: relative;
-            background: rgba($text-color-bright, 0.5);
+            background: rgba($color-bright, 0.5);
             width: 300px;
             min-height: 400px;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba($text-color-bright, 0.5);
-            border-top: 1px solid rgba($text-color-bright, 0.75);
-            border-left: 1px solid rgba($text-color-bright, 0.75);
+            border: 1px solid rgba($color-bright, 0.5);
+            border-top: 1px solid rgba($color-bright, 0.75);
+            border-left: 1px solid rgba($color-bright, 0.75);
             border-radius: 20px;
-            box-shadow: 0 25px 45px rgba($text-color-dark, 0.5);
+            box-shadow: 0 25px 45px rgba($color-dark, 0.5);
             transform-style: preserve-3d;
         }
     }
@@ -123,11 +123,11 @@ svg {
         //     width: 100%;
         //     height: 100%;
         //     border-radius: 20px;
-        //     border: 1px solid rgba($text-color-bright, 0.5);
-        //     border-top: 1px solid rgba($text-color-bright, 0.75);
-        //     border-left: 1px solid rgba($text-color-bright, 0.75);
-        //     box-shadow: 0 25px 45px rgba($text-color-dark, 0.05);
-        //     background: rgba($text-color-bright, 0.5);
+        //     border: 1px solid rgba($color-bright, 0.5);
+        //     border-top: 1px solid rgba($color-bright, 0.75);
+        //     border-left: 1px solid rgba($color-bright, 0.75);
+        //     box-shadow: 0 25px 45px rgba($color-dark, 0.05);
+        //     background: rgba($color-bright, 0.5);
         //     filter: url(#gooey);
 
         //     .drops {
@@ -138,7 +138,7 @@ svg {
         //         background: #fff;
         //         border-radius: 50%;
         //         z-index: 1000;
-        //         background: rgba($text-color-bright, 0.5);
+        //         background: rgba($color-bright, 0.5);
         //         animation: animate 5s ease-in-out forwards;
         //     }
 
@@ -173,7 +173,7 @@ svg {
                 text-align: right;
                 font-size: 1.75em;
                 margin-bottom: 20px;
-                color: $sub-bg-color;
+                color: $sub-color;
             }
 
             .elem {
@@ -184,7 +184,7 @@ svg {
 
                 label {
                     width: 20%;
-                    color: $text-color-dark;
+                    color: $color-dark;
                 }
 
                 p {
@@ -212,11 +212,11 @@ svg {
 
             button {
                 padding: 15px 40px;
-                background: $sub-bg-color;
+                background: $sub-color;
                 border: none;
                 border-radius: 10px;
                 font-size: 1em;
-                color: $text-color-bright;
+                color: $color-bright;
                 font-weight: 600;
                 margin-top: 10px;
             }

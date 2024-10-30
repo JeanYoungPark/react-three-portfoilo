@@ -16,7 +16,7 @@ a {
 }
 
 body {
-    background-color: $main-bg-color;
+    background-color: $main-color;
 
     .lock {
         overflow: hidden;
@@ -37,28 +37,27 @@ body {
         a {
             display: block;
             margin-left: 20px;
-            color: $text-color-bright;
+            color: $sub-color;
+            font-size: 20px;
             font-weight: bold;
             transition: 0.5s;
-            text-shadow: #999 1px 1px 4px;
 
             &:hover {
-                color: $point-color;
+                color: $color-bright;
             }
 
             &.active {
-                color: $point-color;
+                color: $color-bright;
             }
         }
     }
 }
 
 #hamburger {
-    font-size: 1.5em;
     cursor: pointer;
     transition: 0.5s;
     z-index: 999;
-    color: $text-color-bright;
+    color: $color-bright;
     margin-left: 20px;
 
     &:hover {
@@ -76,7 +75,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: $main-bg-color;
+    background: $main-color;
     transform-origin: center center;
     transform: scale(0);
     transition: 0.3s;
@@ -92,12 +91,12 @@ body {
 
         li {
             position: relative;
-            background: $sub-bg-color;
+            background: $sub-color;
             width: 200px;
             transition: 0.5s;
             padding: 20px;
             text-decoration: none;
-            color: $text-color-bright;
+            color: $color-bright;
             cursor: pointer;
 
             &::before {
@@ -107,7 +106,7 @@ body {
                 left: -40px;
                 height: 100%;
                 width: 40px;
-                background: $sub-bg-color;
+                background: $sub-color;
                 filter: brightness(0.7);
                 transform-origin: right;
                 transform: skewY(45deg);
@@ -121,7 +120,7 @@ body {
                 position: absolute;
                 top: -40px;
                 left: 0;
-                background: $sub-bg-color;
+                background: $sub-color;
                 filter: brightness(0.8);
                 transform-origin: bottom;
                 transform: skewX(45deg);
@@ -129,7 +128,7 @@ body {
             }
 
             &:last-child::after {
-                box-shadow: -150px 150px 30px $main-bg-color;
+                box-shadow: -150px 150px 30px $main-color;
             }
 
             span {
@@ -150,7 +149,7 @@ body {
             &:hover {
                 transform: translate(20px, 20px);
                 background: $point-color;
-                color: $text-color-dark;
+                color: $color-dark;
 
                 &::after,
                 &::before {
@@ -172,7 +171,7 @@ body {
     font-size: 1.5em;
     cursor: pointer;
     transition: 0.3s;
-    color: $text-color-bright;
+    color: $color-bright;
 
     &:hover {
         transform-origin: center;

@@ -88,7 +88,7 @@ export const Chick = ({ fenceRef }) => {
     });
 
     return (
-        <RigidBody type='fixed' colliders='cuboid' lockRotations mass={1}>
+        <RigidBody type='kinematic' colliders='ball' lockRotations mass={1}>
             <group ref={group} dispose={null}>
                 <primitive object={clone} />
             </group>

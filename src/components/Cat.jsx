@@ -1,9 +1,7 @@
 import { useAnimations, useGLTF, useKeyboardControls } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { CapsuleCollider, RigidBody } from "@react-three/rapier";
-import { useControls } from "leva";
 import React, { useEffect, useRef, useState } from "react";
-import { degToRad } from "three/src/math/MathUtils";
 
 const normalizeAngle = (angle) => {
     while (angle > Math.PI) angle -= 2 * Math.PI;
@@ -27,24 +25,33 @@ const lerpAngle = (start, end, t) => {
 };
 
 export const Cat = () => {
-    const WALK_SPEED = 0.8;
-    const RUN_SPEED = 1.6;
+    const WALK_SPEED = 2;
+    const RUN_SPEED = 2.6;
     const rb = useRef();
     const group = useRef();
     const rotationTarget = useRef(0);
     const characterRotationTarget = useRef(0);
     const { nodes, materials, animations } = useGLTF("./models/minecreft/Cat.glb");
     const { actions } = useAnimations(animations, group);
-    const [anim, setAnim] = useState("Idle");
+    const [anim, setAnim] = useState("Jump_Start");
     const [, get] = useKeyboardControls();
 
     useEffect(() => {
-        if (anim) {
-            actions[`AnimalArmature|AnimalArmature|AnimalArmature|${anim}`].play();
+        if (anim && actions) {
+            Object.values(actions).forEach((action) => action.stop());
 
-            // return () => {
-            //     actions[`AnimalArmature|AnimalArmature|AnimalArmature|${anim}`].stop();
-            // };
+            const currentAction = actions[`AnimalArmature|AnimalArmature|AnimalArmature|${anim}`];
+
+            if (currentAction) {
+                currentAction.play();
+            }
+
+            // Cleanup 함수로 애니메이션 정리
+            return () => {
+                if (currentAction) {
+                    currentAction.stop();
+                }
+            };
         }
     }, [actions, anim]);
 

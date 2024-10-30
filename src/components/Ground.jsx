@@ -13,7 +13,6 @@ const ground = [
     [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ];
 
-
 export const Ground = () => {
     const grass_block = useGLTF("./models/minecreft/Grass Block.glb");
     const dirt_block = useGLTF("./models/minecreft/Dirt Block.glb");

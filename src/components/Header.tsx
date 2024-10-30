@@ -44,7 +44,7 @@ export const Header = () => {
                             Home
                         </NavLink>
                         <NavLink to='/about'>About</NavLink>
-                        <NavLink to='/portfolio'>Portfolio</NavLink>
+                        <NavLink to='/Projects'>Projects</NavLink>
                         <NavLink to='/contact'>Contact</NavLink>
                     </nav>
                 )}
@@ -69,7 +69,7 @@ export const Header = () => {
                         </span>{" "}
                         About
                     </li>
-                    <li style={{ zIndex: 2 }} onClick={() => handleOnClickMenuList("/portfolio")}>
+                    <li style={{ zIndex: 2 }} onClick={() => handleOnClickMenuList("/projects")}>
                         <span>
                             <FontAwesomeIcon icon={faListUl} />
                         </span>{" "}

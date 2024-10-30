@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { Main } from "./pages/Main";
 import { About } from "./pages/About";
-import { Portfolio } from "./pages/Portfolio";
+import { Projects } from "./pages/Projects";
 import { Contact } from "./pages/Contact";
 import "./css/common.min.css";
 
@@ -28,7 +28,7 @@ function App() {
             children: [
                 { path: "/", element: <Main /> },
                 { path: "/about", element: <About /> },
-                { path: "/portfolio", element: <Portfolio /> },
+                { path: "/Projects", element: <Projects /> },
                 { path: "/contact", element: <Contact /> },
             ],
         },
