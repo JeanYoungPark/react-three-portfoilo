@@ -12,17 +12,18 @@ const rail = [
     { position: [8, 0, 0], rotation: [0, 0, 0], isCorner: false, isIncline: false },
     { position: [10, 0, 0], rotation: [0, 0, 0], isCorner: false, isIncline: false },
     { position: [12, 0, 0], rotation: [0, 0, 0], isCorner: false, isIncline: false },
-    { position: [14, 0, 0], rotation: [0, -(Math.PI / 2), 0], isCorner: true, isIncline: false },
-    { position: [14, 0, 2], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: false },
-    { position: [14, 0, 4], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: false },
-    { position: [14, 0, 6], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: false },
-    { position: [14, 0, 8], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: false },
-    { position: [14, 0, 10], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: false },
-    { position: [14, 0, 12], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: false },
-    { position: [14, -2, 14], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: true },
-    { position: [14, -4, 16], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: true },
-    { position: [14, -6, 18], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: true },
-    { position: [14, -8, 20], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: true },
+    { position: [14, 0, 0], rotation: [0, 0, 0], isCorner: false, isIncline: false },
+    { position: [16, 0, 0], rotation: [0, -(Math.PI / 2), 0], isCorner: true, isIncline: false },
+    { position: [16, 0, 2], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: false },
+    { position: [16, 0, 4], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: false },
+    { position: [16, 0, 6], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: false },
+    { position: [16, 0, 8], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: false },
+    { position: [16, 0, 10], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: false },
+    { position: [16, 0, 12], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: false },
+    { position: [16, -2, 14], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: true },
+    { position: [16, -4, 16], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: true },
+    { position: [16, -6, 18], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: true },
+    { position: [16, -8, 20], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: true },
 ];
 
 export const Rail = () => {
@@ -102,13 +103,14 @@ export const Rail = () => {
                         </group>
                     );
                 })}
-
+            </RigidBody>
+            <RigidBody type='dynamic' lockRotations colliders='cuboid'>
                 {chestOpen ? (
-                    <group position={[20, 1, 8]} rotation={[0, -(Math.PI / 2), 0]}>
+                    <group position={[22, 0.6, 8]} rotation={[0, -(Math.PI / 2), 0]}>
                         <primitive object={wood_chest_open.nodes.Chest_Open} />
                     </group>
                 ) : (
-                    <group position={[20, 0, 8]} rotation={[0, -(Math.PI / 2), 0]}>
+                    <group position={[22, 0.6, 8]} rotation={[0, -(Math.PI / 2), 0]}>
                         <primitive object={wood_chest_close.nodes.Chest_Closed} />
                     </group>
                 )}

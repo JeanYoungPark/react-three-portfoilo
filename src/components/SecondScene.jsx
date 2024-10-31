@@ -13,16 +13,16 @@ export const SecondScene = ({ position }) => {
         <group position={position}>
             <Ground />
             <group>
-                <Fence ref={fenceRef} />
+                {/* <Fence ref={fenceRef} />
                 <Chick fenceRef={fenceRef} />
                 <Chick fenceRef={fenceRef} />
                 <Chick fenceRef={fenceRef} />
                 <Chick fenceRef={fenceRef} />
                 <Chicken fenceRef={fenceRef} />
-                <Chicken fenceRef={fenceRef} />
+                <Chicken fenceRef={fenceRef} /> */}
             </group>
-            <Rail />
-            <Cat />
+            {/* <Rail />
+            <Cat /> */}
         </group>
     );
 };

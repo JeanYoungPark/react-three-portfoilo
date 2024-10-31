@@ -65,8 +65,8 @@ export const Cat = () => {
             };
 
             // 키보드 입력에 따른 움직임 설정
-            if (get().forward) movement.z = 1;
-            if (get().backward) movement.z = -1;
+            if (get().forward) movement.z = -1;
+            if (get().backward) movement.z = 1;
             if (get().left) movement.x = -1;
             if (get().right) movement.x = 1;
 
@@ -92,12 +92,12 @@ export const Cat = () => {
     });
 
     return (
-        <RigidBody colliders={false} lockRotations ref={rb} type='dynamic' position={[18, 1.7, 4]}>
+        <RigidBody lockRotations ref={rb} type='dynamic' colliders='ball' position={[18, 1.7, 4]}>
             <group ref={group}>
                 <primitive object={nodes.AnimalArmature} />
                 <skinnedMesh name='Ch14' geometry={nodes.Cat.geometry} material={materials.AtlasMaterial} skeleton={nodes.Cat.skeleton} />
             </group>
-            <CapsuleCollider args={[0.08, 0.15]} />
+            {/* <CapsuleCollider args={[0.08, 0.15]} /> */}
         </RigidBody>
     );
 };
