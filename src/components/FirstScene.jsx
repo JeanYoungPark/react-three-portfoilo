@@ -1,10 +1,10 @@
 import React, { useRef } from "react";
 import { Ground } from "./ground/Ground";
 import { Fence } from "./Fence";
-import { Chicken } from "./Chicken";
+import { Chick } from "./ground/Chick";
+import { Chicken } from "./ground/Chicken";
 import { Rail } from "./common/Rail";
 import { Cat } from "./Cat";
-import { Chick } from "./ground/Chick";
 
 export const FirstScene = () => {
     const fenceRef = useRef();
@@ -14,12 +14,10 @@ export const FirstScene = () => {
             <Ground />
             <group>
                 <Fence ref={fenceRef} />
-                <Chick fenceRef={fenceRef} position={[1, 1, 1]} />
-                {/* <Chick fenceRef={fenceRef} />
-                <Chick fenceRef={fenceRef} />
-                <Chick fenceRef={fenceRef} />
-                <Chicken fenceRef={fenceRef} />
-                <Chicken fenceRef={fenceRef} /> */}
+                <Chicken fenceRef={fenceRef} position={[6, 1, 10]} />
+                <Chick fenceRef={fenceRef} position={[5, 1, 7]} />
+                <Chick fenceRef={fenceRef} position={[9, 1, 7]} />
+                <Chick fenceRef={fenceRef} position={[7, 1, 12]} />
             </group>
             <Rail />
             <Cat />

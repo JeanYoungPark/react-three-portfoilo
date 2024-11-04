@@ -12,20 +12,13 @@ export const Chick = ({ fenceRef, position }) => {
     const group = useRef();
     const [animation, setAnimation] = useState("Idle");
     const [isEating, setIsEating] = useState(false);
-    const currentVelocity = useRef(new Vector3());
-    const targetRotation = useRef(new Quaternion());
-    const currentRotation = useRef(new Quaternion());
+    const rotationRef = useRef(new Quaternion());
 
     const chick = useGLTF("./models/minecreft/Chick.glb");
     const clone = SkeletonUtils.clone(chick.scene);
     const mixerRef = useRef();
 
     const { fenceBounds, calculateInnerBounds, targetPosition, setRandomTarget } = useFence({ fenceRef, group });
-
-    // 상수 정의
-    const MOVEMENT_SPEED = 2; // 고정 속도
-    const ROTATION_SPEED = 8; // 회전 속도
-    const DISTANCE_THRESHOLD = 0.2;
 
     useEffect(() => {
         return () => {
@@ -51,73 +44,68 @@ export const Chick = ({ fenceRef, position }) => {
         }
     }, [clone, animation]);
 
-    const updateRotation = (delta, targetDir) => {
-        if (targetDir.lengthSq() > 0.001) {
-            // 목표 회전 계산
-            const targetQuaternion = new Quaternion();
-            targetQuaternion.setFromRotationMatrix(new Matrix4().lookAt(new Vector3(), targetDir, new Vector3(0, 1, 0)));
-
-            // 부드러운 회전 적용
-            currentRotation.current.slerp(targetQuaternion, ROTATION_SPEED * delta);
-            group.current.quaternion.copy(currentRotation.current);
-        }
-    };
-
     useFrame((state, delta) => {
-        if (!fenceBounds || !group.current || !mixerRef.current) return;
+        if (!fenceBounds || !group.current) return;
 
-        mixerRef.current.update(delta);
+        if (mixerRef.current) {
+            mixerRef.current.update(delta);
+        }
 
         const innerBounds = calculateInnerBounds(fenceBounds);
         const currentPosition = group.current.position;
-        const direction = new Vector3().subVectors(targetPosition, currentPosition).normalize();
-        const distance = currentPosition.distanceTo(targetPosition);
 
-        console.log(targetPosition);
+        // Y값을 제외한 방향 계산
+        const flatTargetPosition = new Vector3(targetPosition.x, currentPosition.y, targetPosition.z);
+        const direction = new Vector3().subVectors(flatTargetPosition, currentPosition).normalize();
+        const distance = currentPosition.distanceTo(flatTargetPosition);
+
         // 움직임 업데이트
-        // if (distance > DISTANCE_THRESHOLD) {
-        //     setAnimation("Run");
+        if (distance > 0.2) {
+            setAnimation("Run");
 
-        //     // 고정된 속도로 이동
-        //     const movement = direction.multiplyScalar(MOVEMENT_SPEED * delta);
-        //     const newPosition = currentPosition.clone().add(movement);
+            const speed = 2;
+            const newX = currentPosition.x + direction.x * delta * speed;
+            const newZ = currentPosition.z + direction.z * delta * speed;
 
-        //     // 경계 체크
-        //     if (
-        //         newPosition.x > innerBounds.min.x &&
-        //         newPosition.x < innerBounds.max.x &&
-        //         newPosition.z > innerBounds.min.z &&
-        //         newPosition.z < innerBounds.max.z
-        //     ) {
-        //         group.current.position.copy(newPosition);
-        //         updateRotation(delta, direction);
-        //     } else {
-        //         setRandomTarget(innerBounds);
-        //     }
-        // } else {
-        //     // 목표 도달 시 행동
-        //     if (!isEating) {
-        //         const eatChance = Math.random();
-        //         if (eatChance < 0.25) {
-        //             setAnimation("Idle_Peck");
-        //             setIsEating(true);
+            // 경계 체크
+            if (newX > fenceBounds.min.x && newX < fenceBounds.max.x && newZ > fenceBounds.min.z && newZ < fenceBounds.max.z) {
+                group.current.position.set(newX, currentPosition.y, newZ);
 
-        //             const eatDuration = MathUtils.randFloat(2, 5);
-        //             eatTimeout = setTimeout(() => {
-        //                 setIsEating(false);
-        //                 setAnimation("Idle");
-        //                 setRandomTarget(innerBounds);
-        //             }, eatDuration * 1000);
-        //         } else {
-        //             setRandomTarget(innerBounds);
-        //         }
-        //     }
-        // }
+                if (direction.lengthSq() > 0) {
+                    const lookDirection = direction.clone().multiplyScalar(-1);
+                    const targetRotation = new Quaternion();
+                    targetRotation.setFromRotationMatrix(new Matrix4().lookAt(new Vector3(0, 0, 0), lookDirection, new Vector3(0, 1, 0)));
+
+                    // 부드러운 회전 적용
+                    rotationRef.current.slerp(targetRotation, 0.1);
+                    group.current.quaternion.copy(rotationRef.current);
+                }
+            } else {
+                setRandomTarget(innerBounds);
+            }
+        } else {
+            // 목표 도달 시 행동
+            if (!isEating) {
+                const eatChance = Math.random();
+                if (eatChance < 0.25) {
+                    setAnimation("Idle_Peck");
+                    setIsEating(true);
+                    const eatDuration = MathUtils.randFloat(2, 5);
+                    eatTimeout = setTimeout(() => {
+                        setIsEating(false);
+                        setAnimation("Idle");
+                        setRandomTarget(innerBounds);
+                    }, eatDuration * 1000);
+                } else {
+                    setRandomTarget(innerBounds);
+                }
+            }
+        }
     });
 
     return (
-        <RigidBody type='kinematic' colliders='ball' lockRotations mass={1} position={position}>
-            <group ref={group} dispose={null}>
+        <RigidBody type='kinematic' colliders='ball' lockRotations mass={1}>
+            <group ref={group} dispose={null} position={position}>
                 <primitive object={clone} />
             </group>
         </RigidBody>
