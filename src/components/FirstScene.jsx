@@ -4,7 +4,7 @@ import { Fence } from "./Fence";
 import { Chick } from "./ground/Chick";
 import { Chicken } from "./ground/Chicken";
 import { Rail } from "./common/Rail";
-import { Cat } from "./Cat";
+import { Cat } from "./ground/Cat";
 
 export const FirstScene = () => {
     const fenceRef = useRef();
@@ -14,10 +14,11 @@ export const FirstScene = () => {
             <Ground />
             <group>
                 <Fence ref={fenceRef} />
-                <Chicken fenceRef={fenceRef} position={[6, 1, 10]} />
+                <Chicken fenceRef={fenceRef} position={[5, 1, 11]} />
                 <Chick fenceRef={fenceRef} position={[5, 1, 7]} />
                 <Chick fenceRef={fenceRef} position={[9, 1, 7]} />
                 <Chick fenceRef={fenceRef} position={[7, 1, 12]} />
+                <Chick fenceRef={fenceRef} position={[9, 1, 10]} />
             </group>
             <Rail />
             <Cat />
