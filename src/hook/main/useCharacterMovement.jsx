@@ -37,7 +37,7 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
 
         if (controls.jump && !isJumping.current) {
             isJumping.current = true;
-            vel.y = 7;
+            vel.y = 5;
             setAnim("Jump_Loop");
         }
 
@@ -60,6 +60,8 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
         rb.current.setLinvel(vel, true);
         group.current.rotation.y = lerpAngle(group.current.rotation.y, characterRotationTarget.current, 0.1);
     };
+
+    const handleInitialPosition = () => {};
 
     return { isJumping, checkGroundCollision, handleMovement };
 };

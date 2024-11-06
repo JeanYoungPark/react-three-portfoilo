@@ -28,10 +28,6 @@ export const useFence = ({ fenceRef, group }) => {
         if (fenceRef?.current) {
             const box = new Box3().setFromObject(fenceRef.current);
             setFenceBounds(box);
-            // 닭의 초기 위치를 울타리 내부로 설정
-            //         const initialX = MathUtils.randFloat(box.min.x + fenceWidth, box.max.x - fenceWidth);
-            //         const initialZ = MathUtils.randFloat(box.min.z + fenceWidth, box.max.z - fenceWidth);
-            //         group.current.position.set(initialX, 1, initialZ);
 
             const innerBounds = calculateInnerBounds(box);
             setRandomTarget(innerBounds);

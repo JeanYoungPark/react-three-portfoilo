@@ -29,7 +29,6 @@ const rail = [
 export const Rail = () => {
     const cartRef = useRef();
     const currentRailIndex = useRef(0);
-    const [chestOpen, setChestOpen] = useState(false);
     const [start, setStart] = useState(false);
     let speed = 0.05;
 
@@ -37,8 +36,6 @@ export const Rail = () => {
     const { nodes: rail_incline } = useGLTF("./models/minecreft/Rail Incline.glb");
     const { nodes: rail_straight } = useGLTF("./models/minecreft/Rail Straight.glb");
     const minecart = useGLTF("./models/minecreft/minecart.glb");
-    const wood_chest_close = useGLTF("./models/minecreft/Wood Chest.glb");
-    const wood_chest_open = useGLTF("./models/minecreft/Chest Open.glb");
 
     useFrame(() => {
         if (cartRef.current && rail.length > 0) {
@@ -103,17 +100,6 @@ export const Rail = () => {
                         </group>
                     );
                 })}
-            </RigidBody>
-            <RigidBody type='dynamic' lockRotations colliders='cuboid'>
-                {chestOpen ? (
-                    <group position={[22, 0.6, 8]} rotation={[0, -(Math.PI / 2), 0]}>
-                        <primitive object={wood_chest_open.nodes.Chest_Open} />
-                    </group>
-                ) : (
-                    <group position={[22, 0.6, 8]} rotation={[0, -(Math.PI / 2), 0]}>
-                        <primitive object={wood_chest_close.nodes.Chest_Closed} />
-                    </group>
-                )}
             </RigidBody>
         </group>
     );
