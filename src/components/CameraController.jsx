@@ -33,11 +33,11 @@ export const CameraController = ({ initialPosition }) => {
             }
         };
 
-        // window.addEventListener("wheel", handleScroll, { passive: false });
+        window.addEventListener("wheel", handleScroll, { passive: false });
 
-        // return () => {
-        //     window.removeEventListener("wheel", handleScroll);
-        // };
+        return () => {
+            window.removeEventListener("wheel", handleScroll);
+        };
     }, [initialPosition, numScenes, sceneHeight]);
 
     useFrame(() => {

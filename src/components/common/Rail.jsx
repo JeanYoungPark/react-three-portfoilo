@@ -24,6 +24,12 @@ const rail = [
     { position: [16, -4, 16], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: true },
     { position: [16, -6, 18], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: true },
     { position: [16, -8, 20], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: true },
+    { position: [16, -10, 22], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: true },
+    { position: [16, -12, 24], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: true },
+    { position: [16, -14, 26], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: true },
+    { position: [16, -16, 28], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: true },
+    { position: [16, -18, 30], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: true },
+    { position: [16, -20, 32], rotation: [0, Math.PI / 2, 0], isCorner: false, isIncline: true },
 ];
 
 export const Rail = () => {

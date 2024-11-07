@@ -1,17 +1,12 @@
 import React, { useRef } from "react";
-import { Ground } from "./ground/Ground";
-import { Fence } from "./Fence";
-import { Chick } from "./Chick";
-import { Chicken } from "./Chicken";
-import { Rail } from "./common/Rail";
-import { Cat } from "./Cat";
+import { Ground } from "./dirt/Ground";
+import { House } from "./dirt/House";
 
 export const SecondScene = ({ position }) => {
-    const fenceRef = useRef();
-
     return (
         <group position={position}>
             <Ground />
+            <House />
             <group>
                 {/* <Fence ref={fenceRef} />
                 <Chick fenceRef={fenceRef} />

@@ -61,7 +61,5 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
         group.current.rotation.y = lerpAngle(group.current.rotation.y, characterRotationTarget.current, 0.1);
     };
 
-    const handleInitialPosition = () => {};
-
     return { isJumping, checkGroundCollision, handleMovement };
 };

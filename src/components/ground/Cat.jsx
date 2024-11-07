@@ -27,10 +27,12 @@ export const Cat = ({ setChestOpen }) => {
         checkGroundCollision();
         handleMovement(get());
 
-        const position = rb.current.translation();
+        if (rb.current) {
+            const position = rb.current.translation();
 
-        if (position.y < -10) {
-            rb.current.setTranslation({ x: 18, y: 10, z: 4 });
+            if (position.y < -10) {
+                rb.current.setTranslation({ x: 18, y: 10, z: 4 });
+            }
         }
     });
 

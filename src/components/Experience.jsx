@@ -6,7 +6,7 @@ export const Experience = ({ position }) => {
     return (
         <group position={position}>
             <FirstScene />
-            <SecondScene position={[0, -50, 0]} />
+            <SecondScene position={[-4, -20, 30]} />
         </group>
     );
 };

@@ -1,19 +1,12 @@
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import { Physics } from "@react-three/rapier";
-import React, { Suspense, useEffect, useRef, useState } from "react";
-import { KeyboardControls, OrbitControls, Scroll, ScrollControls } from "@react-three/drei";
+import React, { Suspense } from "react";
+import { KeyboardControls, OrbitControls } from "@react-three/drei";
 import "../css/main.min.css";
-import { Chicken } from "../components/Chicken";
-import { Vector3 } from "three";
-// import { Ground } from "../components/Ground";
-// import { Rail } from "../components/Rail";
-import { Chick } from "../components/Chick";
-import { Fence } from "../components/Fence";
-import { Cat } from "../components/Cat";
 import { Particles } from "../components/Particles";
 import { Experience } from "../components/Experience";
-import { gsap } from "gsap";
 import { CameraController } from "../components/CameraController";
+import { Rail } from "../components/common/Rail";
 
 const keyboardMap = [
     { name: "forward", keys: ["ArrowUp", "KeyW"] },
@@ -33,10 +26,13 @@ export const Main = () => {
                 <CameraController initialPosition={initialPosition} />
                 <ambientLight intensity={1.5} />
                 <directionalLight position={[-2, 4, 10]} intensity={2.5} />
-                <OrbitControls />
+                {/* <OrbitControls /> */}
                 <Suspense />
-                <Physics debug>
-                    <Experience position={[0, 3, 0]} />
+                <Physics>
+                    <group position={[0, 3, 0]}>
+                        <Rail />
+                        <Experience />
+                    </group>
                     {/* <Ground />
                     <group>
                         <Fence ref={fenceRef} />
