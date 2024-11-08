@@ -18,12 +18,10 @@ const keyboardMap = [
 ];
 
 export const Main = () => {
-    const initialPosition = [18, 60, 23]; // 초기 카메라 위치
-
     return (
         <KeyboardControls map={keyboardMap}>
             <Canvas shadows>
-                <CameraController initialPosition={initialPosition} />
+                <CameraController />
                 <ambientLight intensity={1.5} />
                 <directionalLight position={[-2, 4, 10]} intensity={2.5} />
                 {/* <OrbitControls /> */}
