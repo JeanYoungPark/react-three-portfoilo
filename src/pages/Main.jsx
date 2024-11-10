@@ -1,6 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { Physics } from "@react-three/rapier";
-import React, { Suspense } from "react";
+import React, { Suspense, useRef } from "react";
 import { KeyboardControls, OrbitControls } from "@react-three/drei";
 import "../css/main.min.css";
 import { Particles } from "../components/Particles";
@@ -18,17 +18,20 @@ const keyboardMap = [
 ];
 
 export const Main = () => {
+    const currentSceneIndex = useRef(1);
+    const scrollState = useRef("done");
+
     return (
         <KeyboardControls map={keyboardMap}>
             <Canvas shadows>
-                <CameraController />
+                <CameraController scrollState={scrollState} currentSceneIndex={currentSceneIndex} />
                 <ambientLight intensity={1.5} />
                 <directionalLight position={[-2, 4, 10]} intensity={2.5} />
                 {/* <OrbitControls /> */}
                 <Suspense />
                 <Physics>
                     <group position={[0, 3, 0]}>
-                        <Rail />
+                        <Rail scrollState={scrollState} currentSceneIndex={currentSceneIndex} />
                         <Experience />
                     </group>
                     {/* <Ground />
