@@ -8,9 +8,12 @@ const SCENE_POSITIONS = [
     { camera: [30, -4, 52], lookAtOffset: [-20, -15, -20] },
 ];
 
-export const CameraController = ({ scrollState, currentSceneIndex }) => {
+export const CameraController = ({ cartState }) => {
     const springStrength = 0.1; // 스프링 강도
     const damping = 0.5; // 감쇠 계수
+
+    const currentSceneIndex = useRef(1);
+    const scrollState = useRef("done");
 
     const velocity = useRef(new Vector3(0, 0, 0));
     const cameraRef = useRef(null);
@@ -48,45 +51,45 @@ export const CameraController = ({ scrollState, currentSceneIndex }) => {
                 const nextIndex = Math.min(Math.max(currentSceneIndex.current + direction, 1), SCENE_POSITIONS.length - 1);
 
                 if (nextIndex !== currentSceneIndex.current) {
-                    scrollState.current = direction > 0 ? "down" : "up";
+                    cartState.current = "start";
 
                     setTimeout(() => {
-                        currentSceneIndex.current = nextIndex;
+                        scrollState.current = direction > 0 ? "down" : "up";
                         targetPosition.current.set(...SCENE_POSITIONS[nextIndex].camera);
                         targetLookAt.current.set(...SCENE_POSITIONS[nextIndex].lookAtOffset);
-                    }, 2000);
+                    }, 10000);
                 }
             }
         };
 
-        window.addEventListener("wheel", handleScroll, { passive: false });
+        // window.addEventListener("wheel", handleScroll, { passive: false });
 
-        return () => {
-            window.removeEventListener("wheel", handleScroll);
-        };
+        // return () => {
+        //     window.removeEventListener("wheel", handleScroll);
+        // };
     }, []);
 
-    useFrame(() => {
-        if (cameraRef.current) {
-            const currentPos = cameraRef.current.position;
+    // useFrame(() => {
+    //     if (cameraRef.current) {
+    //         const currentPos = cameraRef.current.position;
 
-            const distance = currentPos.distanceTo(targetPosition.current);
-            if (distance > 0.1) {
-                ["x", "y", "z"].forEach((axis) => {
-                    const diff = targetPosition.current[axis] - currentPos[axis];
-                    velocity.current[axis] = diff * springStrength;
-                    velocity.current[axis] *= damping;
-                    currentPos[axis] += velocity.current[axis];
-                });
+    //         const distance = currentPos.distanceTo(targetPosition.current);
+    //         if (distance > 0.1) {
+    //             ["x", "y", "z"].forEach((axis) => {
+    //                 const diff = targetPosition.current[axis] - currentPos[axis];
+    //                 velocity.current[axis] = diff * springStrength;
+    //                 velocity.current[axis] *= damping;
+    //                 currentPos[axis] += velocity.current[axis];
+    //             });
 
-                // 직접 lookAt 적용
-                const initialLookAt = calculateLookAtPosition(currentPos, targetLookAt.current);
-                cameraRef.current.lookAt(initialLookAt);
-            } else {
-                scrollState.current = "done";
-            }
-        }
-    });
+    //             // 직접 lookAt 적용
+    //             const initialLookAt = calculateLookAtPosition(currentPos, targetLookAt.current);
+    //             cameraRef.current.lookAt(initialLookAt);
+    //         } else {
+    //             scrollState.current = "done";
+    //         }
+    //     }
+    // });
 
     return (
         <perspectiveCamera ref={cameraRef} position={SCENE_POSITIONS[0].camera} aspect={size.width / size.height} near={0.1} far={1000} fov={75} />

@@ -33,10 +33,10 @@ export const Ground = () => {
                                 item && (
                                     <mesh
                                         key={v + h}
-                                        geometry={item ? dirt_block.nodes.Block_Dirt.geometry : dirt_block.nodes.Block_Dirt.geometry}
+                                        geometry={dirt_block.nodes.Block_Dirt.geometry}
                                         position={[h * 2, 0, v * 2]}
                                         scale={[100, 100, 100]}
-                                        material={item ? dirt_block.materials.Atlas : dirt_block.materials.Atlas}
+                                        material={dirt_block.materials.Atlas}
                                     />
                                 )
                         )

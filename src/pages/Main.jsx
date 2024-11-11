@@ -18,20 +18,19 @@ const keyboardMap = [
 ];
 
 export const Main = () => {
-    const currentSceneIndex = useRef(1);
-    const scrollState = useRef("done");
+    const cartState = useRef("done");
 
     return (
         <KeyboardControls map={keyboardMap}>
             <Canvas shadows>
-                <CameraController scrollState={scrollState} currentSceneIndex={currentSceneIndex} />
+                <CameraController cartState={cartState} />
                 <ambientLight intensity={1.5} />
                 <directionalLight position={[-2, 4, 10]} intensity={2.5} />
-                {/* <OrbitControls /> */}
+                <OrbitControls />
                 <Suspense />
                 <Physics>
                     <group position={[0, 3, 0]}>
-                        <Rail scrollState={scrollState} currentSceneIndex={currentSceneIndex} />
+                        <Rail cartState={cartState} />
                         <Experience />
                     </group>
                     {/* <Ground />

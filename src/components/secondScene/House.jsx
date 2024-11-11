@@ -50,12 +50,12 @@ const block = [
     [8, 4, -6],
 ];
 
-export const House = () => {
+export const House = ({ position, rotation }) => {
     const door = useGLTF("./models/minecreft/Metal Door.glb");
     const wood_block = useGLTF("./models/minecreft/Wood Planks Block.glb");
 
     return (
-        <group position={[8, 2, 10]} rotation={[0, Math.PI / 2, 0]}>
+        <group position={position} rotation={rotation}>
             <group position={[4, -1, 0]} name='door'>
                 <primitive object={door.nodes.Door_Closed} scale={[100, 100, 100]} />
             </group>

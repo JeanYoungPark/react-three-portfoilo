@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
-import { Ground } from "./ground/Ground";
-import { Fence } from "./ground/Fence";
-import { Chick } from "./ground/Chick";
-import { Chicken } from "./ground/Chicken";
+import { Ground } from "./firstScene/Ground";
+import { Fence } from "./firstScene/Fence";
+import { Chick } from "./firstScene/Chick";
+import { Chicken } from "./firstScene/Chicken";
 import { Rail } from "./common/Rail";
-import { Cat } from "./ground/Cat";
-import { Chest } from "./ground/Chest";
+import { Cat } from "./firstScene/Cat";
+import { Chest } from "./firstScene/Chest";
 import { useChestAction } from "../hook/main/useChestAction";
 
 export const FirstScene = () => {

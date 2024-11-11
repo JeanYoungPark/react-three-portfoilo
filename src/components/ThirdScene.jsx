@@ -1,12 +1,12 @@
-import React, { useRef } from "react";
-import { Ground } from "./secondScene/Ground";
-import { House } from "./secondScene/House";
+import React from "react";
+import { Ground } from "./thirdScene/Ground";
+import { Igloo } from "./thirdScene/Igloo";
 
-export const SecondScene = ({ position }) => {
+export const ThirdScene = ({ position }) => {
     return (
         <group position={position}>
             <Ground />
-            <House position={[8, 2, 10]} rotation={[0, Math.PI / 2, 0]} />
+            <Igloo position={[6, 2, 15]} />
             <group>
                 {/* <Fence ref={fenceRef} />
                 <Chick fenceRef={fenceRef} />
