@@ -14,7 +14,7 @@ const keyboardMap = [
     { name: "left", keys: ["ArrowLeft", "KeyA"] },
     { name: "right", keys: ["ArrowRight", "KeyD"] },
     { name: "run", keys: ["Shift"] },
-    { name: "jump", keys: ["Space"] },
+    { name: "space", keys: ["Space"] },
 ];
 
 export const Main = () => {
@@ -46,7 +46,7 @@ export const Main = () => {
                     <Rail />
                     <Cat /> */}
                 </Physics>
-                <Particles count={500} />
+                <Particles count={800} />
             </Canvas>
         </KeyboardControls>
     );

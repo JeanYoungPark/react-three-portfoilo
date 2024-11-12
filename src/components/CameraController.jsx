@@ -80,25 +80,21 @@ export const CameraController = ({ cartState }) => {
     useFrame((state, delta) => {
         if (cameraRef.current) {
             const currentPos = cameraRef.current.position;
-
             ["x", "y", "z"].forEach((axis) => {
                 const diff = targetPosition.current[axis] - currentPos[axis];
                 velocity.current[axis] = diff * springStrength;
                 velocity.current[axis] *= damping;
                 currentPos[axis] += velocity.current[axis];
             });
-
             const targetLookAtPos = calculateLookAtPosition(currentPos, targetLookAt.current);
             currentLookAt.current.lerp(targetLookAtPos, 0.1);
             cameraRef.current.lookAt(currentLookAt.current);
-
             if (cartState.current !== "done") {
                 transitionProgress.current += delta * 0.5; // 전환 속도 조절
                 if (transitionProgress.current >= 1) {
                     transitionProgress.current = 1;
                 }
             }
-
             const distance = currentPos.distanceTo(targetPosition.current);
             const velocityMagnitude = velocity.current.length();
             if (distance < epsilon && velocityMagnitude < epsilon) {

@@ -1,5 +1,6 @@
 import { useGLTF } from "@react-three/drei";
 import React from "react";
+import { CubeMan } from "./CubeMan";
 
 const block = [
     [0, 0, 0],

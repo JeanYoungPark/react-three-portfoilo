@@ -2,8 +2,8 @@ import { useAnimations, useGLTF, useKeyboardControls } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier";
 import React, { useRef } from "react";
-import { useCharacterAnimation } from "../../hook/main/useCharacterAnimation";
-import { useCharacterMovement } from "../../hook/main/useCharacterMovement";
+import { useAnimalAnimation } from "../../hook/main/useAnimalAnimation";
+import { useAnimalMovement } from "../../hook/main/useAnimalMovement";
 
 export const Cat = ({ setChestOpen }) => {
     const { nodes, materials, animations } = useGLTF("./models/minecreft/Cat.glb");
@@ -14,8 +14,8 @@ export const Cat = ({ setChestOpen }) => {
     const { world } = useRapier();
     const [, get] = useKeyboardControls();
 
-    const { setAnim } = useCharacterAnimation(actions, mixer);
-    const { checkGroundCollision, handleMovement } = useCharacterMovement(rb, world, group, setAnim);
+    const { setAnim } = useAnimalAnimation(actions, mixer);
+    const { checkGroundCollision, handleMovement } = useAnimalMovement(rb, world, group, setAnim);
 
     const handleCollisionEnter = (target) => {
         if (target.rigidBodyObject?.name === "chest") {

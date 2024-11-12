@@ -13,9 +13,9 @@ export const Particles = ({ count }) => {
     const scales = new Float32Array(count); // 각 파티클의 크기를 조절하기 위한 배열
 
     for (let i = 0; i < count; i++) {
-        positions[i * 3] = (Math.random() - 0.5) * 80; // x 위치
-        positions[i * 3 + 1] = (Math.random() - 0.5) * 80; // y 위치
-        positions[i * 3 + 2] = (Math.random() - 0.5) * 60; // z 위치
+        positions[i * 3] = (Math.random() - 0.5) * 150; // x 위치
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 150; // y 위치
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 150; // z 위치
         scales[i] = Math.random();
     }
 
@@ -34,7 +34,7 @@ export const Particles = ({ count }) => {
     });
 
     return (
-        <points ref={particlesRef}>
+        <points ref={particlesRef} position={[30, -30, 30]}>
             <bufferGeometry attach='geometry'>
                 <bufferAttribute attach='attributes-position' array={positions} count={count} itemSize={3} />
                 <bufferAttribute attach='attributes-scale' array={scales} count={count} itemSize={1} />

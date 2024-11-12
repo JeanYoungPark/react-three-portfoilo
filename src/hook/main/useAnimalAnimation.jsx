@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useCharacterAnimation = (actions, mixer) => {
+export const useAnimalAnimation = (actions, mixer) => {
     const [anim, setAnim] = useState("Idle");
 
     useEffect(() => {
@@ -9,9 +9,9 @@ export const useCharacterAnimation = (actions, mixer) => {
         // 현재 실행 중인 모든 애니메이션 페이드아웃
         Object.values(actions).forEach((action) => action.fadeOut(0.2).stop());
 
-        const currentAction = actions[`CharacterArmature|CharacterArmature|CharacterArmature|${anim}`];
+        const currentAction = actions[`AnimalArmature|AnimalArmature|AnimalArmature|${anim}`];
         if (!currentAction) return;
-
+        console.log(currentAction);
         currentAction.fadeIn(0.2).play();
 
         // Jump_Start 애니메이션 처리
