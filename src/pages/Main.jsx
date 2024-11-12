@@ -26,7 +26,7 @@ export const Main = () => {
                 <CameraController cartState={cartState} />
                 <ambientLight intensity={1.5} />
                 <directionalLight position={[-2, 4, 10]} intensity={2.5} />
-                <OrbitControls />
+                {/* <OrbitControls /> */}
                 <Suspense />
                 <Physics>
                     <group position={[0, 3, 0]}>

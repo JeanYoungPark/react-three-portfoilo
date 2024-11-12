@@ -8,7 +8,7 @@ export const Experience = ({ position }) => {
         <group position={position}>
             <FirstScene />
             <SecondScene position={[-4, -20, 30]} />
-            <ThirdScene position={[40, -30, 10]} />
+            <ThirdScene position={[36, -40, 22]} />
         </group>
     );
 };

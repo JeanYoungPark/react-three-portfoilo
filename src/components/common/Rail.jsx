@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { MathUtils, Vector3 } from "three";
 
 const rail = [
-    { position: [0, 0, 0], rotation: [0, 0, 0] },
+    { position: [0, 0, 0], rotation: [0, 0, 0], isStop: true },
     { position: [2, 0, 0], rotation: [0, 0, 0] },
     { position: [4, 0, 0], rotation: [0, 0, 0] },
     { position: [6, 0, 0], rotation: [0, 0, 0] },
@@ -39,22 +39,48 @@ const rail = [
     { position: [20, -20, 42], rotation: [0, 0, 0] },
     { position: [22, -20, 42], rotation: [0, 0, 0] },
     { position: [24, -20, 42], rotation: [0, 0, 0] },
+    { position: [26, -22, 42], rotation: [0, Math.PI, 0], isIncline: true },
+    { position: [28, -24, 42], rotation: [0, Math.PI, 0], isIncline: true },
+    { position: [30, -26, 42], rotation: [0, Math.PI, 0], isIncline: true },
+    { position: [32, -28, 42], rotation: [0, Math.PI, 0], isIncline: true },
+    { position: [34, -30, 42], rotation: [0, Math.PI, 0], isIncline: true },
+    { position: [36, -32, 42], rotation: [0, Math.PI, 0], isIncline: true },
+    { position: [38, -34, 42], rotation: [0, Math.PI, 0], isIncline: true },
+    { position: [40, -36, 42], rotation: [0, Math.PI, 0], isIncline: true },
+    { position: [42, -38, 42], rotation: [0, Math.PI, 0], isIncline: true },
+    { position: [44, -40, 42], rotation: [0, Math.PI, 0], isIncline: true },
+    { position: [46, -40, 42], rotation: [0, 0, 0] },
+    { position: [48, -40, 42], rotation: [0, 0, 0] },
+    { position: [50, -40, 42], rotation: [0, 0, 0] },
+    { position: [52, -40, 42], rotation: [0, 0, 0] },
+    { position: [54, -40, 42], rotation: [0, 0, 0] },
+    { position: [56, -40, 42], rotation: [0, 0, 0] },
+    { position: [58, -40, 42], rotation: [0, 0, 0] },
+    { position: [60, -40, 42], rotation: [0, Math.PI, 0], isCorner: true },
+    { position: [60, -40, 40], rotation: [0, Math.PI / 2, 0] },
+    { position: [60, -40, 38], rotation: [0, Math.PI / 2, 0] },
+    { position: [60, -40, 36], rotation: [0, Math.PI / 2, 0] },
+    { position: [60, -40, 34], rotation: [0, Math.PI / 2, 0] },
+    { position: [60, -40, 32], rotation: [0, Math.PI / 2, 0] },
+    { position: [60, -40, 30], rotation: [0, Math.PI / 2, 0], isStop: true },
 ];
 
-export const Rail = ({ cartState }) => {
+export const Rail = ({ cartState, scrollState }) => {
     const cartRef = useRef();
     const currentRailIndex = useRef(0);
-    let speed = 0.07;
+    let speed = 0.1;
 
     const { nodes: rail_corner } = useGLTF("./models/minecreft/Rail Corner.glb");
     const { nodes: rail_incline } = useGLTF("./models/minecreft/Rail Incline.glb");
     const { nodes: rail_straight } = useGLTF("./models/minecreft/Rail Straight.glb");
     const minecart = useGLTF("./models/minecreft/minecart.glb");
 
-    useFrame(() => {
+    useFrame((state, delta) => {
         if (cartState.current !== "done") {
             if (cartRef.current && rail.length > 0) {
                 if (currentRailIndex.current < rail.length) {
+                    const currentRail = rail[currentRailIndex.current];
+
                     const currentPosition = cartRef.current.position.clone();
                     const targetPosition = new Vector3(...rail[currentRailIndex.current].position);
                     const targetPositionXZ = targetPosition
@@ -66,39 +92,61 @@ export const Rail = ({ cartState }) => {
                     const distance = currentPosition.distanceTo(targetPositionXZ);
                     if (distance < 0.1) {
                         // 다음 레일 섹션으로 이동
-                        currentRailIndex.current = currentRailIndex.current + 1;
+                        currentRailIndex.current += cartState.current === "down" ? 1 : -1;
 
                         if (rail[currentRailIndex.current]?.isStop) {
                             cartState.current = "done";
                         }
                     } else {
+                        const progress = 1 - distance / 2;
+
+                        speed = currentRail.isIncline ? 0.17 : currentRail.isCorner ? 0.13 : 0.1;
+
                         // 내리막길
                         if (rail[currentRailIndex.current]?.isIncline) {
-                            speed = 0.1;
                             if (targetPositionXZ.x / 2 < cartRef.current.position.x) {
-                                cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, -(Math.PI / 4), 0.1);
+                                cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, -(Math.PI / 4), progress);
                             }
                             if ((targetPositionXZ.x / 4) * 3 > cartRef.current.position.x) {
-                                cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, 0, 0.1);
+                                cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, 0, progress);
                             }
                         } else if (rail[currentRailIndex.current]?.isCorner) {
-                            speed = 0.07;
-                            cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, 0, 0.1);
+                            cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, 0, progress);
+
                             if (targetRotation.y * (180 / Math.PI) === -90) {
-                                cartRef.current.rotation.y = MathUtils.lerp(cartRef.current.rotation.y, -(Math.PI / 2), 0.1);
+                                cartRef.current.rotation.y = MathUtils.lerp(
+                                    cartRef.current.rotation.y,
+                                    cartState.current === "down" ? -(Math.PI / 2) : 0,
+                                    progress
+                                );
                             } else if (targetRotation.y * (180 / Math.PI) === 90) {
-                                cartRef.current.rotation.y = MathUtils.lerp(cartRef.current.rotation.y, 0, 0.1);
+                                cartRef.current.rotation.y = MathUtils.lerp(
+                                    cartRef.current.rotation.y,
+                                    cartState.current === "down" ? 0 : -(Math.PI / 2),
+                                    progress
+                                );
+                            } else if (targetRotation.y * (180 / Math.PI) === 180) {
+                                cartRef.current.rotation.y = MathUtils.lerp(
+                                    cartRef.current.rotation.y,
+                                    cartState.current === "down" ? Math.PI / 2 : 0,
+                                    progress
+                                );
+                            } else if (targetRotation.y * (180 / Math.PI) === 270) {
+                                cartRef.current.rotation.y = MathUtils.lerp(
+                                    cartRef.current.rotation.y,
+                                    cartState.current === "down" ? Math.PI : Math.PI / 2,
+                                    progress
+                                );
                             }
                         } else {
-                            speed = 0.07;
-                            cartRef.current.rotation.z = MathUtils.lerp(0, 0, 0.1);
+                            cartRef.current.rotation.z = MathUtils.lerp(0, 0, progress);
                         }
                         // 목표 위치로 슬라이드
                         const direction = targetPositionXZ.clone().sub(currentPosition).normalize();
                         cartRef.current.position.add(direction.multiplyScalar(speed));
                     }
                 } else {
-                    cartState.current = "done";
+                    scrollState.current = "done";
                 }
             }
         }

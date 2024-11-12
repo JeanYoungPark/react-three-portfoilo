@@ -21,7 +21,6 @@ export const Ground = () => {
     // const brick_block = useGLTF("./models/minecreft/Brick Block.glb");
     const wood_block = useGLTF("./models/minecreft/Wood Planks Block.glb");
 
-    console.log(dead_tree_2);
     return (
         <group>
             <RigidBody type='fixed' colliders='trimesh'>
