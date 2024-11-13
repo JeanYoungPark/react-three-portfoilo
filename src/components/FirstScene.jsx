@@ -8,14 +8,15 @@ import { Cat } from "./firstScene/Cat";
 import { Chest } from "./firstScene/Chest";
 import { useChestAction } from "../hook/main/useChestAction";
 import { Sheep } from "./firstScene/Sheep";
+import { useChestStore } from "../store/chestStore";
 
-export const FirstScene = ({ chestOpen }) => {
+export const FirstScene = () => {
     const fenceRef = useRef();
 
     return (
         <group>
             <Ground />
-            <Chest position={[21.5, 1, 10]} rotation={[0, -(Math.PI / 2), 0]} chestOpen={chestOpen} />
+            <Chest position={[21.5, 1, 10]} rotation={[0, -(Math.PI / 2), 0]} />
             <Sheep position={[21, 1, 3.7]} rotation={[0, -(Math.PI / 4), 0]} />
             <group>
                 <Fence ref={fenceRef} />

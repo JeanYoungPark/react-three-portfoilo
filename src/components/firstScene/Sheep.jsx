@@ -22,7 +22,7 @@ export const Sheep = ({ position, rotation }) => {
                 </Html>
             </group>
 
-            <RigidBody ref={rb} type='fixed' name='sheep' lockRotations mess={1} onCollisionEnter={false}>
+            <RigidBody ref={rb} type='fixed' name='sheep' lockRotations>
                 <group ref={group}>
                     <primitive object={nodes.AnimalArmature} />
                     <skinnedMesh geometry={nodes.Sheep.geometry} material={materials.AtlasMaterial} skeleton={nodes.Sheep.skeleton} />

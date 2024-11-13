@@ -1,14 +1,21 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { lerpAngle } from "../../utils/angleUtils";
+import { useKeyboardControls } from "@react-three/drei";
+import { useChestStore } from "../../store/chestStore";
+import { useCollisionObjStore } from "../../store/collisionObjStore";
 
 const WALK_SPEED = 3.5;
 const RUN_SPEED = 5.5;
 
 export const useCharacterMovement = (rb, world, group, setAnim) => {
+    const { toggleChest } = useChestStore();
+    const { name: collisionName, setName, clearName } = useCollisionObjStore();
+
     const isJumping = useRef(false);
     const rotationTarget = useRef(0);
     const characterRotationTarget = useRef(0);
-    const collisionRef = useRef(false);
+    const [spacePressed, setSpacePressed] = useState(false);
+    const [, get] = useKeyboardControls();
 
     const checkGroundCollision = () => {
         if (!rb.current || !world) return;
@@ -25,20 +32,20 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
         }
     };
 
-    const handleCollisionEnter = (target, collisionFn) => {
+    const handleCollisionEnter = (target) => {
         if (target.rigidBodyObject?.name) {
-            collisionRef.current = true;
-            collisionFn();
+            setName(target.rigidBodyObject?.name);
         }
     };
 
     const handleCollisionExit = () => {
-        collisionRef.current = false;
+        clearName();
     };
 
-    const handleMovement = (controls) => {
+    const handleMovement = () => {
         if (!rb.current) return;
 
+        const controls = get();
         const vel = rb.current.linvel();
         const movement = { x: 0, z: 0 };
 
@@ -47,7 +54,7 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
         if (controls.left) movement.x = -1;
         if (controls.right) movement.x = 1;
 
-        if (controls.space && !isJumping.current && !collisionRef.current) {
+        if (controls.space && !isJumping.current && !collisionName) {
             isJumping.current = true;
             vel.y = 5;
             setAnim("Jump_Loop");
@@ -73,5 +80,19 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
         group.current.rotation.y = lerpAngle(group.current.rotation.y, characterRotationTarget.current, 0.1);
     };
 
-    return { isJumping, checkGroundCollision, handleMovement, handleCollisionEnter, handleCollisionExit };
+    const handleCollisions = () => {
+        if (get().space) {
+            if (!spacePressed) {
+                setSpacePressed(true);
+
+                if (collisionName === "chest" && !spacePressed) {
+                    get().space && toggleChest();
+                }
+            }
+        } else {
+            setSpacePressed(false);
+        }
+    };
+
+    return { isJumping, checkGroundCollision, handleMovement, handleCollisionEnter, handleCollisionExit, handleCollisions };
 };

@@ -1,34 +1,30 @@
-import { useAnimations, useGLTF, useKeyboardControls } from "@react-three/drei";
+import { useAnimations, useGLTF } from "@react-three/drei";
 import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier";
 import React, { useRef } from "react";
 import { useCharacterAnimation } from "../../hook/main/useCharacterAnimation";
 import { useCharacterMovement } from "../../hook/main/useCharacterMovement";
 import { useFrame } from "@react-three/fiber";
 
-export const CubeMan = ({ position, setChestOpen }) => {
+export const CubeMan = () => {
     const { nodes, materials, animations } = useGLTF("./models/minecreft/Cube Guy Character.glb");
-    // console.log(animations);
+
     const rb = useRef();
     const group = useRef();
-    const collisionObj = useRef();
     const { actions, mixer } = useAnimations(animations, group);
     const { world } = useRapier();
-    const [, get] = useKeyboardControls();
 
     const { setAnim } = useCharacterAnimation(actions, mixer);
-    const { checkGroundCollision, handleMovement, handleCollisionEnter, handleCollisionExit } = useCharacterMovement(rb, world, group, setAnim);
-
-    const collisionFn = (target) => {
-        collisionObj.current = target.rigidBodyObject?.name;
-    };
+    const { checkGroundCollision, handleMovement, handleCollisionEnter, handleCollisionExit, handleCollisions } = useCharacterMovement(
+        rb,
+        world,
+        group,
+        setAnim
+    );
 
     useFrame(() => {
         checkGroundCollision();
-        handleMovement(get());
-
-        if (collisionObj.current === "chest") {
-            get().space && setChestOpen((prev) => !prev);
-        }
+        handleMovement();
+        handleCollisions();
 
         if (rb.current) {
             const position = rb.current.translation();
@@ -47,7 +43,7 @@ export const CubeMan = ({ position, setChestOpen }) => {
             position={[18, 1, 6]}
             lockRotations
             mess={1}
-            onCollisionEnter={(e) => handleCollisionEnter(e, collisionFn(e))}
+            onCollisionEnter={(e) => handleCollisionEnter(e)}
             onIntersectionExit={handleCollisionExit}>
             <group ref={group}>
                 <primitive object={nodes.CharacterArmature} />

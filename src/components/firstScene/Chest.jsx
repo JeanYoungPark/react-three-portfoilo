@@ -1,14 +1,17 @@
 import { useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
+import { useChestStore } from "../../store/chestStore";
 
-export const Chest = ({ position, rotation, chestOpen }) => {
+export const Chest = ({ position, rotation }) => {
     const wood_chest_close = useGLTF("./models/minecreft/Wood Chest.glb");
     const wood_chest_open = useGLTF("./models/minecreft/Chest Open.glb");
     const cheese = useGLTF("./models/minecreft/Cheese Block.glb");
 
+    const { chest } = useChestStore();
+
     return (
         <RigidBody type='fixed' lockRotations colliders='cuboid' name='chest' position={position} rotation={rotation}>
-            {chestOpen ? (
+            {chest ? (
                 <group>
                     <group>
                         <primitive object={wood_chest_open.nodes.Chest_Open} />
