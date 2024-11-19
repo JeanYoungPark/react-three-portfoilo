@@ -17,7 +17,7 @@ canvas {
 .bubble::after {
   content: "";
   position: absolute;
-  bottom: -7px;
+  bottom: -6px;
   left: 50%;
   transform: translateX(-50%);
   width: 0;
@@ -25,6 +25,9 @@ canvas {
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-top: 8px solid #ffffff;
+}
+.bubble .on {
+  opacity: 1;
 }
 
 @keyframes fadeIn {

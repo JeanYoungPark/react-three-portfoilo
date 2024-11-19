@@ -3,13 +3,15 @@ import { lerpAngle } from "../../utils/angleUtils";
 import { useKeyboardControls } from "@react-three/drei";
 import { useChestStore } from "../../store/chestStore";
 import { useCollisionObjStore } from "../../store/collisionObjStore";
+import { useSheepBubbleStore } from "../../store/sheepBubbleStore";
 
 const WALK_SPEED = 3.5;
 const RUN_SPEED = 5.5;
 
 export const useCharacterMovement = (rb, world, group, setAnim) => {
     const { toggleChest } = useChestStore();
-    const { name: collisionName, setName, clearName } = useCollisionObjStore();
+    const { setText } = useSheepBubbleStore();
+    const { ob: collisionOb, setOb, clearOb } = useCollisionObjStore();
 
     const isJumping = useRef(false);
     const rotationTarget = useRef(0);
@@ -34,12 +36,12 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
 
     const handleCollisionEnter = (target) => {
         if (target.rigidBodyObject?.name) {
-            setName(target.rigidBodyObject?.name);
+            setOb(target.rigidBodyObject);
         }
     };
 
     const handleCollisionExit = () => {
-        clearName();
+        clearOb();
     };
 
     const handleMovement = () => {
@@ -54,7 +56,7 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
         if (controls.left) movement.x = -1;
         if (controls.right) movement.x = 1;
 
-        if (controls.space && !isJumping.current && !collisionName) {
+        if (controls.space && !isJumping.current && !collisionOb?.name) {
             isJumping.current = true;
             vel.y = 5;
             setAnim("Jump_Loop");
@@ -85,8 +87,10 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
             if (!spacePressed) {
                 setSpacePressed(true);
 
-                if (collisionName === "chest" && !spacePressed) {
-                    get().space && toggleChest();
+                if (collisionOb?.name === "chest") {
+                    toggleChest();
+                } else if (collisionOb?.name === "sheep") {
+                    setText("hello!\r");
                 }
             }
         } else {

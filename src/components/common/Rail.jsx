@@ -3,6 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { RigidBody } from "@react-three/rapier";
 import React, { useEffect, useRef, useState } from "react";
 import { MathUtils, Vector3 } from "three";
+import { useCartStore } from "../../store/cartStore";
 
 const rail = [
     { position: [0, 0, 0], rotation: [0, 0, 0], isStop: true },
@@ -65,9 +66,10 @@ const rail = [
     { position: [60, -40, 30], rotation: [0, Math.PI / 2, 0], isStop: true },
 ];
 
-export const Rail = ({ cartState, scrollState }) => {
+export const Rail = () => {
     const cartRef = useRef();
     const currentRailIndex = useRef(0);
+    const { state: cartState, setState } = useCartStore();
     let speed = 0.1;
 
     const { nodes: rail_corner } = useGLTF("./models/minecreft/Rail Corner.glb");
@@ -76,7 +78,7 @@ export const Rail = ({ cartState, scrollState }) => {
     const minecart = useGLTF("./models/minecreft/minecart.glb");
 
     useFrame((state, delta) => {
-        if (cartState.current !== "done") {
+        if (cartState !== "done") {
             if (cartRef.current && rail.length > 0) {
                 if (currentRailIndex.current < rail.length) {
                     const currentRail = rail[currentRailIndex.current];
@@ -92,10 +94,10 @@ export const Rail = ({ cartState, scrollState }) => {
                     const distance = currentPosition.distanceTo(targetPositionXZ);
                     if (distance < 0.1) {
                         // 다음 레일 섹션으로 이동
-                        currentRailIndex.current += cartState.current === "down" ? 1 : -1;
+                        currentRailIndex.current += cartState === "down" ? 1 : -1;
 
                         if (rail[currentRailIndex.current]?.isStop) {
-                            cartState.current = "done";
+                            setState("done");
                         }
                     } else {
                         const progress = 1 - distance / 2;
@@ -116,25 +118,25 @@ export const Rail = ({ cartState, scrollState }) => {
                             if (targetRotation.y * (180 / Math.PI) === -90) {
                                 cartRef.current.rotation.y = MathUtils.lerp(
                                     cartRef.current.rotation.y,
-                                    cartState.current === "down" ? -(Math.PI / 2) : 0,
+                                    cartState === "down" ? -(Math.PI / 2) : 0,
                                     progress
                                 );
                             } else if (targetRotation.y * (180 / Math.PI) === 90) {
                                 cartRef.current.rotation.y = MathUtils.lerp(
                                     cartRef.current.rotation.y,
-                                    cartState.current === "down" ? 0 : -(Math.PI / 2),
+                                    cartState === "down" ? 0 : -(Math.PI / 2),
                                     progress
                                 );
                             } else if (targetRotation.y * (180 / Math.PI) === 180) {
                                 cartRef.current.rotation.y = MathUtils.lerp(
                                     cartRef.current.rotation.y,
-                                    cartState.current === "down" ? Math.PI / 2 : 0,
+                                    cartState === "down" ? Math.PI / 2 : 0,
                                     progress
                                 );
                             } else if (targetRotation.y * (180 / Math.PI) === 270) {
                                 cartRef.current.rotation.y = MathUtils.lerp(
                                     cartRef.current.rotation.y,
-                                    cartState.current === "down" ? Math.PI : Math.PI / 2,
+                                    cartState === "down" ? Math.PI : Math.PI / 2,
                                     progress
                                 );
                             }
@@ -145,8 +147,6 @@ export const Rail = ({ cartState, scrollState }) => {
                         const direction = targetPositionXZ.clone().sub(currentPosition).normalize();
                         cartRef.current.position.add(direction.multiplyScalar(speed));
                     }
-                } else {
-                    scrollState.current = "done";
                 }
             }
         }

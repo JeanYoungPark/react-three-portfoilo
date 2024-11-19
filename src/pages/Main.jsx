@@ -7,6 +7,7 @@ import { Particles } from "../components/Particles";
 import { Experience } from "../components/Experience";
 import { CameraController } from "../components/CameraController";
 import { Rail } from "../components/common/Rail";
+import { CubeMan } from "../components/secondScene/CubeMan";
 
 const keyboardMap = [
     { name: "forward", keys: ["ArrowUp", "KeyW"] },
@@ -18,19 +19,18 @@ const keyboardMap = [
 ];
 
 export const Main = () => {
-    const cartState = useRef("done");
-
     return (
         <KeyboardControls map={keyboardMap}>
             <Canvas shadows>
-                <CameraController cartState={cartState} />
+                <CameraController />
                 <ambientLight intensity={1.5} />
                 <directionalLight position={[-2, 4, 10]} intensity={2.5} />
                 {/* <OrbitControls /> */}
                 <Suspense />
-                <Physics>
+                <Physics debug>
                     <group position={[0, 3, 0]}>
-                        <Rail cartState={cartState} />
+                        <Rail />
+                        <CubeMan />
                         <Experience />
                     </group>
                     {/* <Ground />

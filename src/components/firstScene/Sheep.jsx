@@ -3,9 +3,11 @@ import React, { useRef } from "react";
 import { useAnimalAnimation } from "../../hook/main/useAnimalAnimation";
 import { CapsuleCollider, RigidBody } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
+import { useSheepBubbleStore } from "../../store/sheepBubbleStore";
 
 export const Sheep = ({ position, rotation }) => {
     const { nodes, materials, animations } = useGLTF("./models/minecreft/Sheep.glb");
+    const { text } = useSheepBubbleStore();
 
     const rb = useRef();
     const group = useRef();
@@ -17,7 +19,7 @@ export const Sheep = ({ position, rotation }) => {
             <group position={[0, 2.5, 0]}>
                 <Html center>
                     <div className='bubble'>
-                        <p>Hello</p>
+                        <b>{text}</b>
                     </div>
                 </Html>
             </group>
