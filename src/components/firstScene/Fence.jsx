@@ -1,8 +1,6 @@
 import { useGLTF } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
 import { RigidBody } from "@react-three/rapier";
-import React, { forwardRef, useEffect, useMemo, useRef, useState } from "react";
-import { Box3 } from "three";
+import React, { forwardRef, useMemo } from "react";
 
 const fenceData = [
     { position: [0, 0, 0], rotation: [0, Math.PI / 2, 0], isCorner: true },

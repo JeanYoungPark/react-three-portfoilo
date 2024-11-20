@@ -4,6 +4,7 @@ import { Vector3 } from "three";
 import { useCollisionObjStore } from "../store/collisionObjStore";
 import { useKeyboardControls } from "@react-three/drei";
 import { useCartStore } from "../store/cartStore";
+import { useSpaceStore } from "../store/spaceStore";
 
 const SCENE_POSITIONS = [
     { camera: [20, 50, 23], lookAtOffset: [-10, -10, -23] },
@@ -17,6 +18,7 @@ const collisionLookAt = { sheep: { camera: new Vector3(18.5, 7, 6), lookAtOffset
 export const CameraController = () => {
     const { ob: collisionOb, seOb, clearOb } = useCollisionObjStore();
     const { state: cartState, setState } = useCartStore();
+    const { space } = useSpaceStore();
     const springStrength = 0.03; // 스프링 강도
     const damping = 0.92; // 감쇠 계수
 
@@ -56,7 +58,7 @@ export const CameraController = () => {
         const handleScroll = (event) => {
             event.preventDefault();
 
-            if (cartState === "done") {
+            if (cartState === "done" && !space) {
                 const direction = event.deltaY > 0 ? 1 : -1;
 
                 const nextIndex = Math.min(Math.max(currentSceneIndex.current + direction, 1), SCENE_POSITIONS.length - 1);
@@ -81,7 +83,7 @@ export const CameraController = () => {
         return () => {
             window.removeEventListener("wheel", handleScroll);
         };
-    }, [cartState]);
+    }, [cartState, space]);
 
     useFrame((state, delta) => {
         const controls = get();
@@ -106,24 +108,27 @@ export const CameraController = () => {
                 }
             }
         } else {
-            if (collisionOb?.name) {
+            if (collisionOb?.name && space) {
                 if (collisionOb?.name === "sheep") {
-                    const currentPos = cameraRef.current.position;
+                    const currentPos = cameraRef.current.position.clone(); // 현재 카메라 위치
+                    const targetPos = new Vector3(...collisionLookAt["sheep"].camera); // 목표 카메라 위치
+                    const diffVec = new Vector3().subVectors(targetPos, currentPos).multiplyScalar(delta); // 이동 벡터 계산
+                    currentPos.add(diffVec); // 카메라 이동
+                    cameraRef.current.position.copy(currentPos); // 카메라 위치 갱신
 
-                    ["x", "y", "z"].forEach((axis) => {
-                        const diff = collisionLookAt["sheep"].camera[axis] - currentPos[axis];
-                        velocity.current[axis] = diff * springStrength;
-                        velocity.current[axis] *= damping;
-                        currentPos[axis] += velocity.current[axis];
-                    });
+                    // 목표 바라볼 위치 계산
+                    const targetLookAtPos = new Vector3().addVectors(targetPos, new Vector3(...collisionLookAt["sheep"].lookAtOffset));
 
-                    const targetLookAtPos = calculateLookAtPosition(currentPos, collisionLookAt["sheep"].lookAtOffset);
+                    // 현재 LookAt 방향 계산
+                    const currentLookAt = new Vector3();
+                    cameraRef.current.getWorldDirection(currentLookAt); // 카메라의 현재 바라보는 방향 벡터
 
-                    currentLookAt.current.lerp(targetLookAtPos, 0.1);
-                    cameraRef.current.lookAt(currentLookAt.current);
-                    console.log(collisionLookAt["sheep"].camera);
-                    // const currentPos = cameraRef.current.position;
-                    // cameraRef.current.lookAt(new Vector3(0, 0, 0));
+                    // LookAt 방향 점진적으로 보정
+                    const direction = targetLookAtPos.clone().sub(currentPos).normalize();
+                    const distance = currentPos.distanceTo(targetLookAtPos);
+                    const moveDistance = Math.min(delta, distance);
+                    currentLookAt.add(direction.multiplyScalar(moveDistance));
+                    cameraRef.current.lookAt(currentPos.clone().add(currentLookAt));
                 }
             }
         }

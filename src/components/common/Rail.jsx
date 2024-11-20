@@ -1,9 +1,10 @@
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { RigidBody } from "@react-three/rapier";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { MathUtils, Vector3 } from "three";
 import { useCartStore } from "../../store/cartStore";
+import { useSpaceStore } from "../../store/spaceStore";
 
 const rail = [
     { position: [0, 0, 0], rotation: [0, 0, 0], isStop: true },
@@ -70,6 +71,7 @@ export const Rail = () => {
     const cartRef = useRef();
     const currentRailIndex = useRef(0);
     const { state: cartState, setState } = useCartStore();
+    const { space } = useSpaceStore();
     let speed = 0.1;
 
     const { nodes: rail_corner } = useGLTF("./models/minecreft/Rail Corner.glb");

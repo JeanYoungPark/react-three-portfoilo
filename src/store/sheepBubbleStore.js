@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export const useSheepBubbleStore = create((set) => ({
-    text: "...",
+export const useBubbleStore = create((set) => ({
+    text: "",
     setText: (value) => set(() => ({ text: value })),
 }));

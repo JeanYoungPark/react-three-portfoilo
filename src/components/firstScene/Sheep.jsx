@@ -1,13 +1,14 @@
 import { Html, useAnimations, useGLTF } from "@react-three/drei";
 import React, { useRef } from "react";
 import { useAnimalAnimation } from "../../hook/main/useAnimalAnimation";
-import { CapsuleCollider, RigidBody } from "@react-three/rapier";
-import { useFrame } from "@react-three/fiber";
-import { useSheepBubbleStore } from "../../store/sheepBubbleStore";
+import { CuboidCollider, RigidBody } from "@react-three/rapier";
+import { useSpaceStore } from "../../store/spaceStore";
+import { useCollisionObjStore } from "../../store/collisionObjStore";
 
 export const Sheep = ({ position, rotation }) => {
     const { nodes, materials, animations } = useGLTF("./models/minecreft/Sheep.glb");
-    const { text } = useSheepBubbleStore();
+    const { ob: collisionOb } = useCollisionObjStore();
+    const { space } = useSpaceStore();
 
     const rb = useRef();
     const group = useRef();
@@ -18,8 +19,8 @@ export const Sheep = ({ position, rotation }) => {
         <group position={position} rotation={rotation}>
             <group position={[0, 2.5, 0]}>
                 <Html center>
-                    <div className='bubble'>
-                        <b>{text}</b>
+                    <div className={`bubble ${space && collisionOb?.name === "sheep" && "off"}`}>
+                        <b>...</b>
                     </div>
                 </Html>
             </group>
@@ -29,8 +30,7 @@ export const Sheep = ({ position, rotation }) => {
                     <primitive object={nodes.AnimalArmature} />
                     <skinnedMesh geometry={nodes.Sheep.geometry} material={materials.AtlasMaterial} skeleton={nodes.Sheep.skeleton} />
                 </group>
-                <CapsuleCollider args={[0.1, 0.5]} position={[0, 0.6, 0.5]} />
-                <CapsuleCollider args={[0.1, 0.5]} position={[0, 0.6, -0.5]} />
+                <CuboidCollider args={[0.7, 0.8, 1.3]} position={[0, 0.6, 0]} />
             </RigidBody>
         </group>
     );

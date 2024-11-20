@@ -3,12 +3,8 @@ import { Ground } from "./firstScene/Ground";
 import { Fence } from "./firstScene/Fence";
 import { Chick } from "./firstScene/Chick";
 import { Chicken } from "./firstScene/Chicken";
-import { Rail } from "./common/Rail";
-import { Cat } from "./firstScene/Cat";
 import { Chest } from "./firstScene/Chest";
-import { useChestAction } from "../hook/main/useChestAction";
 import { Sheep } from "./firstScene/Sheep";
-import { useChestStore } from "../store/chestStore";
 
 export const FirstScene = () => {
     const fenceRef = useRef();

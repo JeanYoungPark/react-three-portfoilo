@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { Ground } from "./secondScene/Ground";
 import { House } from "./secondScene/House";
-import { CubeMan } from "./secondScene/CubeMan";
+import { CubeMan } from "./common/CubeMan";
 
 export const SecondScene = ({ position }) => {
     return (

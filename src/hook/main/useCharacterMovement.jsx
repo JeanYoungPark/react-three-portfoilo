@@ -1,22 +1,26 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { lerpAngle } from "../../utils/angleUtils";
 import { useKeyboardControls } from "@react-three/drei";
 import { useChestStore } from "../../store/chestStore";
 import { useCollisionObjStore } from "../../store/collisionObjStore";
-import { useSheepBubbleStore } from "../../store/sheepBubbleStore";
+import { useBubbleStore } from "../../store/sheepBubbleStore";
+import { useSpaceStore } from "../../store/spaceStore";
+import { useCartStore } from "../../store/cartStore";
 
 const WALK_SPEED = 3.5;
 const RUN_SPEED = 5.5;
 
 export const useCharacterMovement = (rb, world, group, setAnim) => {
     const { toggleChest } = useChestStore();
-    const { setText } = useSheepBubbleStore();
+    const { setText } = useBubbleStore();
     const { ob: collisionOb, setOb, clearOb } = useCollisionObjStore();
+    const { space, setSpace } = useSpaceStore();
+    const { state: cartState } = useCartStore();
+    const { text } = useBubbleStore();
 
     const isJumping = useRef(false);
     const rotationTarget = useRef(0);
     const characterRotationTarget = useRef(0);
-    const [spacePressed, setSpacePressed] = useState(false);
     const [, get] = useKeyboardControls();
 
     const checkGroundCollision = () => {
@@ -42,12 +46,24 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
 
     const handleCollisionExit = () => {
         clearOb();
+        setSpace(false);
     };
 
     const handleMovement = () => {
         if (!rb.current) return;
 
         const controls = get();
+
+        if (controls.enter) {
+            clearOb();
+            setSpace(false);
+        }
+
+        if (space && text) {
+            setAnim("Idle");
+            return;
+        }
+
         const vel = rb.current.linvel();
         const movement = { x: 0, z: 0 };
 
@@ -83,18 +99,21 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
     };
 
     const handleCollisions = () => {
-        if (get().space) {
-            if (!spacePressed) {
-                setSpacePressed(true);
+        const controls = get();
+
+        if (controls.space) {
+            if (!space && cartState === "done") {
+                setSpace(true);
 
                 if (collisionOb?.name === "chest") {
                     toggleChest();
+                    setTimeout(() => {
+                        setSpace(false);
+                    }, 500);
                 } else if (collisionOb?.name === "sheep") {
                     setText("hello!\r");
                 }
             }
-        } else {
-            setSpacePressed(false);
         }
     };
 

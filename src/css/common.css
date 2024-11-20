@@ -22,7 +22,7 @@ body .lock {
 #menu {
   position: fixed;
   right: 30px;
-  top: 20px;
+  top: 30px;
   display: flex;
   align-items: center;
   z-index: 100;

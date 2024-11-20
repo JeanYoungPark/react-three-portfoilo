@@ -12,7 +12,7 @@ canvas {
     font-family: "Arial, sans-serif";
     font-size: 14px;
     color: #333;
-    animation: fadeIn 0.3s ease-out;
+    transition: all 0.5s ease;
 
     &::after {
         content: "";
@@ -27,18 +27,79 @@ canvas {
         border-top: 8px solid #ffffff;
     }
 
-    .on {
-        opacity: 1;
+    &.off {
+        opacity: 0;
+    }
+}
+
+#guide {
+    position: absolute;
+    top: 30px;
+    left: 50px;
+    opacity: 0;
+    animation: fadeIn 2s ease-in-out forwards;
+    animation-delay: 1s;
+
+    p {
+        color: #ffffff;
+
+        &.text {
+            font-size: 40px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        &.keys {
+            display: flex;
+            align-items: center;
+            background-color: rgb(256, 256, 256, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            font-size: 20px;
+
+            span {
+                font-size: 15px;
+                padding: 0 10px;
+            }
+
+            svg {
+                width: 30px;
+                height: 30px;
+                margin-right: 5px;
+            }
+        }
     }
 }
 
 @keyframes fadeIn {
     0% {
         opacity: 0;
-        transform: scale(0.5);
     }
     100% {
         opacity: 1;
-        transform: scale(1);
+    }
+}
+
+#bubble {
+    box-sizing: border-box;
+    position: absolute;
+    left: 50%;
+    bottom: 50px;
+    transform: translateX(-50%);
+    width: 90vw;
+    max-width: 1720px;
+    padding: 20px 20px;
+    border-radius: 20px;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    font-family: "Arial, sans-serif";
+    font-size: 20px;
+    text-align: center;
+    color: #333;
+    opacity: 0;
+    transition: all 0.5s ease;
+
+    &.on {
+        opacity: 1;
     }
 }
