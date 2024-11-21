@@ -1,6 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { Physics } from "@react-three/rapier";
-import React, { Suspense } from "react";
+import React, { Suspense, useRef } from "react";
 import { KeyboardControls, OrbitControls } from "@react-three/drei";
 import "../css/main.min.css";
 import { Particles } from "../components/Particles";
@@ -24,13 +24,14 @@ const keyboardMap = [
 ];
 
 export const Main = () => {
+    const cubeManRef = useRef();
     const { space } = useSpaceStore();
     const { text } = useBubbleStore();
 
     return (
         <KeyboardControls map={keyboardMap}>
             <Canvas shadows>
-                <CameraController />
+                <CameraController rb={cubeManRef} />
                 <ambientLight intensity={1.5} />
                 <directionalLight position={[-2, 4, 10]} intensity={2.5} />
                 {/* <OrbitControls /> */}
@@ -38,21 +39,9 @@ export const Main = () => {
                 <Physics>
                     <group position={[0, 3, 0]}>
                         <Rail />
-                        <CubeMan />
+                        <CubeMan rb={cubeManRef} />
                         <Experience />
                     </group>
-                    {/* <Ground />
-                    <group>
-                        <Fence ref={fenceRef} />
-                        <Chick fenceRef={fenceRef} />
-                        <Chick fenceRef={fenceRef} />
-                        <Chick fenceRef={fenceRef} />
-                        <Chick fenceRef={fenceRef} />
-                        <Chicken fenceRef={fenceRef} />
-                        <Chicken fenceRef={fenceRef} />
-                    </group>
-                    <Rail />
-                    <Cat /> */}
                 </Physics>
                 <Particles count={800} />
             </Canvas>

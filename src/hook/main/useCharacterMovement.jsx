@@ -106,6 +106,7 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
                 setSpace(true);
 
                 if (collisionOb?.name === "chest") {
+                    setText("");
                     toggleChest();
                     setTimeout(() => {
                         setSpace(false);

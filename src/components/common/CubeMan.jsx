@@ -5,10 +5,9 @@ import { useCharacterAnimation } from "../../hook/main/useCharacterAnimation";
 import { useCharacterMovement } from "../../hook/main/useCharacterMovement";
 import { useFrame } from "@react-three/fiber";
 
-export const CubeMan = () => {
+export const CubeMan = ({ rb }) => {
     const { nodes, materials, animations } = useGLTF("./models/minecreft/Cube Guy Character.glb");
 
-    const rb = useRef();
     const group = useRef();
     const { actions, mixer } = useAnimations(animations, group);
     const { world } = useRapier();
@@ -26,13 +25,13 @@ export const CubeMan = () => {
         handleMovement();
         handleCollisions();
 
-        if (rb.current) {
-            const position = rb.current.translation();
+        // if (rb.current) {
+        //     const position = rb.current.translation();
 
-            if (position.y < -10) {
-                rb.current.setTranslation({ x: 18, y: 10, z: 4 });
-            }
-        }
+        //     if (position.y < -10) {
+        //         rb.current.setTranslation({ x: 18, y: 10, z: 4 });
+        //     }
+        // }
     });
 
     return (
