@@ -29,7 +29,6 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
         const rayOrigin = { ...rb.current.translation() };
         rayOrigin.y -= 0.1;
         const rayDirection = { x: 0, y: -1, z: 0 };
-
         const hit = world.castRay({ origin: rayOrigin, dir: rayDirection }, 0.2, true);
 
         if (hit && hit.collider) {
@@ -113,6 +112,12 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
                     }, 500);
                 } else if (collisionOb?.name === "sheep") {
                     setText("hello!\r");
+                } else if (collisionOb?.name === "dog") {
+                    setText("hello!!\r");
+                } else if (collisionOb?.name === "horse") {
+                    setText("hello!!!\r");
+                } else if (collisionOb?.name === "pig") {
+                    setText("hello!!!!\r");
                 }
             }
         }

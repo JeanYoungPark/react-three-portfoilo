@@ -17,7 +17,7 @@ export const Sheep = ({ position, rotation }) => {
 
     return (
         <group position={position} rotation={rotation}>
-            <group position={[0, 2.5, 0]}>
+            <group position={[0, 3, 0]}>
                 <Html center>
                     <div className={`bubble ${space && collisionOb?.name === "sheep" && "off"}`}>
                         <b>...</b>

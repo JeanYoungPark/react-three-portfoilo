@@ -12,6 +12,8 @@ export const useAnimalAnimation = (actions, mixer) => {
         const currentAction = actions[`AnimalArmature|AnimalArmature|AnimalArmature|${anim}`];
         if (!currentAction) return;
 
+        const randomTimeScale = Math.random() * 1.5;
+        mixer.timeScale = randomTimeScale;
         currentAction.fadeIn(0.2).play();
 
         // Jump_Start 애니메이션 처리
