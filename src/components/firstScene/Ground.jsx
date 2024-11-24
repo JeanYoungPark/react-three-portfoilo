@@ -51,8 +51,8 @@ export const Ground = () => {
                 {/* 잡초 */}
                 <mesh geometry={plant.nodes.Plant_2.geometry} position={[4, 1, 8]} scale={[50, 50, 50]} material={plant.materials.Atlas} />
                 <mesh geometry={plant.nodes.Plant_2.geometry} position={[6, 1, 14.3]} scale={[50, 50, 50]} material={plant.materials.Atlas} />
-                <mesh geometry={plant.nodes.Plant_2.geometry} position={[11.2, 1, 0.6]} scale={[50, 50, 50]} material={plant.materials.Atlas} />
-                <mesh geometry={plant.nodes.Plant_2.geometry} position={[14.6, 1, 4]} scale={[50, 50, 50]} material={plant.materials.Atlas} />
+                <mesh geometry={plant.nodes.Plant_2.geometry} position={[11.2, 1, 0.4]} scale={[30, 30, 30]} material={plant.materials.Atlas} />
+                <mesh geometry={plant.nodes.Plant_2.geometry} position={[14.6, 1, 4]} scale={[30, 30, 30]} material={plant.materials.Atlas} />
                 <mesh
                     geometry={plant.nodes.Plant_2.geometry}
                     position={[21, 1, 11.5]}
@@ -88,7 +88,7 @@ export const Ground = () => {
                 />
 
                 {/* 덤불 */}
-                <mesh geometry={bush.nodes.Bush.geometry} position={[4, 1, 0]} scale={[100, 100, 100]} material={bush.materials.Atlas} />
+                <mesh geometry={bush.nodes.Bush.geometry} position={[4, 1, 0]} scale={[50, 50, 50]} material={bush.materials.Atlas} />
                 <mesh geometry={bush.nodes.Bush.geometry} position={[22, 1, 0]} scale={[100, 100, 100]} material={bush.materials.Atlas} />
                 <mesh geometry={bush.nodes.Bush.geometry} position={[0, 1, 10]} scale={[100, 100, 100]} material={bush.materials.Atlas} />
                 <mesh geometry={bush.nodes.Bush.geometry} position={[0, 0, 6]} scale={[100, 100, 100]} material={bush.materials.Atlas} />

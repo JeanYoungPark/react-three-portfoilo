@@ -1,10 +1,11 @@
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { RigidBody } from "@react-three/rapier";
+import { CuboidCollider, RigidBody } from "@react-three/rapier";
 import React, { useRef } from "react";
 import { MathUtils, Vector3 } from "three";
 import { useCartStore } from "../../store/cartStore";
 import { useSpaceStore } from "../../store/spaceStore";
+import { lerpAngle } from "../../utils/angleUtils";
 
 const rail = [
     { position: [0, 0, 0], rotation: [0, 0, 0], isStop: true },
@@ -68,8 +69,11 @@ const rail = [
 ];
 
 export const Rail = () => {
+    const rb = useRef();
     const cartRef = useRef();
     const currentRailIndex = useRef(0);
+    const rotationTarget = useRef(0);
+    const cartRotationTarget = useRef(0);
     const { state: cartState, setState } = useCartStore();
     const { space } = useSpaceStore();
     let speed = 0.1;
@@ -80,75 +84,105 @@ export const Rail = () => {
     const minecart = useGLTF("./models/minecreft/minecart.glb");
 
     useFrame((state, delta) => {
+        if (rb.current) {
+            const vel = rb.current.linvel();
+            const currentPosition = rb.current.translation();
+            const targetPosition = new Vector3(...rail[currentRailIndex.current].position);
+            const realTargetPosition = new Vector3(
+                targetPosition.x + 0, // group x position
+                targetPosition.y + 1, // group y position
+                targetPosition.z + 2 // group z position
+            );
+
+            // const movement = new Vector3().subVectors(currentPosition, realTargetPosition);
+            const distance = new Vector3().subVectors(currentPosition, realTargetPosition).length();
+            console.log(distance, vel, realTargetPosition);
+
+            if (distance < 0.5) {
+                // 0.5는 임계값, 조절 가능
+                currentRailIndex.current += 1;
+            }
+            // if (movement.x === 0 && movement.y === 0 && movement.x === 0) {
+            //     currentRailIndex.current += 1;
+            //     return;
+            // }
+
+            const movement = new Vector3().subVectors(currentPosition, realTargetPosition);
+
+            if (movement.x !== 0 || movement.z !== 0) {
+                cartRotationTarget.current = Math.atan2(movement.x > 0 ? -1 : 1, movement.z > 0 ? -1 : 0);
+
+                vel.x += Math.sin(rotationTarget.current + cartRotationTarget.current) * 0.3;
+                vel.z = Math.cos(rotationTarget.current + cartRotationTarget.current) * 0.3;
+            }
+
+            rb.current.setLinvel(vel, true);
+            // cartRef.current.rotation.y = lerpAngle(cartRef.current.rotation.y, cartRotationTarget.current, 0.1);
+        }
+
         if (cartState !== "done") {
             if (cartRef.current && rail.length > 0) {
                 if (currentRailIndex.current < rail.length) {
-                    const currentRail = rail[currentRailIndex.current];
-
-                    const currentPosition = cartRef.current.position.clone();
-                    const targetPosition = new Vector3(...rail[currentRailIndex.current].position);
-                    const targetPositionXZ = targetPosition
-                        .clone()
-                        .setY(rail[currentRailIndex.current]?.isIncline ? targetPosition.y + 2 : targetPosition.y + 1);
-                    const targetRotation = new Vector3(...rail[currentRailIndex.current].rotation);
-
-                    // 목표 위치에 도달했는지 확인
-                    const distance = currentPosition.distanceTo(targetPositionXZ);
-                    if (distance < 0.1) {
-                        // 다음 레일 섹션으로 이동
-                        currentRailIndex.current += cartState === "down" ? 1 : -1;
-
-                        if (rail[currentRailIndex.current]?.isStop) {
-                            setState("done");
-                        }
-                    } else {
-                        const progress = 1 - distance / 2;
-
-                        speed = currentRail.isIncline ? 0.17 : currentRail.isCorner ? 0.13 : 0.1;
-
-                        // 내리막길
-                        if (rail[currentRailIndex.current]?.isIncline) {
-                            if (targetPositionXZ.x / 2 < cartRef.current.position.x) {
-                                cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, -(Math.PI / 4), progress);
-                            }
-                            if ((targetPositionXZ.x / 4) * 3 > cartRef.current.position.x) {
-                                cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, 0, progress);
-                            }
-                        } else if (rail[currentRailIndex.current]?.isCorner) {
-                            cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, 0, progress);
-
-                            if (targetRotation.y * (180 / Math.PI) === -90) {
-                                cartRef.current.rotation.y = MathUtils.lerp(
-                                    cartRef.current.rotation.y,
-                                    cartState === "down" ? -(Math.PI / 2) : 0,
-                                    progress
-                                );
-                            } else if (targetRotation.y * (180 / Math.PI) === 90) {
-                                cartRef.current.rotation.y = MathUtils.lerp(
-                                    cartRef.current.rotation.y,
-                                    cartState === "down" ? 0 : -(Math.PI / 2),
-                                    progress
-                                );
-                            } else if (targetRotation.y * (180 / Math.PI) === 180) {
-                                cartRef.current.rotation.y = MathUtils.lerp(
-                                    cartRef.current.rotation.y,
-                                    cartState === "down" ? Math.PI / 2 : 0,
-                                    progress
-                                );
-                            } else if (targetRotation.y * (180 / Math.PI) === 270) {
-                                cartRef.current.rotation.y = MathUtils.lerp(
-                                    cartRef.current.rotation.y,
-                                    cartState === "down" ? Math.PI : Math.PI / 2,
-                                    progress
-                                );
-                            }
-                        } else {
-                            cartRef.current.rotation.z = MathUtils.lerp(0, 0, progress);
-                        }
-                        // 목표 위치로 슬라이드
-                        const direction = targetPositionXZ.clone().sub(currentPosition).normalize();
-                        cartRef.current.position.add(direction.multiplyScalar(speed));
-                    }
+                    // const currentRail = rail[currentRailIndex.current];
+                    // const currentPosition = cartRef.current.position.clone();
+                    // const targetPosition = new Vector3(...rail[currentRailIndex.current].position);
+                    // const targetPositionXZ = targetPosition
+                    //     .clone()
+                    //     .setY(rail[currentRailIndex.current]?.isIncline ? targetPosition.y + 2 : targetPosition.y + 1);
+                    // const targetRotation = new Vector3(...rail[currentRailIndex.current].rotation);
+                    // // 목표 위치에 도달했는지 확인
+                    // const distance = currentPosition.distanceTo(targetPositionXZ);
+                    // if (distance < 0.1) {
+                    //     // 다음 레일 섹션으로 이동
+                    //     currentRailIndex.current += cartState === "down" ? 1 : -1;
+                    //     if (rail[currentRailIndex.current]?.isStop) {
+                    //         setState("done");
+                    //     }
+                    // } else {
+                    //     const progress = 1 - distance / 2;
+                    //     speed = currentRail.isIncline ? 0.17 : currentRail.isCorner ? 0.13 : 0.1;
+                    //     // 내리막길
+                    //     if (rail[currentRailIndex.current]?.isIncline) {
+                    //         if (targetPositionXZ.x / 2 < cartRef.current.position.x) {
+                    //             cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, -(Math.PI / 4), progress);
+                    //         }
+                    //         if ((targetPositionXZ.x / 4) * 3 > cartRef.current.position.x) {
+                    //             cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, 0, progress);
+                    //         }
+                    //     } else if (rail[currentRailIndex.current]?.isCorner) {
+                    //         cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, 0, progress);
+                    //         if (targetRotation.y * (180 / Math.PI) === -90) {
+                    //             cartRef.current.rotation.y = MathUtils.lerp(
+                    //                 cartRef.current.rotation.y,
+                    //                 cartState === "down" ? -(Math.PI / 2) : 0,
+                    //                 progress
+                    //             );
+                    //         } else if (targetRotation.y * (180 / Math.PI) === 90) {
+                    //             cartRef.current.rotation.y = MathUtils.lerp(
+                    //                 cartRef.current.rotation.y,
+                    //                 cartState === "down" ? 0 : -(Math.PI / 2),
+                    //                 progress
+                    //             );
+                    //         } else if (targetRotation.y * (180 / Math.PI) === 180) {
+                    //             cartRef.current.rotation.y = MathUtils.lerp(
+                    //                 cartRef.current.rotation.y,
+                    //                 cartState === "down" ? Math.PI / 2 : 0,
+                    //                 progress
+                    //             );
+                    //         } else if (targetRotation.y * (180 / Math.PI) === 270) {
+                    //             cartRef.current.rotation.y = MathUtils.lerp(
+                    //                 cartRef.current.rotation.y,
+                    //                 cartState === "down" ? Math.PI : Math.PI / 2,
+                    //                 progress
+                    //             );
+                    //         }
+                    //     } else {
+                    //         cartRef.current.rotation.z = MathUtils.lerp(0, 0, progress);
+                    //     }
+                    //     // 목표 위치로 슬라이드
+                    //     const direction = targetPositionXZ.clone().sub(currentPosition).normalize();
+                    //     cartRef.current.position.add(direction.multiplyScalar(speed));
+                    // }
                 }
             }
         }
@@ -156,10 +190,11 @@ export const Rail = () => {
 
     return (
         <group position={[0, 1, 2]}>
-            <RigidBody type='dynamic' lockRotations colliders='cuboid'>
-                <group ref={cartRef} position={[0, 1, 0]}>
+            <RigidBody type='dynamic' lockRotations colliders={false} mess={1} position={[0, 1, 0]} ref={rb}>
+                <group ref={cartRef}>
                     <primitive object={minecart.nodes.Cart} />
                 </group>
+                <CuboidCollider args={[1, 0.7, 1]} position={[0, 0.7, 0]} />
             </RigidBody>
             <RigidBody type='fixed' colliders='trimesh'>
                 {(rail || []).map((data, index) => {

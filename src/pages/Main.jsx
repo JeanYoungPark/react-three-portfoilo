@@ -34,9 +34,9 @@ export const Main = () => {
                 <CameraController rb={cubeManRef} />
                 <ambientLight intensity={1.5} />
                 <directionalLight position={[-2, 4, 10]} intensity={2.5} />
-                {/* <OrbitControls /> */}
+                <OrbitControls />
                 <Suspense />
-                <Physics>
+                <Physics debug>
                     <group position={[0, 3, 0]}>
                         <Rail />
                         <CubeMan rb={cubeManRef} />
