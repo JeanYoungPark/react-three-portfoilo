@@ -35,7 +35,9 @@ export const Main = () => {
                 <ambientLight intensity={1.5} />
                 <directionalLight position={[-2, 4, 10]} intensity={2.5} />
                 <OrbitControls />
+                <OrbitControls />
                 <Suspense />
+                <Physics debug>
                 <Physics debug>
                     <group position={[0, 3, 0]}>
                         <Rail />

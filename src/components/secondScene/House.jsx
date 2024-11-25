@@ -1,5 +1,6 @@
 import { useGLTF } from "@react-three/drei";
-import React from "react";
+import { CuboidCollider, RigidBody, useRevoluteJoint } from "@react-three/rapier";
+import React, { useRef } from "react";
 
 const block = [
     [0, 0, 0],
@@ -56,19 +57,26 @@ export const House = ({ position, rotation }) => {
 
     return (
         <group position={position} rotation={rotation}>
-            <group position={[4, -1, 0]} name='door'>
-                <primitive object={door.nodes.Door_Closed} scale={[100, 100, 100]} />
-            </group>
+            <RigidBody type='dynamic' colliders={false} position={[4, -1, 0]} lockRotations>
+                <group name='door'>
+                    <group>
+                        <primitive object={door.nodes.Door_Closed} scale={[100, 100, 100]} />
+                    </group>
+                    <CuboidCollider args={[1, 2, 0.2]} position={[0, 2, 1]} />
+                </group>
+            </RigidBody>
+
             <group position={[0, 0, 0]}>
                 {block.map((data, index) => {
                     return (
-                        <mesh
-                            key={index}
-                            geometry={wood_block.nodes.Block_WoodPlanks.geometry}
-                            position={data}
-                            scale={[100, 100, 100]}
-                            material={wood_block.materials.Atlas}
-                        />
+                        <RigidBody type='fixed' colliders='cuboid' key={index}>
+                            <mesh
+                                geometry={wood_block.nodes.Block_WoodPlanks.geometry}
+                                position={data}
+                                scale={[100, 100, 100]}
+                                material={wood_block.materials.Atlas}
+                            />
+                        </RigidBody>
                     );
                 })}
             </group>
