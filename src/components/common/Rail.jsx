@@ -2,10 +2,8 @@ import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { CuboidCollider, RigidBody } from "@react-three/rapier";
 import React, { useRef } from "react";
-import { Euler, MathUtils, Quaternion, Vector3 } from "three";
+import { Euler, Quaternion, Vector3 } from "three";
 import { useCartStore } from "../../store/cartStore";
-import { useSpaceStore } from "../../store/spaceStore";
-import { lerpAngle } from "../../utils/angleUtils";
 
 const rail = [
     { position: [0, 0, 0], rotation: [0, 0, 0], isStop: true },
@@ -72,10 +70,8 @@ export const Rail = () => {
     const rb = useRef();
     const cartRef = useRef();
     const currentRailIndex = useRef(0);
-    const rotationTarget = useRef(0);
     const cartRotationTarget = useRef(0);
     const { state: cartState, setState } = useCartStore();
-    const { space } = useSpaceStore();
     let speed = 6;
 
     const { nodes: rail_corner } = useGLTF("./models/minecreft/Rail Corner.glb");
@@ -84,12 +80,11 @@ export const Rail = () => {
     const minecart = useGLTF("./models/minecreft/minecart.glb");
 
     useFrame((state, delta) => {
-        console.log(cartState);
         if (cartState !== "done") {
-            if (rb.current && currentRailIndex.current < rail.length) {
+            if (rb.current && currentRailIndex.current > -1 && currentRailIndex.current < rail.length) {
                 const position = rb.current.translation();
                 const currentRail = rail[currentRailIndex.current];
-                const nextRail = rail[currentRailIndex.current + 1];
+                const nextRail = rail[currentRailIndex.current + (cartState === "down" ? 1 : -1)];
 
                 if (!nextRail) return;
 
@@ -148,73 +143,6 @@ export const Rail = () => {
                 }
             }
         }
-
-        // if (cartState !== "done") {
-        //     if (cartRef.current && rail.length > 0) {
-        //         if (currentRailIndex.current < rail.length) {
-        // const currentRail = rail[currentRailIndex.current];
-        // const currentPosition = cartRef.current.position.clone();
-        // const targetPosition = new Vector3(...rail[currentRailIndex.current].position);
-        // const targetPositionXZ = targetPosition
-        //     .clone()
-        //     .setY(rail[currentRailIndex.current]?.isIncline ? targetPosition.y + 2 : targetPosition.y + 1);
-        // const targetRotation = new Vector3(...rail[currentRailIndex.current].rotation);
-        // // 목표 위치에 도달했는지 확인
-        // const distance = currentPosition.distanceTo(targetPositionXZ);
-        // if (distance < 0.1) {
-        //     // 다음 레일 섹션으로 이동
-        //     currentRailIndex.current += cartState === "down" ? 1 : -1;
-        //     if (rail[currentRailIndex.current]?.isStop) {
-        //         setState("done");
-        //     }
-        // } else {
-        //     const progress = 1 - distance / 2;
-        //     speed = currentRail.isIncline ? 0.17 : currentRail.isCorner ? 0.13 : 0.1;
-        //     // 내리막길
-        //     if (rail[currentRailIndex.current]?.isIncline) {
-        //         if (targetPositionXZ.x / 2 < cartRef.current.position.x) {
-        //             cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, -(Math.PI / 4), progress);
-        //         }
-        //         if ((targetPositionXZ.x / 4) * 3 > cartRef.current.position.x) {
-        //             cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, 0, progress);
-        //         }
-        //     } else if (rail[currentRailIndex.current]?.isCorner) {
-        //         cartRef.current.rotation.z = MathUtils.lerp(cartRef.current.rotation.z, 0, progress);
-        //         if (targetRotation.y * (180 / Math.PI) === -90) {
-        //             cartRef.current.rotation.y = MathUtils.lerp(
-        //                 cartRef.current.rotation.y,
-        //                 cartState === "down" ? -(Math.PI / 2) : 0,
-        //                 progress
-        //             );
-        //         } else if (targetRotation.y * (180 / Math.PI) === 90) {
-        //             cartRef.current.rotation.y = MathUtils.lerp(
-        //                 cartRef.current.rotation.y,
-        //                 cartState === "down" ? 0 : -(Math.PI / 2),
-        //                 progress
-        //             );
-        //         } else if (targetRotation.y * (180 / Math.PI) === 180) {
-        //             cartRef.current.rotation.y = MathUtils.lerp(
-        //                 cartRef.current.rotation.y,
-        //                 cartState === "down" ? Math.PI / 2 : 0,
-        //                 progress
-        //             );
-        //         } else if (targetRotation.y * (180 / Math.PI) === 270) {
-        //             cartRef.current.rotation.y = MathUtils.lerp(
-        //                 cartRef.current.rotation.y,
-        //                 cartState === "down" ? Math.PI : Math.PI / 2,
-        //                 progress
-        //             );
-        //         }
-        //     } else {
-        //         cartRef.current.rotation.z = MathUtils.lerp(0, 0, progress);
-        //     }
-        //     // 목표 위치로 슬라이드
-        //     const direction = targetPositionXZ.clone().sub(currentPosition).normalize();
-        //     cartRef.current.position.add(direction.multiplyScalar(speed));
-        // }
-        // }
-        //     }
-        // }
     });
 
     return (

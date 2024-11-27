@@ -6,12 +6,14 @@ import { useCollisionObjStore } from "../../store/collisionObjStore";
 import { useBubbleStore } from "../../store/sheepBubbleStore";
 import { useSpaceStore } from "../../store/spaceStore";
 import { useCartStore } from "../../store/cartStore";
+import { useDoorStore } from "../../store/doorStore";
 
 const WALK_SPEED = 3.5;
 const RUN_SPEED = 5.5;
 
 export const useCharacterMovement = (rb, world, group, setAnim) => {
     const { toggleChest } = useChestStore();
+    const { toggleDoor } = useDoorStore();
     const { setText } = useBubbleStore();
     const { ob: collisionOb, setOb, clearOb } = useCollisionObjStore();
     const { space, setSpace } = useSpaceStore();
@@ -58,7 +60,7 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
             setSpace(false);
         }
 
-        if (space && text) {
+        if (collisionOb && space && text) {
             setAnim("Idle");
             return;
         }
@@ -71,7 +73,7 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
         if (controls.left) movement.x = -1;
         if (controls.right) movement.x = 1;
 
-        if (controls.space && !isJumping.current && !collisionOb?.name) {
+        if (controls.space && !isJumping.current && space && !collisionOb?.name) {
             isJumping.current = true;
             vel.y = 5;
             setAnim("Jump_Loop");
@@ -107,6 +109,12 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
                 if (collisionOb?.name === "chest") {
                     setText("");
                     toggleChest();
+                    setTimeout(() => {
+                        setSpace(false);
+                    }, 500);
+                } else if (collisionOb?.name === "door") {
+                    setText("");
+                    toggleDoor();
                     setTimeout(() => {
                         setSpace(false);
                     }, 500);

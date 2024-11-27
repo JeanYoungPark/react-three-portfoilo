@@ -1,6 +1,9 @@
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, useKeyboardControls } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import { CuboidCollider, RigidBody, useRevoluteJoint } from "@react-three/rapier";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useCollisionObjStore } from "../../store/collisionObjStore";
+import { useDoorStore } from "../../store/doorStore";
 
 const block = [
     [0, 0, 0],
@@ -55,10 +58,18 @@ export const House = ({ position, rotation }) => {
     const door = useGLTF("./models/minecreft/Metal Door.glb");
     const wood_block = useGLTF("./models/minecreft/Wood Planks Block.glb");
 
+    const { door: isDoor } = useDoorStore();
+
     return (
         <group position={position} rotation={rotation}>
-            <RigidBody type='dynamic' colliders={false} position={[4, -1, 0]} lockRotations>
-                <group name='door'>
+            <RigidBody
+                type='fixed'
+                name='door'
+                colliders={false}
+                position={[isDoor ? 4 : 4, -1, isDoor ? 2 : 0]}
+                lockRotations
+                rotation={[0, isDoor ? (Math.PI / 2) * 5 : 0, 0]}>
+                <group>
                     <group>
                         <primitive object={door.nodes.Door_Closed} scale={[100, 100, 100]} />
                     </group>
