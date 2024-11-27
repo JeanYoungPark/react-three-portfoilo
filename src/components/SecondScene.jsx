@@ -10,22 +10,10 @@ export const SecondScene = ({ position }) => {
     return (
         <group position={position}>
             <Ground />
-            <group>
-                <House position={[8, 2, 10]} rotation={[0, Math.PI / 2, 0]} />
-                <Dog position={[13, 1, 12]} rotation={[0, (Math.PI / 3) * 2, 0]} />
-                <Horse position={[24, 1, 2]} rotation={[0, -(Math.PI / 7), 0]} />
-                <Pig position={[26, 1, 2]} rotation={[0, 0, 0]} />
-                {/* <CubeMan /> */}
-                {/* <Fence ref={fenceRef} />
-                <Chick fenceRef={fenceRef} />
-                <Chick fenceRef={fenceRef} />
-                <Chick fenceRef={fenceRef} />
-                <Chick fenceRef={fenceRef} />
-                <Chicken fenceRef={fenceRef} />
-                <Chicken fenceRef={fenceRef} /> */}
-            </group>
-            {/* <Rail />
-            <Cat /> */}
+            <House position={[8, 2, 10]} rotation={[0, Math.PI / 2, 0]} />
+            <Dog position={[13, 1, 12]} rotation={[0, (Math.PI / 3) * 2, 0]} />
+            <Horse position={[24, 1, 2]} rotation={[0, -(Math.PI / 7), 0]} />
+            <Pig position={[26, 1, 2]} rotation={[0, 0, 0]} />
         </group>
     );
 };
