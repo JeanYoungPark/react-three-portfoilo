@@ -102,4 +102,18 @@ canvas {
     &.on {
         opacity: 1;
     }
+
+    .enterIcon {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+
+        svg {
+            width: 15px;
+            height: 15px;
+            color: #aaa;
+            transform: rotateZ(90deg);
+        }
+    }
 }

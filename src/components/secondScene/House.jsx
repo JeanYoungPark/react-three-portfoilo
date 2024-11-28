@@ -4,6 +4,7 @@ import { CuboidCollider, RigidBody, useRevoluteJoint } from "@react-three/rapier
 import React, { useEffect, useRef, useState } from "react";
 import { useCollisionObjStore } from "../../store/collisionObjStore";
 import { useDoorStore } from "../../store/doorStore";
+import { useCartStore } from "../../store/cartStore";
 
 const block = [
     [0, 0, 0],
@@ -58,7 +59,25 @@ export const House = ({ position, rotation }) => {
     const door = useGLTF("./models/minecreft/Metal Door.glb");
     const wood_block = useGLTF("./models/minecreft/Wood Planks Block.glb");
 
-    const { door: isDoor } = useDoorStore();
+    const { ob: collisionOb } = useCollisionObjStore();
+    const { state: cartState } = useCartStore();
+    const { door: isDoor, toggleDoor } = useDoorStore();
+
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (collisionOb?.name === "door" && cartState === "done") {
+                if (e.code === "Enter") {
+                    toggleDoor();
+                }
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [collisionOb]);
 
     return (
         <group position={position} rotation={rotation}>

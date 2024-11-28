@@ -19,13 +19,6 @@ export const useCharacterAnimation = (actions, mixer) => {
             currentAction.setLoop(false);
             currentAction.clampWhenFinished = true;
             currentAction.repetitions = 1;
-
-            // const onFinish = () => {
-            //     setAnim("Jump_Loop");
-            //     mixer.removeEventListener("finished", onFinish);
-            // };
-
-            // mixer.addEventListener("finished", onFinish);
         }
 
         return () => currentAction.stop();

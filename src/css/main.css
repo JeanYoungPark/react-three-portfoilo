@@ -94,3 +94,15 @@ canvas {
 #bubble.on {
   opacity: 1;
 }
+#bubble .enterIcon {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+#bubble .enterIcon svg {
+  width: 15px;
+  height: 15px;
+  color: #aaa;
+  transform: rotateZ(90deg);
+}

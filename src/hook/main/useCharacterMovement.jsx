@@ -4,7 +4,6 @@ import { useKeyboardControls } from "@react-three/drei";
 import { useChestStore } from "../../store/chestStore";
 import { useCollisionObjStore } from "../../store/collisionObjStore";
 import { useBubbleStore } from "../../store/sheepBubbleStore";
-import { useSpaceStore } from "../../store/spaceStore";
 import { useCartStore } from "../../store/cartStore";
 import { useDoorStore } from "../../store/doorStore";
 
@@ -16,7 +15,6 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
     const { toggleDoor } = useDoorStore();
     const { setText } = useBubbleStore();
     const { ob: collisionOb, setOb, clearOb } = useCollisionObjStore();
-    const { space, setSpace } = useSpaceStore();
     const { state: cartState } = useCartStore();
     const { text } = useBubbleStore();
 
@@ -47,23 +45,17 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
 
     const handleCollisionExit = () => {
         clearOb();
-        setSpace(false);
+        setText("");
     };
 
     const handleMovement = () => {
         if (!rb.current) return;
-
-        const controls = get();
-
-        if (controls.enter) {
-            clearOb();
-            setSpace(false);
-        }
-
-        if (collisionOb && space && text) {
+        if (collisionOb && text) {
             setAnim("Idle");
             return;
         }
+
+        const controls = get();
 
         const vel = rb.current.linvel();
         const movement = { x: 0, z: 0 };
@@ -73,7 +65,7 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
         if (controls.left) movement.x = -1;
         if (controls.right) movement.x = 1;
 
-        if (controls.space && !isJumping.current && space && !collisionOb?.name) {
+        if (controls.space && !isJumping.current && !collisionOb?.name) {
             isJumping.current = true;
             vel.y = 5;
             setAnim("Jump_Loop");
@@ -99,41 +91,37 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
         group.current.rotation.y = lerpAngle(group.current.rotation.y, characterRotationTarget.current, 0.1);
     };
 
-    const handleCollisions = () => {
-        const controls = get();
+    // const handleCollisions = () => {
+    //     const controls = get();
 
-        if (controls.space) {
-            if (!space && cartState === "done") {
-                setSpace(true);
+    //     if (controls.space) {
+    //         if (!space && cartState === "done") {
+    //             setSpace(true);
 
-                if (collisionOb?.name === "chest") {
-                    setText("");
-                    toggleChest();
-                    setTimeout(() => {
-                        setSpace(false);
-                    }, 500);
-                } else if (collisionOb?.name === "door") {
-                    setText("");
-                    toggleDoor();
-                    setTimeout(() => {
-                        setSpace(false);
-                    }, 500);
-                } else if (collisionOb?.name === "sheep") {
-                    setText("hello!\r");
-                } else if (collisionOb?.name === "dog") {
-                    setText("hello!!\r");
-                } else if (collisionOb?.name === "horse") {
-                    setText("hello!!!\r");
-                } else if (collisionOb?.name === "pig") {
-                    setText("hello!!!!\r");
-                } else if (collisionOb?.name === "yeti") {
-                    setText("hello!!!!!\r");
-                } else if (collisionOb?.name === "wolf") {
-                    setText("hello!!!!!!\r");
-                }
-            }
-        }
-    };
+    //             if (collisionOb?.name === "chest") {
+    //                 toggleChest();
+    //                 setTimeout(() => {
+    //                     setSpace(false);
+    //                 }, 500);
+    //             } else if (collisionOb?.name === "door") {
+    //                 toggleDoor();
+    //                 setTimeout(() => {
+    //                     setSpace(false);
+    //                 }, 500);
+    //             } else if (collisionOb?.name === "dog") {
+    //                 setText("hello!!\r");
+    //             } else if (collisionOb?.name === "horse") {
+    //                 setText("hello!!!\r");
+    //             } else if (collisionOb?.name === "pig") {
+    //                 setText("hello!!!!\r");
+    //             } else if (collisionOb?.name === "yeti") {
+    //                 setText("hello!!!!!\r");
+    //             } else if (collisionOb?.name === "wolf") {
+    //                 setText("hello!!!!!!\r");
+    //             }
+    //         }
+    //     }
+    // };
 
-    return { isJumping, checkGroundCollision, handleMovement, handleCollisionEnter, handleCollisionExit, handleCollisions };
+    return { isJumping, checkGroundCollision, handleMovement, handleCollisionEnter, handleCollisionExit };
 };

@@ -4,6 +4,7 @@ import { Vector3 } from "three";
 import { useCollisionObjStore } from "../store/collisionObjStore";
 import { useCartStore } from "../store/cartStore";
 import { useSpaceStore } from "../store/spaceStore";
+import { useBubbleStore } from "../store/sheepBubbleStore";
 
 const SCENE_POSITIONS = [
     { camera: [20, 50, 23], lookAtOffset: [-10, -10, -23] },
@@ -24,7 +25,7 @@ const collisionLookAt = {
 export const CameraController = ({ rb }) => {
     const { ob: collisionOb, seOb, clearOb } = useCollisionObjStore();
     const { state: cartState, setState } = useCartStore();
-    const { space } = useSpaceStore();
+    const { text } = useBubbleStore();
     const springStrength = 0.03; // 스프링 강도
     const damping = 0.92; // 감쇠 계수
 
@@ -101,7 +102,7 @@ export const CameraController = ({ rb }) => {
     useEffect(() => {
         const handleScroll = (event) => {
             event.preventDefault();
-            if (cartState === "done" && !space) {
+            if (cartState === "done" && !text) {
                 const direction = event.deltaY > 0 ? 1 : -1;
                 cameraMoveByScene({ direction });
             }
@@ -112,55 +113,51 @@ export const CameraController = ({ rb }) => {
         return () => {
             window.removeEventListener("wheel", handleScroll);
         };
-    }, [cartState, space]);
+    }, [cartState, text]);
 
     useFrame((state, delta) => {
         checkIsFalling();
 
         if (cameraRef.current) {
-            if (collisionOb?.name) {
-                if (space) {
-                    if (collisionLookAt[collisionOb?.name]) {
-                        const currentPos = cameraRef.current.position.clone(); // 현재 카메라 위치
-                        const targetPos = new Vector3(...collisionLookAt[collisionOb?.name].camera); // 목표 카메라 위치
-                        const diffVec = new Vector3().subVectors(targetPos, currentPos).multiplyScalar(delta); // 이동 벡터 계산
-                        currentPos.add(diffVec); // 카메라 이동
-                        cameraRef.current.position.copy(currentPos); // 카메라 위치 갱신
+            if (text) {
+                if (collisionLookAt[collisionOb?.name]) {
+                    const currentPos = cameraRef.current.position.clone(); // 현재 카메라 위치
+                    const targetPos = new Vector3(...collisionLookAt[collisionOb?.name].camera); // 목표 카메라 위치
+                    const diffVec = new Vector3().subVectors(targetPos, currentPos).multiplyScalar(delta); // 이동 벡터 계산
+                    currentPos.add(diffVec); // 카메라 이동
+                    cameraRef.current.position.copy(currentPos); // 카메라 위치 갱신
 
-                        // 목표 바라볼 위치 계산
-                        const targetLookAtPos = new Vector3().addVectors(targetPos, new Vector3(...collisionLookAt[collisionOb?.name].lookAtOffset));
+                    // 목표 바라볼 위치 계산
+                    const targetLookAtPos = new Vector3().addVectors(targetPos, new Vector3(...collisionLookAt[collisionOb?.name].lookAtOffset));
 
-                        // 현재 LookAt 방향 계산
-                        const currentLookAt = new Vector3();
-                        cameraRef.current.getWorldDirection(currentLookAt); // 카메라의 현재 바라보는 방향 벡터
+                    // 현재 LookAt 방향 계산
+                    const currentLookAt = new Vector3();
+                    cameraRef.current.getWorldDirection(currentLookAt); // 카메라의 현재 바라보는 방향 벡터
 
-                        // LookAt 방향 점진적으로 보정
-                        const direction = targetLookAtPos.clone().sub(currentPos).normalize();
-                        const distance = currentPos.distanceTo(targetLookAtPos);
-                        const moveDistance = Math.min(delta, distance);
-                        currentLookAt.add(direction.multiplyScalar(moveDistance));
-                        cameraRef.current.lookAt(currentPos.clone().add(currentLookAt));
-                    }
+                    // LookAt 방향 점진적으로 보정
+                    const direction = targetLookAtPos.clone().sub(currentPos).normalize();
+                    const distance = currentPos.distanceTo(targetLookAtPos);
+                    const moveDistance = Math.min(delta, distance);
+                    currentLookAt.add(direction.multiplyScalar(moveDistance));
+                    cameraRef.current.lookAt(currentPos.clone().add(currentLookAt));
                 }
             } else {
-                if (!space) {
-                    const currentPos = cameraRef.current.position;
-                    ["x", "y", "z"].forEach((axis) => {
-                        const diff = targetPosition.current[axis] - currentPos[axis];
-                        velocity.current[axis] = diff * springStrength;
-                        velocity.current[axis] *= damping;
-                        currentPos[axis] += velocity.current[axis];
-                    });
-                    const targetLookAtPos = calculateLookAtPosition(currentPos, targetLookAt.current);
+                const currentPos = cameraRef.current.position;
+                ["x", "y", "z"].forEach((axis) => {
+                    const diff = targetPosition.current[axis] - currentPos[axis];
+                    velocity.current[axis] = diff * springStrength;
+                    velocity.current[axis] *= damping;
+                    currentPos[axis] += velocity.current[axis];
+                });
+                const targetLookAtPos = calculateLookAtPosition(currentPos, targetLookAt.current);
 
-                    currentLookAt.current.lerp(targetLookAtPos, 0.1);
-                    cameraRef.current.lookAt(currentLookAt.current);
+                currentLookAt.current.lerp(targetLookAtPos, 0.1);
+                cameraRef.current.lookAt(currentLookAt.current);
 
-                    if (cartState !== "done") {
-                        transitionProgress.current += delta * 0.5; // 전환 속도 조절
-                        if (transitionProgress.current >= 1) {
-                            transitionProgress.current = 1;
-                        }
+                if (cartState !== "done") {
+                    transitionProgress.current += delta * 0.5; // 전환 속도 조절
+                    if (transitionProgress.current >= 1) {
+                        transitionProgress.current = 1;
                     }
                 }
             }

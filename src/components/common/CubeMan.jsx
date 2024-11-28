@@ -1,6 +1,6 @@
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useCharacterAnimation } from "../../hook/main/useCharacterAnimation";
 import { useCharacterMovement } from "../../hook/main/useCharacterMovement";
 import { useFrame } from "@react-three/fiber";
@@ -13,17 +13,11 @@ export const CubeMan = ({ rb }) => {
     const { world } = useRapier();
 
     const { setAnim } = useCharacterAnimation(actions, mixer);
-    const { checkGroundCollision, handleMovement, handleCollisionEnter, handleCollisionExit, handleCollisions } = useCharacterMovement(
-        rb,
-        world,
-        group,
-        setAnim
-    );
+    const { checkGroundCollision, handleMovement, handleCollisionEnter, handleCollisionExit } = useCharacterMovement(rb, world, group, setAnim);
 
     useFrame(() => {
         checkGroundCollision();
         handleMovement();
-        handleCollisions();
     });
 
     return (

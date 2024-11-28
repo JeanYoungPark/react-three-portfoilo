@@ -1,14 +1,18 @@
 import { Html, useAnimations, useGLTF } from "@react-three/drei";
 import { CuboidCollider, RigidBody } from "@react-three/rapier";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAnimalAnimation } from "../../hook/main/useAnimalAnimation";
 import { useCollisionObjStore } from "../../store/collisionObjStore";
-import { useSpaceStore } from "../../store/spaceStore";
+import { useBubbleStore } from "../../store/sheepBubbleStore";
+import { useCartStore } from "../../store/cartStore";
+
+const script = [<></>, <></>];
 
 export const Horse = ({ position, rotation }) => {
     const { nodes, materials, animations } = useGLTF("./models/minecreft/Horse.glb");
     const { ob: collisionOb } = useCollisionObjStore();
-    const { space } = useSpaceStore();
+    const { text, setText } = useBubbleStore();
+    const { state: cartState } = useCartStore();
 
     const rb = useRef();
     const group = useRef();
@@ -16,11 +20,38 @@ export const Horse = ({ position, rotation }) => {
     const { actions, mixer } = useAnimations(animations, group);
     const { setAnim } = useAnimalAnimation(actions, mixer);
 
+    const [bubbleIdx, setBubbleIdx] = useState(0);
+
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (collisionOb?.name === "horse" && cartState === "done") {
+                if (e.code === "Space") {
+                    setAnim("Headbutt");
+                } else if (e.code === "Enter") {
+                    if (bubbleIdx > script.length) {
+                        setText("");
+                        setBubbleIdx(0);
+                    } else {
+                        setBubbleIdx((prev) => prev + 1);
+                    }
+
+                    setText(script[bubbleIdx]);
+                }
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [collisionOb, bubbleIdx]);
+
     return (
         <group position={position} rotation={rotation}>
             <group position={[0, 4, 0.5]}>
                 <Html center>
-                    <div className={`bubble ${space && collisionOb?.name === "horse" && "off"}`}>
+                    <div className={`bubble ${text && collisionOb?.name === "horse" && "off"}`}>
                         <b>...</b>
                     </div>
                 </Html>

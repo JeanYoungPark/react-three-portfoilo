@@ -10,8 +10,7 @@ import { Rail } from "../components/common/Rail";
 import { CubeMan } from "../components/common/CubeMan";
 import { useBubbleStore } from "../store/sheepBubbleStore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faArrowUp, faArrowDown, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { useSpaceStore } from "../store/spaceStore";
+import { faArrowLeft, faArrowUp, faArrowDown, faArrowRight, faArrowTurnDown } from "@fortawesome/free-solid-svg-icons";
 import { useCollisionObjStore } from "../store/collisionObjStore";
 
 const keyboardMap = [
@@ -27,7 +26,6 @@ const keyboardMap = [
 export const Main = () => {
     const cubeManRef = useRef();
     const { ob } = useCollisionObjStore();
-    const { space } = useSpaceStore();
     const { text } = useBubbleStore();
 
     return (
@@ -56,8 +54,11 @@ export const Main = () => {
                     <FontAwesomeIcon icon={faArrowRight} /> <span>+</span> ( Space <span>or</span> Shift )
                 </p>
             </div>
-            <div id='bubble' class={ob && text && space && "on"}>
+            <div id='bubble' class={ob && text && "on"}>
                 {text}
+                <p class='enterIcon'>
+                    <FontAwesomeIcon icon={faArrowTurnDown} />
+                </p>
             </div>
         </KeyboardControls>
     );
