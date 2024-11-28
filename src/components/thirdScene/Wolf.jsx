@@ -26,7 +26,7 @@ export const Wolf = ({ position, rotation }) => {
                 </Html>
             </group>
 
-            <RigidBody ref={rb} type='fixed' name='dog' lockRotations>
+            <RigidBody ref={rb} type='fixed' name='wolf' lockRotations>
                 <group ref={group}>
                     <primitive object={nodes.AnimalArmature} />
                     <skinnedMesh geometry={nodes.Wolf.geometry} material={materials.AtlasMaterial} skeleton={nodes.Wolf.skeleton} />

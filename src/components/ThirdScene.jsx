@@ -8,9 +8,9 @@ export const ThirdScene = ({ position }) => {
     return (
         <group position={position}>
             <Ground />
-            <Igloo position={[8, 2, 18]} />
-            <Yeti position={[4, 2, 16]} rotation={[0, Math.PI / 6, 0]} />
-            <Wolf position={[18, 2, 26]} rotation={[0, -(Math.PI / 2), 0]} />
+            <Igloo position={[8, 2, 16]} />
+            <Yeti position={[4, 1, 16]} rotation={[0, Math.PI / 6, 0]} />
+            <Wolf position={[18, 1, 25]} rotation={[0, Math.PI / 4 + 60, 0]} />
         </group>
     );
 };

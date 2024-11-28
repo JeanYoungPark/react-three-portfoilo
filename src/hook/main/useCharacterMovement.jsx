@@ -126,6 +126,10 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
                     setText("hello!!!\r");
                 } else if (collisionOb?.name === "pig") {
                     setText("hello!!!!\r");
+                } else if (collisionOb?.name === "yeti") {
+                    setText("hello!!!!!\r");
+                } else if (collisionOb?.name === "wolf") {
+                    setText("hello!!!!!!\r");
                 }
             }
         }

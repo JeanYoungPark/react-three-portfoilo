@@ -17,6 +17,8 @@ const collisionLookAt = {
     dog: { camera: new Vector3(12, -13, 40), lookAtOffset: new Vector3(-2, -2, 2) },
     horse: { camera: new Vector3(22, -12, 35), lookAtOffset: new Vector3(-2, -2, -2) },
     pig: { camera: new Vector3(24, -12, 35), lookAtOffset: new Vector3(-2, -2, -2) },
+    yeti: { camera: new Vector3(45, -30, 45), lookAtOffset: new Vector3(-2, -2, -2) },
+    wolf: { camera: new Vector3(51, -32, 45), lookAtOffset: new Vector3(2, -2, 2) },
 };
 
 export const CameraController = ({ rb }) => {

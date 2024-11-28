@@ -56,24 +56,26 @@ export const Igloo = ({ position }) => {
             <group position={[0, 0, 0]}>
                 {entrance.map((data, index) => {
                     return (
-                        <mesh
-                            key={index}
-                            geometry={ice_block.nodes.Block_Ice.geometry}
-                            position={data}
-                            scale={[100, 100, 100]}
-                            material={ice_block.materials.Atlas}
-                        />
+                        <RigidBody type='fixed' colliders='cuboid' key={index}>
+                            <mesh
+                                geometry={ice_block.nodes.Block_Ice.geometry}
+                                position={data}
+                                scale={[100, 100, 100]}
+                                material={ice_block.materials.Atlas}
+                            />
+                        </RigidBody>
                     );
                 })}
                 {generateIglooBlocks().map((data, index) => {
                     return (
-                        <mesh
-                            key={index}
-                            geometry={ice_block.nodes.Block_Ice.geometry}
-                            position={data}
-                            scale={[100, 100, 100]}
-                            material={ice_block.materials.Atlas}
-                        />
+                        <RigidBody type='fixed' colliders='cuboid' key={index}>
+                            <mesh
+                                geometry={ice_block.nodes.Block_Ice.geometry}
+                                position={data}
+                                scale={[100, 100, 100]}
+                                material={ice_block.materials.Atlas}
+                            />
+                        </RigidBody>
                     );
                 })}
             </group>

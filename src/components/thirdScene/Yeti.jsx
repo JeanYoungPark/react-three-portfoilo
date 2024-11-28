@@ -18,7 +18,7 @@ export const Yeti = ({ position, rotation }) => {
 
     return (
         <group position={position} rotation={rotation}>
-            <group position={[0, 3, 0]}>
+            <group position={[0, 4, 0]}>
                 <Html center>
                     <div className={`bubble ${space && collisionOb?.name === "yeti" && "off"}`}>
                         <b>...</b>
@@ -31,7 +31,7 @@ export const Yeti = ({ position, rotation }) => {
                     <primitive object={nodes.EnemyArmature} />
                     <skinnedMesh geometry={nodes.Yeti.geometry} material={materials.Atlas} skeleton={nodes.Yeti.skeleton} />
                 </group>
-                <CuboidCollider args={[0.7, 0.8, 1.3]} position={[0, 0.6, 0]} />
+                <CuboidCollider args={[1.5, 1.6, 1]} position={[0, 1.6, 0.5]} />
             </RigidBody>
         </group>
     );

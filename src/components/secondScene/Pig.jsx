@@ -31,7 +31,7 @@ export const Pig = ({ position, rotation }) => {
                     <primitive object={nodes.AnimalArmature} />
                     <skinnedMesh geometry={nodes.Pig.geometry} material={materials.AtlasMaterial} skeleton={nodes.Pig.skeleton} />
                 </group>
-                <CuboidCollider args={[0.7, 0.8, 1.3]} position={[0, 0.6, 0]} />
+                <CuboidCollider args={[0.7, 0.8, 1.3]} position={[0, 0.8, 0]} />
             </RigidBody>
         </group>
     );

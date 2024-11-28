@@ -32,8 +32,8 @@ const rail = [
     { position: [16, -18, 30], rotation: [0, Math.PI / 2, 0], isIncline: true },
     { position: [16, -20, 32], rotation: [0, Math.PI / 2, 0], isIncline: true },
     { position: [16, -20, 34], rotation: [0, Math.PI / 2, 0] },
-    { position: [16, -20, 36], rotation: [0, Math.PI / 2, 0], isStop: true },
-    { position: [16, -20, 38], rotation: [0, Math.PI / 2, 0] },
+    { position: [16, -20, 36], rotation: [0, Math.PI / 2, 0] },
+    { position: [16, -20, 38], rotation: [0, Math.PI / 2, 0], isStop: true },
     { position: [16, -20, 40], rotation: [0, Math.PI / 2, 0] },
     { position: [16, -20, 42], rotation: [0, Math.PI / 2, 0], isCorner: true },
     { position: [18, -20, 42], rotation: [0, 0, 0] },
@@ -72,7 +72,7 @@ export const Rail = () => {
     const currentRailIndex = useRef(0);
     const cartRotationTarget = useRef(0);
     const { state: cartState, setState } = useCartStore();
-    let speed = 6;
+    let speed = 9;
 
     const { nodes: rail_corner } = useGLTF("./models/minecreft/Rail Corner.glb");
     const { nodes: rail_incline } = useGLTF("./models/minecreft/Rail Incline.glb");
@@ -85,6 +85,7 @@ export const Rail = () => {
                 const position = rb.current.translation();
                 const currentRail = rail[currentRailIndex.current];
                 const nextRail = rail[currentRailIndex.current + (cartState === "down" ? 1 : -1)];
+                const inclinePos = currentRail?.isIncline ? 1 : 0;
 
                 if (!nextRail) return;
 
@@ -92,7 +93,7 @@ export const Rail = () => {
 
                 const realNextPosition = new Vector3(
                     currentPosition.x, // group x position
-                    currentPosition.y + 4.2, // group y position
+                    currentPosition.y + 4.2 + inclinePos, // group y position
                     currentPosition.z + 2 // group z position
                 );
 
