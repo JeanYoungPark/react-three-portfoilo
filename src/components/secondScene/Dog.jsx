@@ -3,11 +3,10 @@ import { CuboidCollider, RigidBody } from "@react-three/rapier";
 import React, { useEffect, useRef, useState } from "react";
 import { useAnimalAnimation } from "../../hook/main/useAnimalAnimation";
 import { useCollisionObjStore } from "../../store/collisionObjStore";
-import { useSpaceStore } from "../../store/spaceStore";
 import { useBubbleStore } from "../../store/sheepBubbleStore";
 import { useCartStore } from "../../store/cartStore";
 
-const script = [<></>, <></>];
+const script = [<p>Enter the door next to you 😁</p>, <p>There's nothing~!</p>];
 
 export const Dog = ({ position, rotation }) => {
     const { nodes, materials, animations } = useGLTF("./models/minecreft/Dog.glb");

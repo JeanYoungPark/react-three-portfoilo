@@ -6,7 +6,7 @@ import { useCollisionObjStore } from "../../store/collisionObjStore";
 import { useBubbleStore } from "../../store/sheepBubbleStore";
 import { useCartStore } from "../../store/cartStore";
 
-const script = [<>Yaaaargh!</>, <>ah? Who are you? You didn't visited here!</>];
+const script = [<>Grrrrr..</>];
 
 export const Wolf = ({ position, rotation }) => {
     const { nodes, materials, animations } = useGLTF("./models/minecreft/Wolf.glb");

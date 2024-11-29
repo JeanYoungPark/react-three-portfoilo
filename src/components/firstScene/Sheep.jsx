@@ -7,10 +7,11 @@ import { useBubbleStore } from "../../store/sheepBubbleStore";
 import { useCartStore } from "../../store/cartStore";
 
 const script = [
-    <>
-        Hello!😚 Welcome to <b>Jean Young's</b> portfolio web site!
-    </>,
-    <>Please enjoy this project</>,
+    <p>
+        Hello! 😚 Welcome to <b>Jean Young's</b> Three.js project.
+    </p>,
+    <p>You can express your emotions using the 'Q', 'W', 'E', and 'R' keys.</p>,
+    <p>Please enjoy this project! =)</p>,
 ];
 
 export const Sheep = ({ position, rotation }) => {

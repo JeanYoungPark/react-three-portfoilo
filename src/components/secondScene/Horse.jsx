@@ -6,7 +6,7 @@ import { useCollisionObjStore } from "../../store/collisionObjStore";
 import { useBubbleStore } from "../../store/sheepBubbleStore";
 import { useCartStore } from "../../store/cartStore";
 
-const script = [<></>, <></>];
+const script = [<p>Have you tried pressing the 'Q', 'W', 'E', and 'R' keys?</p>];
 
 export const Horse = ({ position, rotation }) => {
     const { nodes, materials, animations } = useGLTF("./models/minecreft/Horse.glb");

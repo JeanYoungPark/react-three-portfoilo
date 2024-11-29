@@ -14,10 +14,10 @@ import { faArrowLeft, faArrowUp, faArrowDown, faArrowRight, faArrowTurnDown } fr
 import { useCollisionObjStore } from "../store/collisionObjStore";
 
 const keyboardMap = [
-    { name: "forward", keys: ["ArrowUp", "KeyW"] },
-    { name: "backward", keys: ["ArrowDown", "KeyS"] },
-    { name: "left", keys: ["ArrowLeft", "KeyA"] },
-    { name: "right", keys: ["ArrowRight", "KeyD"] },
+    { name: "forward", keys: ["ArrowUp"] },
+    { name: "backward", keys: ["ArrowDown"] },
+    { name: "left", keys: ["ArrowLeft"] },
+    { name: "right", keys: ["ArrowRight"] },
     { name: "run", keys: ["Shift"] },
     { name: "space", keys: ["Space"] },
     { name: "enter", keys: ["Enter"] },
