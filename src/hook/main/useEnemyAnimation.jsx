@@ -18,10 +18,27 @@ export const useEnemyAnimation = (actions, mixer) => {
 
         // Jump_Start 애니메이션 처리
         if (anim !== "Idle") {
+            if (anim === "Death" || anim === "HitRecieve") {
+                currentAction.repetitions = 1;
+            } else {
+                currentAction.repetitions = 2;
+            }
+
             currentAction.setLoop(false);
             currentAction.clampWhenFinished = true;
-            currentAction.repetitions = 2;
         }
+
+        const onFinish = () => {
+            if (anim !== "Death") {
+                setAnim("Idle");
+                mixer.removeEventListener("finished", onFinish);
+            }
+        };
+
+        mixer.addEventListener("finished", onFinish);
+        // if (anim !== "Death") {
+
+        // }
 
         return () => currentAction.stop();
     }, [actions, anim, mixer]);

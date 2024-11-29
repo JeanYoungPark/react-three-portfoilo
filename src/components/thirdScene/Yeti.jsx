@@ -8,12 +8,13 @@ import { useCartStore } from "../../store/cartStore";
 
 const script = [<>Yaaaargh!</>, <>ah? Who are you? You didn't visited here!</>];
 
-export const Yeti = ({ position, rotation }) => {
+export const Yeti = ({ position, rotation, rb: cubeMenRef }) => {
     const { nodes, materials, animations } = useGLTF("./models/minecreft/Yeti.glb");
     const { ob: collisionOb } = useCollisionObjStore();
     const { text, setText } = useBubbleStore();
     const { state: cartState } = useCartStore();
 
+    const [hitCnt, setHitCnt] = useState(0);
     const [bubbleIdx, setBubbleIdx] = useState(0);
 
     const rb = useRef();
@@ -32,13 +33,21 @@ export const Yeti = ({ position, rotation }) => {
                     } else {
                         if (bubbleIdx === 0) {
                             setAnim("Attack");
-                        } else if (bubbleIdx === 1) {
-                            setAnim("HitRecieve");
                         }
                         setBubbleIdx((prev) => prev + 1);
                     }
 
                     setText(script[bubbleIdx]);
+                }
+
+                if (e.key === "e") {
+                    console.log(hitCnt);
+                    if (hitCnt + 1 === 3) {
+                        setAnim("Death");
+                    } else {
+                        setHitCnt((prev) => prev + 1);
+                        setAnim("HitRecieve");
+                    }
                 }
             }
         };

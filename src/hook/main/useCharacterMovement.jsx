@@ -89,16 +89,14 @@ export const useCharacterMovement = (rb, world, group, animations) => {
     };
 
     const handleKeyDown = (e) => {
-        if (cartState === "done") {
-            if (e.key === "q") {
-                setAnim("No");
-            } else if (e.key === "w") {
-                setAnim("Yes");
-            } else if (e.key === "e") {
-                setAnim("Punch");
-            } else if (e.key === "r") {
-                setAnim("Wave");
-            }
+        if (e.key === "q") {
+            setAnim("No");
+        } else if (e.key === "w") {
+            setAnim("Yes");
+        } else if (e.key === "e") {
+            setAnim("Punch");
+        } else if (e.key === "r") {
+            setAnim("Wave");
         }
     };
 

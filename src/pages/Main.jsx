@@ -41,7 +41,7 @@ export const Main = () => {
                         <group position={[0, 3, 0]}>
                             <Rail />
                             <CubeMan rb={cubeManRef} />
-                            <Experience />
+                            <Experience rb={cubeManRef} />
                         </group>
                     </Physics>
                     <Particles count={800} />

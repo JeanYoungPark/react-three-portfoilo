@@ -3,7 +3,6 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { Vector3 } from "three";
 import { useCollisionObjStore } from "../store/collisionObjStore";
 import { useCartStore } from "../store/cartStore";
-import { useSpaceStore } from "../store/spaceStore";
 import { useBubbleStore } from "../store/sheepBubbleStore";
 
 const SCENE_POSITIONS = [
@@ -23,7 +22,7 @@ const collisionLookAt = {
 };
 
 export const CameraController = ({ rb }) => {
-    const { ob: collisionOb, seOb, clearOb } = useCollisionObjStore();
+    const { ob: collisionOb } = useCollisionObjStore();
     const { state: cartState, setState } = useCartStore();
     const { text } = useBubbleStore();
     const springStrength = 0.03; // 스프링 강도
