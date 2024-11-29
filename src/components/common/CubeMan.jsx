@@ -15,7 +15,7 @@ export const CubeMan = ({ rb }) => {
         group,
         animations
     );
-    console.log(animations);
+
     useEffect(() => {
         window.addEventListener("keydown", handleKeyDown);
         window.addEventListener("keyup", handleKeyUp);
