@@ -21,7 +21,7 @@ export const Wolf = ({ position, rotation }) => {
 
     const { actions, mixer } = useAnimations(animations, group);
     const { setAnim } = useAnimalAnimation(actions, mixer);
-    console.log(animations);
+
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (collisionOb?.name === "wolf" && cartState === "done") {

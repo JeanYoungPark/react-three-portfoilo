@@ -85,7 +85,7 @@ export const House = ({ position, rotation }) => {
                 type='fixed'
                 name='door'
                 colliders={false}
-                position={[isDoor ? 4 : 4, -1, isDoor ? 2 : 0]}
+                position={[4, -1, isDoor ? 2 : 0]}
                 lockRotations
                 rotation={[0, isDoor ? (Math.PI / 2) * 5 : 0, 0]}>
                 <group>

@@ -29,22 +29,24 @@ export const Main = () => {
     const { text } = useBubbleStore();
 
     return (
-        <KeyboardControls map={keyboardMap}>
-            <Canvas shadows>
-                <CameraController rb={cubeManRef} />
-                <ambientLight intensity={1.5} />
-                <directionalLight position={[-2, 4, 10]} intensity={2.5} />
-                {/* <OrbitControls /> */}
-                <Suspense />
-                <Physics>
-                    <group position={[0, 3, 0]}>
-                        <Rail />
-                        <CubeMan rb={cubeManRef} />
-                        <Experience />
-                    </group>
-                </Physics>
-                <Particles count={800} />
-            </Canvas>
+        <>
+            <KeyboardControls map={keyboardMap}>
+                <Canvas shadows>
+                    <CameraController rb={cubeManRef} />
+                    <ambientLight intensity={1.5} />
+                    <directionalLight position={[-2, 4, 10]} intensity={2.5} />
+                    {/* <OrbitControls /> */}
+                    <Suspense />
+                    <Physics>
+                        <group position={[0, 3, 0]}>
+                            <Rail />
+                            <CubeMan rb={cubeManRef} />
+                            <Experience />
+                        </group>
+                    </Physics>
+                    <Particles count={800} />
+                </Canvas>
+            </KeyboardControls>
             <div id='guide'>
                 <p className='text'>You can Play with</p>
                 <p className='keys'>
@@ -60,6 +62,7 @@ export const Main = () => {
                     <FontAwesomeIcon icon={faArrowTurnDown} />
                 </p>
             </div>
-        </KeyboardControls>
+            <div className='overlay' />
+        </>
     );
 };

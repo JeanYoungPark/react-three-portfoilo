@@ -72,7 +72,7 @@ export const Rail = () => {
     const currentRailIndex = useRef(0);
     const cartRotationTarget = useRef(0);
     const { state: cartState, setState } = useCartStore();
-    let speed = 9;
+    let speed = 12;
 
     const { nodes: rail_corner } = useGLTF("./models/minecreft/Rail Corner.glb");
     const { nodes: rail_incline } = useGLTF("./models/minecreft/Rail Incline.glb");

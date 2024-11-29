@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { Main } from "./pages/Main";
@@ -6,6 +6,7 @@ import { About } from "./pages/About";
 import { Projects } from "./pages/Projects";
 import { Contact } from "./pages/Contact";
 import "./css/common.min.css";
+import { Loading } from "./components/common/Loading";
 
 function App() {
     /**
@@ -16,15 +17,12 @@ function App() {
      */
     const router = createBrowserRouter([
         {
-            element: <Layout />,
+            element: (
+                <Suspense fallback={<Loading />}>
+                    <Layout />
+                </Suspense>
+            ),
             errorElement: <div>잘못된 접근입니다.</div>,
-            // loader: async () => {
-            //     return new Promise((res) => {
-            //         setTimeout(() => {
-            //             return res("finish");
-            //         }, 3000);
-            //     });
-            // },
             children: [
                 { path: "/", element: <Main /> },
                 { path: "/about", element: <About /> },

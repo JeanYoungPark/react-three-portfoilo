@@ -1,7 +1,6 @@
-import { useAnimations, useGLTF } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
 import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier";
 import React, { useEffect, useRef } from "react";
-import { useCharacterAnimation } from "../../hook/main/useCharacterAnimation";
 import { useCharacterMovement } from "../../hook/main/useCharacterMovement";
 import { useFrame } from "@react-three/fiber";
 
@@ -9,11 +8,23 @@ export const CubeMan = ({ rb }) => {
     const { nodes, materials, animations } = useGLTF("./models/minecreft/Cube Guy Character.glb");
 
     const group = useRef();
-    const { actions, mixer } = useAnimations(animations, group);
     const { world } = useRapier();
+    const { checkGroundCollision, handleMovement, handleCollisionEnter, handleCollisionExit, handleKeyDown, handleKeyUp } = useCharacterMovement(
+        rb,
+        world,
+        group,
+        animations
+    );
+    console.log(animations);
+    useEffect(() => {
+        window.addEventListener("keydown", handleKeyDown);
+        window.addEventListener("keyup", handleKeyUp);
 
-    const { setAnim } = useCharacterAnimation(actions, mixer);
-    const { checkGroundCollision, handleMovement, handleCollisionEnter, handleCollisionExit } = useCharacterMovement(rb, world, group, setAnim);
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+            window.removeEventListener("keyup", handleKeyUp);
+        };
+    }, [handleKeyDown, handleKeyUp]);
 
     useFrame(() => {
         checkGroundCollision();

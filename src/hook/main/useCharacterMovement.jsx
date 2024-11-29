@@ -1,22 +1,22 @@
 import { useRef } from "react";
 import { lerpAngle } from "../../utils/angleUtils";
-import { useKeyboardControls } from "@react-three/drei";
-import { useChestStore } from "../../store/chestStore";
+import { useAnimations, useKeyboardControls } from "@react-three/drei";
 import { useCollisionObjStore } from "../../store/collisionObjStore";
 import { useBubbleStore } from "../../store/sheepBubbleStore";
 import { useCartStore } from "../../store/cartStore";
-import { useDoorStore } from "../../store/doorStore";
+import { useCharacterAnimation } from "./useCharacterAnimation";
 
 const WALK_SPEED = 3.5;
 const RUN_SPEED = 5.5;
 
-export const useCharacterMovement = (rb, world, group, setAnim) => {
-    const { toggleChest } = useChestStore();
-    const { toggleDoor } = useDoorStore();
+export const useCharacterMovement = (rb, world, group, animations) => {
+    const { actions, mixer } = useAnimations(animations, group);
+    const { anim, setAnim } = useCharacterAnimation(actions, mixer);
+
     const { setText } = useBubbleStore();
     const { ob: collisionOb, setOb, clearOb } = useCollisionObjStore();
-    const { state: cartState } = useCartStore();
     const { text } = useBubbleStore();
+    const { state: cartState } = useCartStore();
 
     const isJumping = useRef(false);
     const rotationTarget = useRef(0);
@@ -71,57 +71,42 @@ export const useCharacterMovement = (rb, world, group, setAnim) => {
             setAnim("Jump_Loop");
         }
 
-        if (!isJumping.current) {
-            const speed = controls.run ? RUN_SPEED : WALK_SPEED;
+        const speed = controls.run ? RUN_SPEED : WALK_SPEED;
 
-            if (movement.x !== 0 || movement.z !== 0) {
-                characterRotationTarget.current = Math.atan2(movement.x, movement.z);
-                vel.x = Math.sin(rotationTarget.current + characterRotationTarget.current) * speed;
-                vel.z = Math.cos(rotationTarget.current + characterRotationTarget.current) * speed;
+        if (movement.x !== 0 || movement.z !== 0) {
+            characterRotationTarget.current = Math.atan2(movement.x, movement.z);
+            vel.x = Math.sin(rotationTarget.current + characterRotationTarget.current) * speed;
+            vel.z = Math.cos(rotationTarget.current + characterRotationTarget.current) * speed;
 
-                setAnim(speed === RUN_SPEED ? "Run" : "Walk");
-            } else {
-                vel.x = 0;
-                vel.z = 0;
-                setAnim("Idle");
-            }
+            setAnim(speed === RUN_SPEED ? "Run" : "Walk");
+        } else {
+            vel.x = 0;
+            vel.z = 0;
         }
 
         rb.current.setLinvel(vel, true);
         group.current.rotation.y = lerpAngle(group.current.rotation.y, characterRotationTarget.current, 0.1);
     };
 
-    // const handleCollisions = () => {
-    //     const controls = get();
+    const handleKeyDown = (e) => {
+        if (cartState === "done") {
+            if (e.key === "q") {
+                setAnim("No");
+            } else if (e.key === "w") {
+                setAnim("Yes");
+            } else if (e.key === "e") {
+                setAnim("Punch");
+            } else if (e.key === "r") {
+                setAnim("Wave");
+            }
+        }
+    };
 
-    //     if (controls.space) {
-    //         if (!space && cartState === "done") {
-    //             setSpace(true);
+    const handleKeyUp = (e) => {
+        if (anim === "Walk" || anim === "Run") {
+            setAnim("Idle");
+        }
+    };
 
-    //             if (collisionOb?.name === "chest") {
-    //                 toggleChest();
-    //                 setTimeout(() => {
-    //                     setSpace(false);
-    //                 }, 500);
-    //             } else if (collisionOb?.name === "door") {
-    //                 toggleDoor();
-    //                 setTimeout(() => {
-    //                     setSpace(false);
-    //                 }, 500);
-    //             } else if (collisionOb?.name === "dog") {
-    //                 setText("hello!!\r");
-    //             } else if (collisionOb?.name === "horse") {
-    //                 setText("hello!!!\r");
-    //             } else if (collisionOb?.name === "pig") {
-    //                 setText("hello!!!!\r");
-    //             } else if (collisionOb?.name === "yeti") {
-    //                 setText("hello!!!!!\r");
-    //             } else if (collisionOb?.name === "wolf") {
-    //                 setText("hello!!!!!!\r");
-    //             }
-    //         }
-    //     }
-    // };
-
-    return { isJumping, checkGroundCollision, handleMovement, handleCollisionEnter, handleCollisionExit };
+    return { isJumping, checkGroundCollision, handleMovement, handleCollisionEnter, handleCollisionExit, handleKeyDown, handleKeyUp };
 };

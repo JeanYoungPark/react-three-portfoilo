@@ -14,12 +14,18 @@ export const useCharacterAnimation = (actions, mixer) => {
 
         currentAction.fadeIn(0.2).play();
 
-        // Jump_Start 애니메이션 처리
-        if (anim === "Jump_Loop") {
+        if (anim !== "Idle" && anim !== "Walk" && anim !== "Run") {
             currentAction.setLoop(false);
             currentAction.clampWhenFinished = true;
             currentAction.repetitions = 1;
         }
+
+        const onFinish = () => {
+            setAnim("Idle");
+            mixer.removeEventListener("finished", onFinish);
+        };
+
+        mixer.addEventListener("finished", onFinish);
 
         return () => currentAction.stop();
     }, [actions, anim, mixer]);

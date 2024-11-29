@@ -1,3 +1,4 @@
+@charset "UTF-8";
 canvas {
   width: 100vw;
   height: 100vh;
@@ -105,4 +106,29 @@ canvas {
   height: 15px;
   color: #aaa;
   transform: rotateZ(90deg);
+}
+
+/* 화면 전환 애니메이션을 위한 기본 스타일 */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index: 998;
+  opacity: 0;
+}
+.overlay.exit {
+  animation: sceneExit 2s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+/* 장면 전환 애니메이션 키프레임 */
+@keyframes sceneExit {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
