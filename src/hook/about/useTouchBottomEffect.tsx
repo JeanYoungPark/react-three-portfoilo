@@ -6,7 +6,6 @@ export const useTouchBottomEffect = (): { skillClass: string } => {
     useEffect(() => {
         const handleScroll = () => {
             if (document.body.offsetHeight - window.scrollY - window.innerHeight === 0) {
-                console.log(1);
                 setSkillClass("active");
             } else {
                 setSkillClass("");

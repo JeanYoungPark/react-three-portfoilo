@@ -1,0 +1,145 @@
+canvas {
+    width: 100vw;
+    height: 100vh;
+}
+
+.bubble {
+    position: relative;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    font-family: "Arial, sans-serif";
+    font-size: 14px;
+    color: #333;
+    transition: all 0.5s ease;
+
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 8px solid #ffffff;
+    }
+
+    &.off {
+        opacity: 0;
+    }
+}
+
+#guide {
+    position: absolute;
+    top: 30px;
+    left: 50px;
+    opacity: 0;
+    animation: fadeIn 2s ease-in-out forwards;
+    animation-delay: 1s;
+
+    p {
+        color: #ffffff;
+
+        &.text {
+            font-size: 40px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        &.keys {
+            display: flex;
+            align-items: center;
+            background-color: rgb(256, 256, 256, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            font-size: 20px;
+
+            span {
+                font-size: 15px;
+                padding: 0 10px;
+            }
+
+            svg {
+                width: 30px;
+                height: 30px;
+                margin-right: 5px;
+            }
+        }
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+#bubble {
+    box-sizing: border-box;
+    position: absolute;
+    left: 50%;
+    bottom: 50px;
+    transform: translateX(-50%);
+    width: 90vw;
+    max-width: 1720px;
+    padding: 20px 20px;
+    border-radius: 20px;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    font-family: "Arial, sans-serif";
+    font-size: 20px;
+    text-align: center;
+    color: #333;
+    opacity: 0;
+    transition: all 0.5s ease;
+
+    &.on {
+        opacity: 1;
+    }
+
+    .enterIcon {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+
+        svg {
+            width: 15px;
+            height: 15px;
+            color: #aaa;
+            transform: rotateZ(90deg);
+        }
+    }
+}
+
+/* 화면 전환 애니메이션을 위한 기본 스타일 */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 998;
+    opacity: 0;
+
+    &.exit {
+        animation: sceneExit 2s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+    }
+}
+
+/* 장면 전환 애니메이션 키프레임 */
+@keyframes sceneExit {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

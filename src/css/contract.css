@@ -25,9 +25,9 @@ svg {
   height: 100px;
   background: rgba(34, 40, 49, 0.1);
   transform: translateZ(80px);
-  border: 1px solid rgba(241, 240, 232, 0.5);
-  border-top: 1px solid rgba(241, 240, 232, 0.75);
-  border-left: 1px solid rgba(241, 240, 232, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-top: 1px solid rgba(255, 255, 255, 0.75);
+  border-left: 1px solid rgba(255, 255, 255, 0.75);
   box-shadow: 0 25px 45px rgba(34, 40, 49, 0.05);
   border-radius: 10px;
 }
@@ -35,7 +35,6 @@ svg {
   content: "";
   position: absolute;
   inset: 0;
-  background: url();
   background-size: 60px;
   background-repeat: no-repeat;
 }
@@ -53,9 +52,9 @@ svg {
   width: calc(100% - 20px);
   border-radius: 8px;
   border-radius: 8px;
-  border: 1px solid rgba(241, 240, 232, 0.5);
-  border-top: 1px solid rgba(241, 240, 232, 0.75);
-  border-left: 1px solid rgba(241, 240, 232, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-top: 1px solid rgba(255, 255, 255, 0.75);
+  border-left: 1px solid rgba(255, 255, 255, 0.75);
   box-shadow: 0 25px 45px rgba(34, 40, 49, 0.05);
 }
 .contact-container .card .elements.name {
@@ -71,7 +70,7 @@ svg {
           backdrop-filter: blur(0);
   border: none;
   box-shadow: none;
-  color: #f1f0e8;
+  color: #fff;
 }
 .contact-container .card .elements.content {
   top: initial;
@@ -85,7 +84,7 @@ svg {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #f1f0e8;
+  color: #fff;
 }
 .contact-container .card .elements.content p {
   position: relative;
@@ -93,14 +92,14 @@ svg {
 }
 .contact-container .card .backCard {
   position: relative;
-  background: rgba(241, 240, 232, 0.5);
+  background: rgba(255, 255, 255, 0.5);
   width: 300px;
   min-height: 400px;
   -webkit-backdrop-filter: blur(10px);
           backdrop-filter: blur(10px);
-  border: 1px solid rgba(241, 240, 232, 0.5);
-  border-top: 1px solid rgba(241, 240, 232, 0.75);
-  border-left: 1px solid rgba(241, 240, 232, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-top: 1px solid rgba(255, 255, 255, 0.75);
+  border-left: 1px solid rgba(255, 255, 255, 0.75);
   border-radius: 20px;
   box-shadow: 0 25px 45px rgba(34, 40, 49, 0.5);
   transform-style: preserve-3d;
@@ -122,7 +121,7 @@ svg {
   text-align: right;
   font-size: 1.75em;
   margin-bottom: 20px;
-  color: #adc4ce;
+  color: #2d3142;
 }
 .contact-container .contact .elements .elem {
   width: 100%;
@@ -155,11 +154,11 @@ svg {
 }
 .contact-container .contact .elements button {
   padding: 15px 40px;
-  background: #adc4ce;
+  background: #2d3142;
   border: none;
   border-radius: 10px;
   font-size: 1em;
-  color: #f1f0e8;
+  color: #fff;
   font-weight: 600;
   margin-top: 10px;
 }
