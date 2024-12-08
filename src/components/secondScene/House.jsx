@@ -3,6 +3,7 @@ import { CuboidCollider, RigidBody } from "@react-three/rapier";
 import { useCollisionObjStore } from "../../store/collisionObjStore";
 import { useDoorStore } from "../../store/doorStore";
 import { useCartStore } from "../../store/cartStore";
+import { useEffect } from "react";
 
 const block = [
     [0, 0, 0],
@@ -26,8 +27,8 @@ const block = [
     [0, 2, -6],
     [0, 4, -2],
     [0, 4, -4],
-    [0, 4, -6],
     [2, 0, -6],
+    [0, 4, -6],
     [4, 0, -6],
     [6, 0, -6],
     [8, 0, -6],
@@ -75,7 +76,7 @@ export const House = ({ position, rotation }) => {
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [collisionOb]);
+    }, [cartState, collisionOb, toggleDoor]);
 
     return (
         <group position={position} rotation={rotation}>
