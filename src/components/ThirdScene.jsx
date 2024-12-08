@@ -1,4 +1,3 @@
-import React from "react";
 import { Ground } from "./thirdScene/Ground";
 import { Igloo } from "./thirdScene/Igloo";
 import { Yeti } from "./thirdScene/Yeti";

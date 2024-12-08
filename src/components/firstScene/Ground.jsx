@@ -1,6 +1,5 @@
 import { useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
-import React from "react";
 
 const ground = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],

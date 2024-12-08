@@ -1,7 +1,5 @@
-import React, { useRef } from "react";
 import { Ground } from "./secondScene/Ground";
 import { House } from "./secondScene/House";
-import { CubeMan } from "./common/CubeMan";
 import { Dog } from "./secondScene/Dog";
 import { Horse } from "./secondScene/Horse";
 import { Pig } from "./secondScene/Pig";

@@ -1,6 +1,6 @@
 import { Html, useAnimations, useGLTF } from "@react-three/drei";
 import { CuboidCollider, RigidBody } from "@react-three/rapier";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCollisionObjStore } from "../../store/collisionObjStore";
 import { useEnemyAnimation } from "../../hook/main/useEnemyAnimation";
 import { useBubbleStore } from "../../store/sheepBubbleStore";
@@ -57,7 +57,7 @@ export const Yeti = ({ position, rotation, rb: cubeMenRef }) => {
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [collisionOb, bubbleIdx]);
+    }, [collisionOb, bubbleIdx, cartState, setText, setAnim, hitCnt]);
 
     return (
         <group position={position} rotation={rotation}>

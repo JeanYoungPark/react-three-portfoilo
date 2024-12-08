@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { MathUtils } from "three";
 import { Box3, Vector3 } from "three";
 

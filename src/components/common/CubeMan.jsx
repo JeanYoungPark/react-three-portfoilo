@@ -1,6 +1,6 @@
 import { useGLTF } from "@react-three/drei";
 import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useCharacterMovement } from "../../hook/main/useCharacterMovement";
 import { useFrame } from "@react-three/fiber";
 

@@ -1,6 +1,6 @@
 import { Html, useAnimations, useGLTF } from "@react-three/drei";
 import { CuboidCollider, RigidBody } from "@react-three/rapier";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAnimalAnimation } from "../../hook/main/useAnimalAnimation";
 import { useCollisionObjStore } from "../../store/collisionObjStore";
 import { useBubbleStore } from "../../store/sheepBubbleStore";
@@ -45,7 +45,7 @@ export const Dog = ({ position, rotation }) => {
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [collisionOb, bubbleIdx]);
+    }, [collisionOb, bubbleIdx, cartState, setAnim, setText]);
 
     return (
         <group position={position} rotation={rotation}>

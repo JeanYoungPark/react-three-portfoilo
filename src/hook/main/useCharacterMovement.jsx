@@ -3,7 +3,6 @@ import { lerpAngle } from "../../utils/angleUtils";
 import { useAnimations, useKeyboardControls } from "@react-three/drei";
 import { useCollisionObjStore } from "../../store/collisionObjStore";
 import { useBubbleStore } from "../../store/sheepBubbleStore";
-import { useCartStore } from "../../store/cartStore";
 import { useCharacterAnimation } from "./useCharacterAnimation";
 
 const WALK_SPEED = 3.5;
@@ -16,7 +15,6 @@ export const useCharacterMovement = (rb, world, group, animations) => {
     const { setText } = useBubbleStore();
     const { ob: collisionOb, setOb, clearOb } = useCollisionObjStore();
     const { text } = useBubbleStore();
-    const { state: cartState } = useCartStore();
 
     const isJumping = useRef(false);
     const rotationTarget = useRef(0);

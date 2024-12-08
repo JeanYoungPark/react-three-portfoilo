@@ -1,7 +1,7 @@
 import { useAnimations, useGLTF, useKeyboardControls } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useAnimalAnimation } from "../../hook/main/useAnimalAnimation";
 import { useAnimalMovement } from "../../hook/main/useAnimalMovement";
 

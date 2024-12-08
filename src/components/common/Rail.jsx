@@ -1,7 +1,7 @@
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { CuboidCollider, RigidBody } from "@react-three/rapier";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { Euler, Quaternion, Vector3 } from "three";
 import { useCartStore } from "../../store/cartStore";
 

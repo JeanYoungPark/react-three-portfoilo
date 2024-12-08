@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Vector3 } from "three";
 import { useCollisionObjStore } from "../store/collisionObjStore";
@@ -112,7 +112,7 @@ export const CameraController = ({ rb }) => {
         return () => {
             window.removeEventListener("wheel", handleScroll);
         };
-    }, [cartState, text]);
+    }, [cartState, cameraMoveByScene, text]);
 
     useFrame((state, delta) => {
         checkIsFalling();

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export const useTypingEffect = ({ texts, delay = 4000 }: { texts: string[]; delay: number }): { currentText: string } => {
     const [currentText, setCurrentText] = useState(texts[0]);

@@ -1,7 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import { Physics } from "@react-three/rapier";
-import React, { Suspense, useRef } from "react";
-import { KeyboardControls, OrbitControls } from "@react-three/drei";
+import { Suspense, useRef } from "react";
+import { KeyboardControls } from "@react-three/drei";
 import "../css/main.min.css";
 import { Particles } from "../components/Particles";
 import { Experience } from "../components/Experience";

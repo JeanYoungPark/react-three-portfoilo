@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as SkeletonUtils from "three/examples/jsm/utils/SkeletonUtils.js";
 import { useFence } from "./useFence";
 import { useGLTF } from "@react-three/drei";
@@ -39,7 +39,7 @@ export const useAnimFrame = ({ url, fenceRef, group }) => {
             }
             mixerRef.current = mixer;
         }
-    }, [clone, animation]);
+    }, [clone, animation, animal.animations]);
 
     useEffect(() => {
         return () => {

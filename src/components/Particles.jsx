@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { Canvas, useFrame, extend } from "@react-three/fiber";
+import { useRef } from "react";
+import { useFrame, extend } from "@react-three/fiber";
 import * as THREE from "three";
 
 // Three.js에서 필요한 객체들을 react-three-fiber에 확장

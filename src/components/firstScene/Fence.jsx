@@ -1,6 +1,6 @@
 import { useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
-import React, { forwardRef, useMemo } from "react";
+import { forwardRef, useMemo } from "react";
 
 const fenceData = [
     { position: [0, 0, 0], rotation: [0, Math.PI / 2, 0], isCorner: true },

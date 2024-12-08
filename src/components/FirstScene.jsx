@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { Ground } from "./firstScene/Ground";
 import { Fence } from "./firstScene/Fence";
 import { Chick } from "./firstScene/Chick";

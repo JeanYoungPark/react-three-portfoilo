@@ -1,4 +1,3 @@
-import React from "react";
 import { FirstScene } from "./FirstScene";
 import { SecondScene } from "./SecondScene";
 import { ThirdScene } from "./ThirdScene";

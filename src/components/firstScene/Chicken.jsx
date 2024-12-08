@@ -1,6 +1,5 @@
+import { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
-import { RigidBody } from "@react-three/rapier";
-import React, { useRef } from "react";
 
 import { useAnimFrame } from "../../hook/main/useAnimFrame";
 

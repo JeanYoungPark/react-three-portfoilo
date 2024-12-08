@@ -1,5 +1,5 @@
 import { useGLTF } from "@react-three/drei";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useAnimFrame } from "../../hook/main/useAnimFrame";
 
 export const Chick = ({ fenceRef, position }) => {

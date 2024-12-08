@@ -28,7 +28,7 @@ export const Chest = ({ position, rotation }) => {
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [collisionOb]);
+    }, [cartState, toggleChest, collisionOb]);
 
     return (
         <RigidBody type='fixed' lockRotations colliders='cuboid' name='chest' position={position} rotation={rotation}>
