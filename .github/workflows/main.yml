@@ -31,7 +31,7 @@ jobs:
         run: npm install --force
 
       - name: Build
-        run: npm build
+        run: npm run build
 
       # aws에 접근하기 위한 권한을 받아옵니다.
       - name: Configure AWS credentials
