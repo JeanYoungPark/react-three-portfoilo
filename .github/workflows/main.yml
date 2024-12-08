@@ -9,23 +9,23 @@ on:
 # 위 이벤트가 트리거되면 실행할 목록
 jobs:
   build:
-    name: react build & deploy
     # runner가 실행될 환경 지정
     runs-on: ubuntu-latest
 
    # named은 단계별로 실행되는 액션들의 설명을 담은 것으로, 나중에 github action에서 workflow에 표시된다.
    # uses 키워드로 action을 불러옴
     steps:
-      - name: checkout Github Action
-        uses: actions/checkout@v3
+      - name: Checkout source code. # 레포지토리 체크아웃
+        uses: actions/checkout@master
         
-      - name: check Node v
-        run: node -v
-
-      - name: setup-node
-        uses: actions/setup-node@v3
+      - name: Cache node modules # node modules 캐싱
+        uses: actions/cache@v1
         with:
-          node-version: 20
+          path: node_modules # 프로젝트의 node_modules가 있는 경로로 설정
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
 
       - name: Install Dependencies
         run: npm install --force
