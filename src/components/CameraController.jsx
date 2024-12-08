@@ -112,7 +112,7 @@ export const CameraController = ({ rb }) => {
         return () => {
             window.removeEventListener("wheel", handleScroll);
         };
-    }, [cartState, cameraMoveByScene, text]);
+    }, [cartState, text]);
 
     useFrame((state, delta) => {
         checkIsFalling();
