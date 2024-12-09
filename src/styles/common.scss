@@ -21,6 +21,22 @@ body {
     .lock {
         overflow: hidden;
     }
+
+    @include tablet {
+        #wrap {
+            display: none;
+        }
+    }
+}
+
+#invalid {
+    width: 100%;
+    height: 100vh;
+    padding: 20px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #loading {
