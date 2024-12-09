@@ -38,7 +38,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1  # AWS 인증을 위한 공식 액션 사용
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}
           aws-region: ap-northeast-2
           
       # s3에 build 파일을 올린다.
