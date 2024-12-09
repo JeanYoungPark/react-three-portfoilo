@@ -30,39 +30,46 @@ export const Main = () => {
 
     return (
         <>
-            <KeyboardControls map={keyboardMap}>
-                <Canvas shadows>
-                    <CameraController rb={cubeManRef} />
-                    <ambientLight intensity={1.5} />
-                    <directionalLight position={[-2, 4, 10]} intensity={2.5} />
-                    {/* <OrbitControls /> */}
-                    <Suspense />
-                    <Physics>
-                        <group position={[0, 3, 0]}>
-                            <Rail />
-                            <CubeMan rb={cubeManRef} />
-                            <Experience rb={cubeManRef} />
-                        </group>
-                    </Physics>
-                    <Particles count={800} />
-                </Canvas>
-            </KeyboardControls>
-            <div id='guide'>
-                <p className='text'>You can Play with</p>
-                <p className='keys'>
-                    <FontAwesomeIcon icon={faArrowLeft} />
-                    <FontAwesomeIcon icon={faArrowUp} />
-                    <FontAwesomeIcon icon={faArrowDown} />
-                    <FontAwesomeIcon icon={faArrowRight} /> <span>+</span> ( Space <span>or</span> Shift )
-                </p>
+            <div id='wrap'>
+                <KeyboardControls map={keyboardMap}>
+                    <Canvas shadows>
+                        <CameraController rb={cubeManRef} />
+                        <ambientLight intensity={1.5} />
+                        <directionalLight position={[-2, 4, 10]} intensity={2.5} />
+                        {/* <OrbitControls /> */}
+                        <Suspense />
+                        <Physics>
+                            <group position={[0, 3, 0]}>
+                                <Rail />
+                                <CubeMan rb={cubeManRef} />
+                                <Experience rb={cubeManRef} />
+                            </group>
+                        </Physics>
+                        <Particles count={800} />
+                    </Canvas>
+                </KeyboardControls>
+                <div id='guide'>
+                    <p className='text'>You can Play with</p>
+                    <p className='keys'>
+                        <FontAwesomeIcon icon={faArrowLeft} />
+                        <FontAwesomeIcon icon={faArrowUp} />
+                        <FontAwesomeIcon icon={faArrowDown} />
+                        <FontAwesomeIcon icon={faArrowRight} /> <span>+</span> ( Space <span>or</span> Shift )
+                    </p>
+                </div>
+                <div id='bubble' class={ob && text && "on"}>
+                    {text}
+                    <p class='enterIcon'>
+                        <FontAwesomeIcon icon={faArrowTurnDown} />
+                    </p>
+                </div>
+                <div className='overlay' />
             </div>
-            <div id='bubble' class={ob && text && "on"}>
-                {text}
-                <p class='enterIcon'>
-                    <FontAwesomeIcon icon={faArrowTurnDown} />
-                </p>
+            <div id='invalid'>
+                Your screen is too small to play this game.
+                <br />
+                You need a screen of at least 1600px.
             </div>
-            <div className='overlay' />
         </>
     );
 };
