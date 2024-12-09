@@ -108,21 +108,6 @@ canvas {
   transform: rotateZ(90deg);
 }
 
-/* 화면 전환 애니메이션을 위한 기본 스타일 */
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: black;
-  z-index: 998;
-  opacity: 0;
-}
-.overlay.exit {
-  animation: sceneExit 2s cubic-bezier(0.76, 0, 0.24, 1) forwards;
-}
-
 /* 장면 전환 애니메이션 키프레임 */
 @keyframes sceneExit {
   0% {
@@ -131,4 +116,57 @@ canvas {
   100% {
     opacity: 1;
   }
+}
+#detail_guide {
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  font-size: 30px;
+  color: #4f5d75;
+  font-weight: 600;
+}
+
+#guide_content {
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  font-size: 20px;
+  padding: 30px;
+  cursor: pointer;
+  transform-origin: bottom right;
+  transition: all 0.5s ease;
+  scale: 0;
+}
+#guide_content.show {
+  scale: 1;
+  cursor: inherit;
+}
+#guide_content.show table {
+  opacity: 1;
+  visibility: visible;
+}
+#guide_content table {
+  opacity: 0;
+  visibility: hidden;
+  border-collapse: collapse;
+  text-align: center;
+  border: 1px solid #ccc;
+  transition: all 0.5s ease;
+}
+#guide_content table th,
+#guide_content table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+#guide_content table .title {
+  font-size: 30px;
+  font-weight: 600;
 }

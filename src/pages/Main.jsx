@@ -1,6 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { Physics } from "@react-three/rapier";
-import { Suspense, useRef } from "react";
+import { Suspense, useRef, useState } from "react";
 import { KeyboardControls } from "@react-three/drei";
 import "../css/main.min.css";
 import { Particles } from "../components/Particles";
@@ -27,6 +27,11 @@ export const Main = () => {
     const cubeManRef = useRef();
     const { ob } = useCollisionObjStore();
     const { text } = useBubbleStore();
+    const [isClicked, setIsClicked] = useState(false);
+
+    const toggleClicked = () => {
+        setIsClicked((prev) => !prev);
+    };
 
     return (
         <>
@@ -63,7 +68,53 @@ export const Main = () => {
                         <FontAwesomeIcon icon={faArrowTurnDown} />
                     </p>
                 </div>
-                <div className='overlay' />
+                <div id='detail_guide' onClick={toggleClicked}>
+                    ?
+                </div>
+                <div id='guide_content' className={`${isClicked && "show"}`} onClick={toggleClicked}>
+                    <table>
+                        <colgroup>
+                            <col style={{ width: "200px" }} />
+                            <col style={{ width: "200px" }} />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Arrow Keys</td>
+                                <td>Move</td>
+                            </tr>
+                            <tr>
+                                <td>Shift</td>
+                                <td>Run</td>
+                            </tr>
+                            <tr>
+                                <td>Space</td>
+                                <td>Jump</td>
+                            </tr>
+                            <tr>
+                                <td>Q, W</td>
+                                <td>Express Emotion</td>
+                            </tr>
+                            <tr>
+                                <td>E</td>
+                                <td>Attack</td>
+                            </tr>
+                            <tr>
+                                <td>Enter</td>
+                                <td>Interact</td>
+                            </tr>
+                            <tr>
+                                <td>Scroll</td>
+                                <td>Next Scene</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div id='invalid'>
                 Your screen is too small to play this game.
