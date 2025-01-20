@@ -31,7 +31,7 @@ canvas {
   opacity: 0;
 }
 
-#guide {
+#guideTop {
   position: absolute;
   top: 30px;
   left: 50px;
@@ -39,15 +39,15 @@ canvas {
   animation: fadeIn 2s ease-in-out forwards;
   animation-delay: 1s;
 }
-#guide p {
+#guideTop p {
   color: #ffffff;
 }
-#guide p.text {
+#guideTop p.text {
   font-size: 40px;
   margin-bottom: 10px;
   font-weight: 600;
 }
-#guide p.keys {
+#guideTop p.keys {
   display: flex;
   align-items: center;
   background-color: rgba(255, 255, 255, 0.3);
@@ -55,11 +55,11 @@ canvas {
   padding: 20px;
   font-size: 20px;
 }
-#guide p.keys span {
+#guideTop p.keys span {
   font-size: 15px;
   padding: 0 10px;
 }
-#guide p.keys svg {
+#guideTop p.keys svg {
   width: 30px;
   height: 30px;
   margin-right: 5px;
@@ -117,7 +117,7 @@ canvas {
     opacity: 1;
   }
 }
-#detail_guide {
+#guideDetail {
   position: fixed;
   right: 50px;
   bottom: 50px;
@@ -132,7 +132,7 @@ canvas {
   font-weight: 600;
 }
 
-#guide_content {
+#guideBottom {
   position: fixed;
   right: 50px;
   bottom: 50px;
@@ -145,15 +145,15 @@ canvas {
   transition: all 0.5s ease;
   scale: 0;
 }
-#guide_content.show {
+#guideBottom.show {
   scale: 1;
   cursor: inherit;
 }
-#guide_content.show table {
+#guideBottom.show table {
   opacity: 1;
   visibility: visible;
 }
-#guide_content table {
+#guideBottom table {
   opacity: 0;
   visibility: hidden;
   border-collapse: collapse;
@@ -161,12 +161,12 @@ canvas {
   border: 1px solid #ccc;
   transition: all 0.5s ease;
 }
-#guide_content table th,
-#guide_content table td {
+#guideBottom table th,
+#guideBottom table td {
   border: 1px solid #ccc;
   padding: 10px;
 }
-#guide_content table .title {
+#guideBottom table .title {
   font-size: 30px;
   font-weight: 600;
 }

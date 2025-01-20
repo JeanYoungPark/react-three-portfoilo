@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Vector3 } from "three";
 import { useCollisionObjStore } from "../store/collisionObjStore";
 import { useCartStore } from "../store/cartStore";
 import { useBubbleStore } from "../store/sheepBubbleStore";
+import { CubeManContext } from "../pages/Main";
 
 const SCENE_POSITIONS = [
     { camera: [20, 50, 23], lookAtOffset: [-10, -10, -23] },
@@ -21,7 +22,8 @@ const collisionLookAt = {
     wolf: { camera: new Vector3(51, -32, 45), lookAtOffset: new Vector3(2, -2, 2) },
 };
 
-export const CameraController = ({ rb }) => {
+export const CameraController = () => {
+    const { cubeManRef } = useContext(CubeManContext);
     const { ob: collisionOb } = useCollisionObjStore();
     const { state: cartState, setState } = useCartStore();
     const { text } = useBubbleStore();
@@ -73,26 +75,26 @@ export const CameraController = ({ rb }) => {
                 targetPosition.current.set(...SCENE_POSITIONS[nextIndex].camera);
                 targetLookAt.current.set(...SCENE_POSITIONS[nextIndex].lookAtOffset);
 
-                rb.current.setTranslation(new Vector3(...SCENE_POSITIONS[nextIndex].cubeMenPos));
+                cubeManRef.current.setTranslation(new Vector3(...SCENE_POSITIONS[nextIndex].cubeMenPos));
             }, mills);
         }
     };
 
     const checkIsFalling = () => {
-        if (rb.current) {
-            const position = rb.current.translation();
+        if (cubeManRef.current) {
+            const position = cubeManRef.current.translation();
 
             if (currentSceneIndex.current === 1) {
                 if (position.y < -10) {
-                    rb.current.setTranslation(new Vector3(...SCENE_POSITIONS[currentSceneIndex.current].cubeMenPos));
+                    cubeManRef.current.setTranslation(new Vector3(...SCENE_POSITIONS[currentSceneIndex.current].cubeMenPos));
                 }
             } else if (currentSceneIndex.current === 2) {
                 if (position.y > 2 || position.y < -30) {
-                    rb.current.setTranslation(new Vector3(...SCENE_POSITIONS[currentSceneIndex.current].cubeMenPos));
+                    cubeManRef.current.setTranslation(new Vector3(...SCENE_POSITIONS[currentSceneIndex.current].cubeMenPos));
                 }
             } else {
                 if (position.y < -50 || position.y > -24) {
-                    rb.current.setTranslation(new Vector3(...SCENE_POSITIONS[currentSceneIndex.current].cubeMenPos));
+                    cubeManRef.current.setTranslation(new Vector3(...SCENE_POSITIONS[currentSceneIndex.current].cubeMenPos));
                 }
             }
         }

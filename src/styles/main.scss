@@ -34,7 +34,7 @@ canvas {
     }
 }
 
-#guide {
+#guideTop {
     position: absolute;
     top: 30px;
     left: 50px;
@@ -130,7 +130,7 @@ canvas {
     }
 }
 
-#detail_guide {
+#guideDetail {
     position: fixed;
     right: 50px;
     bottom: 50px;
@@ -145,7 +145,7 @@ canvas {
     font-weight: 600;
 }
 
-#guide_content {
+#guideBottom {
     position: fixed;
     right: 50px;
     bottom: 50px;

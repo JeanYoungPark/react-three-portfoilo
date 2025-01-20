@@ -1,16 +1,18 @@
 import { useGLTF } from "@react-three/drei";
 import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier";
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { useCharacterMovement } from "../../hook/main/useCharacterMovement";
 import { useFrame } from "@react-three/fiber";
+import { CubeManContext } from "../../pages/Main";
 
-export const CubeMan = ({ rb }) => {
+export const CubeMan = () => {
     const { nodes, materials, animations } = useGLTF("./models/minecreft/Cube Guy Character.glb");
+    const { cubeManRef } = useContext(CubeManContext);
 
     const group = useRef();
     const { world } = useRapier();
     const { checkGroundCollision, handleMovement, handleCollisionEnter, handleCollisionExit, handleKeyDown, handleKeyUp } = useCharacterMovement(
-        rb,
+        cubeManRef,
         world,
         group,
         animations
@@ -33,7 +35,7 @@ export const CubeMan = ({ rb }) => {
 
     return (
         <RigidBody
-            ref={rb}
+            ref={cubeManRef}
             type='dynamic'
             colliders={false}
             position={[18, 1, 6]}
