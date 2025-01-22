@@ -20,7 +20,7 @@ export const Guide = () => {
                     <FontAwesomeIcon icon={faArrowRight} /> <span>+</span> ( Space <span>or</span> Shift )
                 </p>
             </div>
-            <div id='guideDetail' onClick={guideBtnIsClicked}>
+            <div id='guideDetail' onClick={toggleGuideBtnClicked}>
                 ?
             </div>
             <div id='guideBottom' className={`${guideBtnIsClicked && "show"}`} onClick={toggleGuideBtnClicked}>

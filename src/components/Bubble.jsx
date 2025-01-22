@@ -9,9 +9,9 @@ export const Bubble = () => {
     const { text } = useBubbleStore();
 
     return (
-        <div id='bubble' class={ob && text && "on"}>
+        <div id='bubble' className={ob && text && "on"}>
             {text}
-            <p class='enterIcon'>
+            <p className='enterIcon'>
                 <FontAwesomeIcon icon={faArrowTurnDown} />
             </p>
         </div>
