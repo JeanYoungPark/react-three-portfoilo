@@ -35,7 +35,7 @@ export const Main = () => {
                     {/* 3D 오브젝트 렌더링 */}
                     <Canvas shadows>
                         <CubeManContext.Provider value={{ cubeManRef }}>
-                            {/* - */}
+                            {/* 카메라 위치 관련 컴포넌트 */}
                             <CameraController />
                             {/* 전역조명 */}
                             <ambientLight intensity={1.5} />

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowUp, faArrowDown, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 export const Guide = () => {
-    const [guideBtnIsClicked, setGuideBtnIsClicked] = useState(false);
+    const [guideBtnIsClicked, setGuideBtnIsClicked] = useState<boolean>(false);
 
     const toggleGuideBtnClicked = () => {
         setGuideBtnIsClicked((prev) => !prev);

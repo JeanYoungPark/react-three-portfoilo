@@ -1,13 +1,19 @@
 import { ReactNode } from "react";
 import { create } from "zustand";
 
+interface BubbleState {
+    text: ReactNode;
+    isTalking: boolean;
+    setIsTalking: (data: { text: ReactNode; value: boolean }) => void;
+}
+
 /**
  * 말풍선 텍스트
  */
-export const useBubbleStore = create((set) => ({
+export const useBubbleStore = create<BubbleState>((set) => ({
     text: "",
     isTalking: false,
-    setIsTalking: ({ text, isTalking }: { text: ReactNode; isTalking: boolean }) => {
-        set(() => ({ text, isTalking }));
+    setIsTalking: ({ text, value }) => {
+        set(() => ({ text, isTalking: value }));
     },
 }));

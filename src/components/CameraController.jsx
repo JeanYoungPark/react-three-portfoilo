@@ -4,17 +4,15 @@ import { Vector3 } from "three";
 import { useCartStore } from "../store/cartStore";
 import { useBubbleStore } from "../store/bubbleStore";
 import { CubeManContext } from "../pages/Main";
-import { CAMERA_LOOK_AT_COLLISION_POSITIONS, CAMERA_POSITIONS, DAMPING, SPRING_STRENGTH } from "../constants/cameraConstants";
+import { CAMERA_POSITIONS } from "../constants/cameraConstants";
 import { useSceneTransition } from "../hook/common/useSceneTransition";
 import { checkCubeManIsFalling } from "../utils/cameraUtils";
 import { useCameraMovement } from "../hook/common/useCameraMovement";
-import { useCollisionObjStore } from "../store/collisionObjStore";
 
 export const CameraController = () => {
     const { cubeManRef } = useContext(CubeManContext);
     const { state: cartState } = useCartStore();
     const { isTalking } = useBubbleStore();
-    const { ob: collisionOb } = useCollisionObjStore();
 
     const cameraRef = useRef(null);
     const currentLookAtRef = useRef(new Vector3());
@@ -33,7 +31,7 @@ export const CameraController = () => {
     useEffect(() => {
         const handleScroll = (event) => {
             event.preventDefault();
-            // 카트 움직임이 없고, bubble이 띄어져있는 충돌 객체가 없는 경우 (text로 판단)
+
             if (cartState === "done" && !isTalking) {
                 const direction = event.deltaY > 0 ? 1 : -1;
                 handleSceneTransition({ direction });
@@ -52,7 +50,6 @@ export const CameraController = () => {
 
         checkCubeManIsFalling({ cubeManRef, currentSceneIndex });
 
-        // bubble이 띄어져 있다면
         if (isTalking) {
             updateCameraPositionForCollision({ delta });
         } else {
