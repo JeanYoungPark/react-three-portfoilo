@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { lerpAngle } from "../../utils/angleUtils";
 import { useAnimations, useKeyboardControls } from "@react-three/drei";
 import { useCollisionObjStore } from "../../store/collisionObjStore";
-import { useBubbleStore } from "../../store/sheepBubbleStore";
+import { useBubbleStore } from "../../store/bubbleStore";
 import { useCharacterAnimation } from "./useCharacterAnimation";
 
 const WALK_SPEED = 3.5;
@@ -12,7 +12,7 @@ export const useCharacterMovement = (rb, world, group, animations) => {
     const { actions, mixer } = useAnimations(animations, group);
     const { anim, setAnim } = useCharacterAnimation(actions, mixer);
 
-    const { setText } = useBubbleStore();
+    const { setIsTalking } = useBubbleStore();
     const { ob: collisionOb, setOb, clearOb } = useCollisionObjStore();
     const { text } = useBubbleStore();
 
@@ -43,7 +43,7 @@ export const useCharacterMovement = (rb, world, group, animations) => {
 
     const handleCollisionExit = () => {
         clearOb();
-        setText("");
+        setIsTalking({ text: "", isTalking: false });
     };
 
     const handleMovement = () => {

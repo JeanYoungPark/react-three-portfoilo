@@ -6,5 +6,7 @@ import { create } from "zustand";
 export const useCollisionObjStore = create((set) => ({
     ob: "",
     setOb: (ob) => set(() => ({ ob: ob })),
-    clearOb: () => set({ ob: "" }),
+    clearOb: () => {
+        set({ ob: "" });
+    },
 }));

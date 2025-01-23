@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAnimalAnimation } from "../../hook/main/useAnimalAnimation";
 import { CuboidCollider, RigidBody } from "@react-three/rapier";
 import { useCollisionObjStore } from "../../store/collisionObjStore";
-import { useBubbleStore } from "../../store/sheepBubbleStore";
+import { useBubbleStore } from "../../store/bubbleStore";
 import { useCartStore } from "../../store/cartStore";
 
 const script = [
@@ -17,7 +17,7 @@ const script = [
 export const Sheep = ({ position, rotation }) => {
     const { nodes, materials, animations } = useGLTF("./models/minecreft/Sheep.glb");
     const { ob: collisionOb } = useCollisionObjStore();
-    const { text, setText } = useBubbleStore();
+    const { isTalking, setIsTalking } = useBubbleStore();
     const { state: cartState } = useCartStore();
 
     const rb = useRef();
@@ -33,14 +33,15 @@ export const Sheep = ({ position, rotation }) => {
                 if (e.code === "Space") {
                     setAnim("Idle_Eating");
                 } else if (e.code === "Enter") {
-                    if (bubbleIdx > script.length) {
-                        setText("");
+                    const nextBubbleIdx = bubbleIdx + 1;
+
+                    if (nextBubbleIdx === script.length) {
+                        setIsTalking({ text: "", isTalking: false });
                         setBubbleIdx(0);
                     } else {
-                        setBubbleIdx((prev) => prev + 1);
+                        setIsTalking({ text: script[nextBubbleIdx], isTalking: true });
+                        setBubbleIdx(nextBubbleIdx);
                     }
-
-                    setText(script[bubbleIdx]);
                 }
             }
         };
@@ -50,13 +51,13 @@ export const Sheep = ({ position, rotation }) => {
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [collisionOb, bubbleIdx, cartState, setAnim, setText]);
+    }, [collisionOb, bubbleIdx, cartState]);
 
     return (
         <group position={position} rotation={rotation}>
             <group position={[0, 2.5, 0]}>
                 <Html center>
-                    <div className={`bubble ${text && collisionOb?.name === "sheep" && "off"}`}>
+                    <div className={`bubble ${isTalking && collisionOb?.name === "sheep" && "off"}`}>
                         <b>...</b>
                     </div>
                 </Html>

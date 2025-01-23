@@ -22,7 +22,6 @@ export const FirstScene = () => {
                 <Chick fenceRef={fenceRef} position={[7, 1, 12]} />
                 <Chick fenceRef={fenceRef} position={[9, 1, 10]} />
             </group>
-            {/* <Cat setChestOpen={setChestOpen} /> */}
         </group>
     );
 };

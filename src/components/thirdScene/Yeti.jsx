@@ -3,7 +3,7 @@ import { CuboidCollider, RigidBody } from "@react-three/rapier";
 import { useEffect, useRef, useState } from "react";
 import { useCollisionObjStore } from "../../store/collisionObjStore";
 import { useEnemyAnimation } from "../../hook/main/useEnemyAnimation";
-import { useBubbleStore } from "../../store/sheepBubbleStore";
+import { useBubbleStore } from "../../store/bubbleStore";
 import { useCartStore } from "../../store/cartStore";
 
 const script = [<>Yaaaargh!</>, <>ah? Who are you? You didn't visited here!</>];
@@ -11,7 +11,7 @@ const script = [<>Yaaaargh!</>, <>ah? Who are you? You didn't visited here!</>];
 export const Yeti = ({ position, rotation, rb: cubeMenRef }) => {
     const { nodes, materials, animations } = useGLTF("./models/minecreft/Yeti.glb");
     const { ob: collisionOb } = useCollisionObjStore();
-    const { text, setText } = useBubbleStore();
+    const { isTalking, setIsTalking } = useBubbleStore();
     const { state: cartState } = useCartStore();
 
     const [hitCnt, setHitCnt] = useState(0);
@@ -27,21 +27,21 @@ export const Yeti = ({ position, rotation, rb: cubeMenRef }) => {
         const handleKeyDown = (e) => {
             if (collisionOb?.name === "yeti" && cartState === "done") {
                 if (e.code === "Enter") {
-                    if (bubbleIdx > script.length) {
-                        setText("");
+                    const nextBubbleIdx = bubbleIdx + 1;
+
+                    if (nextBubbleIdx === script.length) {
+                        setIsTalking({ text: "", isTalking: false });
                         setBubbleIdx(0);
                     } else {
                         if (bubbleIdx === 0) {
                             setAnim("Attack");
                         }
-                        setBubbleIdx((prev) => prev + 1);
+                        setIsTalking({ text: script[nextBubbleIdx], isTalking: true });
+                        setBubbleIdx(nextBubbleIdx);
                     }
-
-                    setText(script[bubbleIdx]);
                 }
 
                 if (e.key === "e") {
-                    console.log(hitCnt);
                     if (hitCnt + 1 === 3) {
                         setAnim("Death");
                     } else {
@@ -57,13 +57,13 @@ export const Yeti = ({ position, rotation, rb: cubeMenRef }) => {
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [collisionOb, bubbleIdx, cartState, setText, setAnim, hitCnt]);
+    }, [collisionOb, bubbleIdx, cartState, hitCnt]);
 
     return (
         <group position={position} rotation={rotation}>
             <group position={[0, 4, 0]}>
                 <Html center>
-                    <div className={`bubble ${text && collisionOb?.name === "yeti" && "off"}`}>
+                    <div className={`bubble ${isTalking && collisionOb?.name === "yeti" && "off"}`}>
                         <b>...</b>
                     </div>
                 </Html>

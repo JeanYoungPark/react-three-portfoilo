@@ -3,7 +3,7 @@ import { CuboidCollider, RigidBody } from "@react-three/rapier";
 import { useEffect, useRef, useState } from "react";
 import { useAnimalAnimation } from "../../hook/main/useAnimalAnimation";
 import { useCollisionObjStore } from "../../store/collisionObjStore";
-import { useBubbleStore } from "../../store/sheepBubbleStore";
+import { useBubbleStore } from "../../store/bubbleStore";
 import { useCartStore } from "../../store/cartStore";
 
 const script = [<p>Try to punch enemies. Of course I'm not a enemy.😅 (oink oink)</p>];
@@ -11,7 +11,7 @@ const script = [<p>Try to punch enemies. Of course I'm not a enemy.😅 (oink oi
 export const Pig = ({ position, rotation }) => {
     const { nodes, materials, animations } = useGLTF("./models/minecreft/Pig.glb");
     const { ob: collisionOb } = useCollisionObjStore();
-    const { text, setText } = useBubbleStore();
+    const { isTalking, setIsTalking } = useBubbleStore();
     const { state: cartState } = useCartStore();
 
     const [bubbleIdx, setBubbleIdx] = useState(0);
@@ -28,14 +28,15 @@ export const Pig = ({ position, rotation }) => {
                 if (e.code === "Space") {
                     setAnim("Idle_Eating");
                 } else if (e.code === "Enter") {
-                    if (bubbleIdx > script.length) {
-                        setText("");
+                    const nextBubbleIdx = bubbleIdx + 1;
+
+                    if (nextBubbleIdx === script.length) {
+                        setIsTalking({ text: "", isTalking: false });
                         setBubbleIdx(0);
                     } else {
-                        setBubbleIdx((prev) => prev + 1);
+                        setIsTalking({ text: script[bubbleIdx], isTalking: true });
+                        setBubbleIdx(nextBubbleIdx);
                     }
-
-                    setText(script[bubbleIdx]);
                 }
             }
         };
@@ -45,13 +46,13 @@ export const Pig = ({ position, rotation }) => {
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [collisionOb, bubbleIdx, cartState, setAnim, setText]);
+    }, [collisionOb, bubbleIdx, cartState]);
 
     return (
         <group position={position} rotation={rotation}>
             <group position={[0, 3, 0]}>
                 <Html center>
-                    <div className={`bubble ${text && collisionOb?.name === "pig" && "off"}`}>
+                    <div className={`bubble ${isTalking && collisionOb?.name === "pig" && "off"}`}>
                         <b>...</b>
                     </div>
                 </Html>
