@@ -1,6 +1,6 @@
 import { Canvas } from "@react-three/fiber";
-import { Physics } from "@react-three/rapier";
-import { createContext, Suspense, useRef } from "react";
+import { Physics, RapierRigidBody } from "@react-three/rapier";
+import { createContext, MutableRefObject, RefObject, Suspense, useRef } from "react";
 import { KeyboardControls } from "@react-three/drei";
 import "../css/main.min.css";
 import { Particles } from "../components/Particles";
@@ -22,7 +22,11 @@ const keyboardMap = [
     { name: "enter", keys: ["Enter"] },
 ];
 
-export const CubeManContext = createContext();
+interface contextState {
+    cubeManRef: RefObject<RapierRigidBody>;
+}
+
+export const CubeManContext = createContext<contextState | null>(null);
 
 export const Main = () => {
     const cubeManRef = useRef(null);
