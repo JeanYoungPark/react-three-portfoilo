@@ -1,46 +1,65 @@
-# Getting Started with Create React App
+# Interactive 3D Web Experience
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React, Three.js, SCSS를 활용한 인터랙티브 3D 웹사이트입니다.
+[🔗 Live Demo](http://react-3d-project-bucket.s3-website.ap-northeast-2.amazonaws.com/)
 
-## Available Scripts
+## 기술 스택
 
-In the project directory, you can run:
+-   **Frontend**
 
-### `npm start`
+    -   React
+    -   Three.js (3D 렌더링)
+    -   SCSS (스타일링)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+-   **배포**
+    -   AWS S3
+    -   GitHub Actions (CI/CD)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 주요 기능
 
-### `npm test`
+-   3D 오브젝트 인터랙션
+-   스크롤 기반 애니메이션
+-   키보드 기반 캐릭터 컨트롤
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 프로젝트 실행 방법
 
-### `npm run build`
+1. 저장소 클론
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+git clone https://github.com/JeanYoungPark/react-three-portfoilo.git
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. 종속성 설치
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+npm install
+# 또는
+yarn install
+```
 
-### `npm run eject`
+3. 개발 서버 실행
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+npm start
+# 또는
+yarn start
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 배포
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+이 프로젝트는 GitHub Actions를 통해 자동으로 AWS S3에 배포됩니다.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+-   메인 브랜치에 푸시하면 자동으로 배포가 트리거됩니다.
+-   GitHub Actions workflow는 .github/workflows 디렉토리에서 확인할 수 있습니다.
 
-## Learn More
+## 프로젝트 구조
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+src/
+├── components/     # 리액트 컴포넌트
+├── styles/         # SCSS 스타일
+├── three/          # Three.js 관련 코드
+├── hook/           # 리액트 Hook
+├── utils/          # 유틸리티 함수들
+└── store/          # Recoil 상태 관리
+```
