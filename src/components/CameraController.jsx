@@ -26,7 +26,7 @@ export const CameraController = () => {
 
     useEffect(() => {
         setInitCameraState();
-    }, []);
+    }, [setInitCameraState]);
 
     useEffect(() => {
         const handleScroll = (event) => {
@@ -43,7 +43,7 @@ export const CameraController = () => {
         return () => {
             window.removeEventListener("wheel", handleScroll);
         };
-    }, [cartState, isTalking]);
+    }, [cartState, isTalking, handleSceneTransition]);
 
     useFrame((state, delta) => {
         if (!cubeManRef.current) return;

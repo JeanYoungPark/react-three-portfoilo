@@ -51,7 +51,7 @@ export const Sheep = ({ position, rotation }) => {
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [collisionOb, bubbleIdx, cartState]);
+    }, [collisionOb, bubbleIdx, cartState, setAnim, setIsTalking]);
 
     return (
         <group position={position} rotation={rotation}>
