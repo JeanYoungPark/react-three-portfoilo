@@ -27,31 +27,31 @@ export const Sheep = ({ position, rotation }) => {
 
     const [bubbleIdx, setBubbleIdx] = useState(0);
 
-    useEffect(() => {
-        const handleKeyDown = (e) => {
-            if (collisionOb?.name === "sheep" && cartState === "done") {
-                if (e.code === "Space") {
-                    setAnim("Idle_Eating");
-                } else if (e.code === "Enter") {
-                    const nextBubbleIdx = bubbleIdx + 1;
+    const handleKeyDown = (e) => {
+        if (collisionOb?.name === "sheep" && cartState === "done") {
+            if (e.code === "Space") {
+                setAnim("Idle_Eating");
+            } else if (e.code === "Enter") {
+                const nextBubbleIdx = bubbleIdx + 1;
 
-                    if (nextBubbleIdx === script.length) {
-                        setIsTalking({ text: "", isTalking: false });
-                        setBubbleIdx(0);
-                    } else {
-                        setIsTalking({ text: script[nextBubbleIdx], isTalking: true });
-                        setBubbleIdx(nextBubbleIdx);
-                    }
+                if (nextBubbleIdx === script.length) {
+                    setIsTalking({ text: "", isTalking: false });
+                    setBubbleIdx(0);
+                } else {
+                    setIsTalking({ text: script[nextBubbleIdx], isTalking: true });
+                    setBubbleIdx(nextBubbleIdx);
                 }
             }
-        };
+        }
+    };
 
+    useEffect(() => {
         window.addEventListener("keydown", handleKeyDown);
 
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [collisionOb, bubbleIdx, cartState, setAnim, setIsTalking]);
+    }, []);
 
     return (
         <group position={position} rotation={rotation}>

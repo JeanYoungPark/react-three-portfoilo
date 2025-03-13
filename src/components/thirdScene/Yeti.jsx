@@ -57,7 +57,7 @@ export const Yeti = ({ position, rotation, rb: cubeMenRef }) => {
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [collisionOb, bubbleIdx, cartState, hitCnt, setAnim, setIsTalking]);
+    }, [collisionOb, bubbleIdx, cartState, hitCnt]);
 
     return (
         <group position={position} rotation={rotation}>

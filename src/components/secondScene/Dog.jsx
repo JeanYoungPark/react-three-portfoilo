@@ -46,7 +46,7 @@ export const Dog = ({ position, rotation }) => {
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [collisionOb, bubbleIdx, cartState, setAnim, setIsTalking]);
+    }, [collisionOb, bubbleIdx, cartState]);
 
     return (
         <group position={position} rotation={rotation}>

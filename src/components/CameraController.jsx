@@ -28,22 +28,22 @@ export const CameraController = () => {
         setInitCameraState();
     }, [setInitCameraState]);
 
+    const handleScroll = (event) => {
+        event.preventDefault();
+
+        if (cartState === "done" && !isTalking) {
+            const direction = event.deltaY > 0 ? 1 : -1;
+            handleSceneTransition({ direction });
+        }
+    };
+
     useEffect(() => {
-        const handleScroll = (event) => {
-            event.preventDefault();
-
-            if (cartState === "done" && !isTalking) {
-                const direction = event.deltaY > 0 ? 1 : -1;
-                handleSceneTransition({ direction });
-            }
-        };
-
         window.addEventListener("wheel", handleScroll, { passive: false });
 
         return () => {
             window.removeEventListener("wheel", handleScroll);
         };
-    }, [cartState, isTalking, handleSceneTransition]);
+    }, []);
 
     useFrame((state, delta) => {
         if (!cubeManRef.current) return;
