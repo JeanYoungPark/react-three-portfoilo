@@ -68,8 +68,14 @@ export const useCameraMovement = ({ cameraRef, currentLookAtRef }: Props) => {
 
         // LookAt 업데이트
         const targetLookAtPos = cameraRef.current.position.clone().add(targetLookAt.current);
-        currentLookAtRef.current.lerp(targetLookAtPos, delta);
-        cameraRef.current.lookAt(currentLookAtRef.current);
+        const currentLookAt = new Vector3();
+        cameraRef.current.getWorldDirection(currentLookAt);
+
+        const direction = targetLookAtPos.clone().sub(cameraRef.current.position.clone()).normalize();
+        const distance = cameraRef.current.position.clone().distanceTo(targetLookAtPos);
+        const moveDistance = Math.min(delta, distance);
+        currentLookAt.add(direction.multiplyScalar(moveDistance));
+        cameraRef.current.lookAt(cameraRef.current.position.clone().add(currentLookAt));
     };
 
     return { setInitCameraState, updateCameraPositionForCollision, updateCameraPositionForScrolling };
