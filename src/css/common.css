@@ -18,7 +18,7 @@ body {
 body .lock {
   overflow: hidden;
 }
-@media (max-width: 1600px) {
+@media (max-width: 1200px) {
   body #wrap {
     display: none;
   }

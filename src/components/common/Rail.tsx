@@ -2,7 +2,7 @@ import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { CuboidCollider, RapierRigidBody, RigidBody } from "@react-three/rapier";
 import { useMemo, useRef } from "react";
-import { Euler, Group, Object3D, Quaternion, Vector3 } from "three";
+import { Euler, Group, Quaternion, Vector3 } from "three";
 import { useCartStore } from "../../store/cartStore";
 import { RAIL_SEGMENTS, SPEED } from "../../constants/railConstants";
 import { RailSegment } from "../../types/rail";
@@ -83,9 +83,10 @@ export const Rail = () => {
 
             const rotationQuat = new Quaternion().setFromEuler(
                 new Euler(
-                    Math.abs(z) > 0.1 ? (z > 0.1 ? -clampedForward : clampedForward) : x > 0.1 ? clampedSide : -clampedSide,
+                    Math.abs(z) > 0.1 ? (z > 0.1 ? -clampedForward : clampedForward) : 0,
                     0,
-                    Math.abs(z) > 0.1 ? 0 : x > 0.1 ? clampedSide : -clampedSide
+                    Math.abs(x) > 0.1 ? (x > 0.1 ? clampedSide : -clampedSide) : 0,
+                    "ZYX"
                 )
             );
 

@@ -15,7 +15,7 @@ export const CAMERA_POSITIONS: {
 export const CUBE_MEN_POSITIONS: { position: Vector3; rotation: Vector3 }[] = [
     { position: new Vector3(18, 10, 6), rotation: new Vector3(0, 0, 0) },
     { position: new Vector3(12, -5, 36), rotation: new Vector3(0, 0, 0) },
-    { position: new Vector3(22, -12, 35), rotation: new Vector3(0, 0, 0) },
+    { position: new Vector3(50, -25, 42), rotation: new Vector3(0, 0, 0) },
 ];
 
 // 물리적 충돌객체에 따른 카메라 위치 설정

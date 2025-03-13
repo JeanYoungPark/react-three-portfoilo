@@ -1,5 +1,4 @@
-import { Vector3 } from "three";
-import { CAMERA_LOOK_AT_COLLISION_POSITIONS, CAMERA_POSITIONS, SCENE_BOUNDARIES } from "../constants/cameraConstants";
+import { CUBE_MEN_POSITIONS, SCENE_BOUNDARIES } from "../constants/cameraConstants";
 
 export const checkCubeManIsFalling = ({ cubeManRef, currentSceneIndex }) => {
     if (!cubeManRef.current) return;
@@ -12,7 +11,7 @@ export const checkCubeManIsFalling = ({ cubeManRef, currentSceneIndex }) => {
 
     // 현재 position.y가 boundary를 벗어났는지 확인
     if (position.y < boundaries.minY || position.y > boundaries.maxY) {
-        const resetPosition = new Vector3(...CAMERA_POSITIONS[sceneIndex].cubeMenPos);
+        const resetPosition = CUBE_MEN_POSITIONS[sceneIndex - 1].position;
         cubeManRef.current.setTranslation(resetPosition);
     }
 };
