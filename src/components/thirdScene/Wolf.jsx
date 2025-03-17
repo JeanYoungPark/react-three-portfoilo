@@ -1,6 +1,6 @@
 import { Html, useAnimations, useGLTF } from "@react-three/drei";
 import { CuboidCollider, RigidBody } from "@react-three/rapier";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useAnimalAnimation } from "../../hook/main/useAnimalAnimation";
 import { useCollisionObjStore } from "../../store/collisionObjStore";
 import { useBubbleStore } from "../../store/bubbleStore";
@@ -22,31 +22,34 @@ export const Wolf = ({ position, rotation }) => {
     const { actions, mixer } = useAnimations(animations, group);
     const { setAnim } = useAnimalAnimation(actions, mixer);
 
-    useEffect(() => {
-        const handleKeyDown = (e) => {
+    const handleKeyDown = useCallback(
+        (e) => {
             if (collisionOb?.name === "wolf" && cartState === "done") {
                 if (e.code === "Space") {
                     setAnim("Headbutt");
                 } else if (e.code === "Enter") {
-                    const nextBubbleIdx = bubbleIdx + 1;
-
-                    if (nextBubbleIdx === script.length) {
+                    if (bubbleIdx >= script.length) {
                         setIsTalking({ text: "", isTalking: false });
                         setBubbleIdx(0);
                     } else {
-                        setIsTalking({ text: script[nextBubbleIdx], isTalking: true });
+                        setIsTalking({ text: script[bubbleIdx], isTalking: true });
+
+                        const nextBubbleIdx = bubbleIdx + 1;
                         setBubbleIdx(nextBubbleIdx);
                     }
                 }
             }
-        };
+        },
+        [collisionOb, bubbleIdx, cartState]
+    );
 
+    useEffect(() => {
         window.addEventListener("keydown", handleKeyDown);
 
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [collisionOb, bubbleIdx, cartState]);
+    }, [handleKeyDown]);
 
     return (
         <group position={position} rotation={rotation}>

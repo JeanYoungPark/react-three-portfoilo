@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { LoopOnce } from "three";
 
 export const useEnemyAnimation = (actions, mixer) => {
     const [anim, setAnim] = useState("Idle");
@@ -24,21 +25,24 @@ export const useEnemyAnimation = (actions, mixer) => {
                 currentAction.repetitions = 2;
             }
 
-            currentAction.setLoop(false);
+            currentAction.setLoop(LoopOnce);
             currentAction.clampWhenFinished = true;
+            // currentAction.reset();
+
+            console.log(currentAction);
         }
 
         const onFinish = () => {
-            if (anim !== "Death") {
+            if (anim === "Death") {
+                setAnim("Death");
+                mixer.removeEventListener("finished", onFinish);
+            } else {
                 setAnim("Idle");
                 mixer.removeEventListener("finished", onFinish);
             }
         };
 
         mixer.addEventListener("finished", onFinish);
-        // if (anim !== "Death") {
-
-        // }
 
         return () => currentAction.stop();
     }, [actions, anim, mixer]);

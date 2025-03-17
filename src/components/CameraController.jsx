@@ -26,7 +26,7 @@ export const CameraController = () => {
 
     useEffect(() => {
         setInitCameraState();
-    }, [setInitCameraState]);
+    }, []);
 
     const handleScroll = (event) => {
         event.preventDefault();

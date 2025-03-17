@@ -4,7 +4,7 @@ import { create } from "zustand";
 interface BubbleState {
     text: ReactNode;
     isTalking: boolean;
-    setIsTalking: (data: { text: ReactNode; value: boolean }) => void;
+    setIsTalking: (data: { text: ReactNode; isTalking: boolean }) => void;
 }
 
 /**
@@ -13,7 +13,7 @@ interface BubbleState {
 export const useBubbleStore = create<BubbleState>((set) => ({
     text: "",
     isTalking: false,
-    setIsTalking: ({ text, value }) => {
-        set(() => ({ text, isTalking: value }));
+    setIsTalking: ({ text, isTalking }) => {
+        set(() => ({ text, isTalking }));
     },
 }));
