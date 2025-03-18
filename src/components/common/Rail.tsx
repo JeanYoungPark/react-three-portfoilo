@@ -4,8 +4,7 @@ import { CuboidCollider, RapierRigidBody, RigidBody } from "@react-three/rapier"
 import { useMemo, useRef } from "react";
 import { Euler, Group, Quaternion, Vector3 } from "three";
 import { useCartStore } from "../../store/cartStore";
-import { RAIL_SEGMENTS, SPEED } from "../../constants/railConstants";
-import { RailSegment } from "../../types/rail";
+import { CART_MOVEMENT, CART_REVERSE_MOVEMENT, RAIL_SEGMENTS, SPEED } from "../../constants/railConstants";
 
 export const Rail = () => {
     const rigidBodyRef = useRef<RapierRigidBody | null>(null);
@@ -19,23 +18,20 @@ export const Rail = () => {
     const { nodes: railStraight } = useGLTF("./models/minecreft/Rail Straight.glb");
     const { nodes: minecartModel } = useGLTF("./models/minecreft/minecart.glb");
 
-    const calculateNextPosition = ({
-        currentRail,
-        currentPosition,
-        position,
-    }: {
-        currentRail: RailSegment;
-        currentPosition: Vector3;
-        position: { x: number; y: number; z: number };
-    }) => {
-        const inclinePos = currentRail?.isIncline ? 1 : 0;
-        const realNextPosition = new Vector3(currentPosition.x, currentPosition.y + 4.2 + inclinePos, currentPosition.z + 2);
+    const calculateNextPosition = ({ currentPosition }: { currentPosition: Vector3 }) => {
+        const rails = cartState === "down" ? CART_MOVEMENT : CART_REVERSE_MOVEMENT;
+        const next = cartState === "down" ? 1 : -1;
+
+        const targetPosition = rails[currentRailIndex.current + next].position as Vector3;
+        const isIncline = rails[currentRailIndex.current].isIncline;
+
+        const setTargetPosition = new Vector3(targetPosition.x, targetPosition.y + 4.2, targetPosition.z + 2);
+        const difference = setTargetPosition.clone().sub(currentPosition);
 
         return {
-            x: realNextPosition.x - position.x,
-            y: realNextPosition.y - position.y,
-            z: realNextPosition.z - position.z,
-            realNextPosition,
+            x: difference.x,
+            y: isIncline ? difference.y : 0,
+            z: difference.z,
         };
     };
 
@@ -43,10 +39,13 @@ export const Rail = () => {
         const distanceXZ = Math.sqrt(x * x + z * z);
         const yRatio = y / distanceXZ;
 
+        // 카트의 회전 (x, z 축)
         const cartRotation = Math.atan2(x, z);
+        // 카트의 기울기 (y, z 축)
         const tiltForward = Math.atan2(y, Math.abs(z));
+        // 카트의 기울기 (y, x 축)
         const tiltSide = Math.atan2(y, Math.abs(x));
-
+        // 카트 기울기 제한
         const clampedForward = Math.max(-Math.PI / 4, Math.min(Math.PI / 4, tiltForward));
         const clampedSide = Math.max(-Math.PI / 4, Math.min(Math.PI / 4, tiltSide));
 
@@ -55,19 +54,15 @@ export const Rail = () => {
 
     useFrame((_, delta) => {
         if (cartState === "done") return;
+        const rails = cartState === "down" ? CART_MOVEMENT : CART_REVERSE_MOVEMENT;
 
         const rb = rigidBodyRef.current;
-        if (!rb || currentRailIndex.current < 0 || currentRailIndex.current >= RAIL_SEGMENTS.length) return;
+        if (!rb || currentRailIndex.current < 0 || currentRailIndex.current >= rails.length) return;
 
         const position = rb.translation();
-        const currentRail = RAIL_SEGMENTS[currentRailIndex.current];
-        const nextRailIndex = currentRailIndex.current + (cartState === "down" ? 1 : -1);
-        const nextRail = RAIL_SEGMENTS[nextRailIndex];
+        const positionVec3 = new Vector3(position.x, position.y, position.z);
 
-        if (!nextRail) return;
-
-        const currentPosition = new Vector3(...currentRail.position);
-        const { x, y, z } = calculateNextPosition({ currentRail, currentPosition, position });
+        const { x, y, z } = calculateNextPosition({ currentPosition: positionVec3 });
 
         if (Math.abs(x) > 0.1 || Math.abs(y) > 0.1 || Math.abs(z) > 0.1) {
             const { cartRotation, clampedForward, clampedSide, yRatio } = calculateRotation({ x, y, z });
@@ -93,7 +88,8 @@ export const Rail = () => {
             rb.setRotation(rotationQuat, true);
         } else {
             currentRailIndex.current += cartState === "down" ? 1 : -1;
-            if (RAIL_SEGMENTS[currentRailIndex.current]?.isStop) {
+
+            if (rails[currentRailIndex.current]?.isStop) {
                 setState("done");
             }
         }
@@ -119,7 +115,7 @@ export const Rail = () => {
 
     return (
         <group position={[0, 1, 2]}>
-            <RigidBody type='kinematicPosition' lockRotations colliders={false} mass={1} position={[0, 0.2, 0]} ref={rigidBodyRef}>
+            <RigidBody type='kinematicPosition' lockRotations colliders={false} position={[0, 0.2, 0]} ref={rigidBodyRef}>
                 <group ref={cartRef}>
                     <primitive object={minecartModel.Cart} />
                 </group>

@@ -27,9 +27,6 @@ export const useEnemyAnimation = (actions, mixer) => {
 
             currentAction.setLoop(LoopOnce);
             currentAction.clampWhenFinished = true;
-            // currentAction.reset();
-
-            console.log(currentAction);
         }
 
         const onFinish = () => {

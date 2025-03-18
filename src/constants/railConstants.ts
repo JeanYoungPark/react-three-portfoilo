@@ -1,4 +1,33 @@
-import { RailSegment } from "../types/rail";
+import { Vector3 } from "three";
+import { RailArrType, RailSegment } from "../types/rail";
+
+export const CART_MOVEMENT: RailArrType[] = [
+    { position: new Vector3(0, 0, 0), rotation: new Vector3(0, 0, 0), isStop: true },
+    { position: new Vector3(16, 0, 0), rotation: new Vector3(0, -(Math.PI / 2), 0), isCorner: true },
+    { position: new Vector3(16, -2, 14), rotation: new Vector3(0, Math.PI / 2, 0), isIncline: true },
+    { position: new Vector3(16, -20, 33), rotation: new Vector3(0, Math.PI / 2, 0) },
+    { position: new Vector3(16, -20, 38), rotation: new Vector3(0, Math.PI / 2, 0), isStop: true },
+
+    { position: new Vector3(16, -20, 42), rotation: new Vector3(0, Math.PI / 2, 0), isCorner: true },
+    { position: new Vector3(25, -22, 42), rotation: new Vector3(0, Math.PI, 0), isIncline: true },
+    { position: new Vector3(46, -40, 42), rotation: new Vector3(0, 0, 0) },
+    { position: new Vector3(60, -40, 42), rotation: new Vector3(0, Math.PI, 0), isCorner: true },
+    { position: new Vector3(60, -40, 30), rotation: new Vector3(0, Math.PI / 2, 0), isStop: true },
+];
+
+export const CART_REVERSE_MOVEMENT: RailArrType[] = [
+    { position: new Vector3(0, 0, 0), rotation: new Vector3(0, 0, 0), isStop: true },
+    { position: new Vector3(16, 0, 0), rotation: new Vector3(0, -(Math.PI / 2), 0), isCorner: true },
+    { position: new Vector3(16, 0, 13), rotation: new Vector3(0, Math.PI / 2, 0) },
+    { position: new Vector3(16, -20, 34), rotation: new Vector3(0, Math.PI / 2, 0), isIncline: true },
+    { position: new Vector3(16, -20, 38), rotation: new Vector3(0, Math.PI / 2, 0), isStop: true },
+
+    { position: new Vector3(16, -20, 42), rotation: new Vector3(0, Math.PI / 2, 0), isCorner: true },
+    { position: new Vector3(26, -20, 42), rotation: new Vector3(0, 0, 0) },
+    { position: new Vector3(45, -40, 42), rotation: new Vector3(0, Math.PI, 0), isIncline: true },
+    { position: new Vector3(60, -40, 42), rotation: new Vector3(0, Math.PI, 0), isCorner: true },
+    { position: new Vector3(60, -40, 30), rotation: new Vector3(0, Math.PI / 2, 0), isStop: true },
+];
 
 export const RAIL_SEGMENTS: RailSegment[] = [
     { position: [0, 0, 0], rotation: [0, 0, 0], isStop: true },
