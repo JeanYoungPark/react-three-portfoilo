@@ -41,9 +41,11 @@ export const useCharacterMovement = (rb, world, group, animations) => {
         }
     };
 
-    const handleCollisionExit = () => {
-        clearOb();
-        setIsTalking({ text: "", isTalking: false });
+    const handleCollisionExit = (target) => {
+        if (target.rigidBodyObject?.name) {
+            clearOb();
+            setIsTalking({ text: "", isTalking: false });
+        }
     };
 
     const handleMovement = () => {

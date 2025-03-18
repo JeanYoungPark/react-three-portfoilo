@@ -42,7 +42,7 @@ export const CubeMan = () => {
             lockRotations
             mess={1}
             onCollisionEnter={(e) => handleCollisionEnter(e)}
-            onIntersectionExit={handleCollisionExit}>
+            onIntersectionExit={(e) => handleCollisionExit(e)}>
             <group ref={group}>
                 <primitive object={nodes.CharacterArmature} />
                 <skinnedMesh name='Ch14' geometry={nodes.Character.geometry} material={materials.Atlas} skeleton={nodes.Character.skeleton} />

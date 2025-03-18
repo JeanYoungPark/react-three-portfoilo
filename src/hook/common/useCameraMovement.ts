@@ -30,10 +30,10 @@ export const useCameraMovement = ({ cameraRef, currentLookAtRef }: Props) => {
         cameraRef.current.updateProjectionMatrix();
 
         // 초기 위치 설정
-        cameraRef.current.position.copy(new Vector3(...CAMERA_POSITIONS[0].camera));
+        cameraRef.current.position.copy(CAMERA_POSITIONS[0].camera);
 
         // 새로운 벡터를 생성하고 두 벡터의 합을 저장
-        const initialLookAt = new Vector3().addVectors(cameraRef.current.position, new Vector3(...CAMERA_POSITIONS[0].lookAtOffset));
+        const initialLookAt = new Vector3().addVectors(cameraRef.current.position, CAMERA_POSITIONS[0].lookAtOffset);
         currentLookAtRef.current.copy(initialLookAt);
         cameraRef.current.lookAt(initialLookAt);
 
@@ -52,10 +52,13 @@ export const useCameraMovement = ({ cameraRef, currentLookAtRef }: Props) => {
 
         // Update look-at with currentLookAtRef
         const lookAtOffset = CAMERA_LOOK_AT_COLLISION_POSITIONS[collisionOb.name].lookAtOffset;
-        // 기존 백터를 복사하고 다른 벡터를 더함
-        const targetLookAt = targetPos.clone().add(lookAtOffset);
-        currentLookAtRef.current.lerp(targetLookAt, delta);
-        cameraRef.current.lookAt(currentLookAtRef.current);
+        const targetLookAtPos = cameraRef.current.position.clone().add(lookAtOffset);
+        const currentLookAt = new Vector3();
+        cameraRef.current.getWorldDirection(currentLookAt);
+
+        const direction = targetLookAtPos.clone().sub(cameraRef.current.position.clone()).normalize();
+        currentLookAt.add(direction.multiplyScalar(delta));
+        cameraRef.current.lookAt(cameraRef.current.position.clone().add(currentLookAt));
     };
 
     const updateCameraPositionForScrolling = ({ targetPosition, targetLookAt, delta }: updateCameraPositionForScrollingProps) => {
@@ -68,8 +71,12 @@ export const useCameraMovement = ({ cameraRef, currentLookAtRef }: Props) => {
 
         // LookAt 업데이트
         const targetLookAtPos = cameraRef.current.position.clone().add(targetLookAt.current);
-        currentLookAtRef.current.lerp(targetLookAtPos, delta);
-        cameraRef.current.lookAt(currentLookAtRef.current);
+        const currentLookAt = new Vector3();
+        cameraRef.current.getWorldDirection(currentLookAt);
+
+        const direction = targetLookAtPos.clone().sub(cameraRef.current.position.clone()).normalize();
+        currentLookAt.add(direction.multiplyScalar(delta));
+        cameraRef.current.lookAt(cameraRef.current.position.clone().add(currentLookAt));
     };
 
     return { setInitCameraState, updateCameraPositionForCollision, updateCameraPositionForScrolling };

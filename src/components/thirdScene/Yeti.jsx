@@ -1,6 +1,6 @@
 import { Html, useAnimations, useGLTF } from "@react-three/drei";
 import { CuboidCollider, RigidBody } from "@react-three/rapier";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useCollisionObjStore } from "../../store/collisionObjStore";
 import { useEnemyAnimation } from "../../hook/main/useEnemyAnimation";
 import { useBubbleStore } from "../../store/bubbleStore";
@@ -23,20 +23,20 @@ export const Yeti = ({ position, rotation, rb: cubeMenRef }) => {
     const { actions, mixer } = useAnimations(animations, group);
     const { setAnim } = useEnemyAnimation(actions, mixer);
 
-    useEffect(() => {
-        const handleKeyDown = (e) => {
+    const handleKeyDown = useCallback(
+        (e) => {
             if (collisionOb?.name === "yeti" && cartState === "done") {
                 if (e.code === "Enter") {
-                    const nextBubbleIdx = bubbleIdx + 1;
-
-                    if (nextBubbleIdx === script.length) {
+                    if (bubbleIdx >= script.length) {
                         setIsTalking({ text: "", isTalking: false });
                         setBubbleIdx(0);
                     } else {
                         if (bubbleIdx === 0) {
                             setAnim("Attack");
                         }
-                        setIsTalking({ text: script[nextBubbleIdx], isTalking: true });
+                        setIsTalking({ text: script[bubbleIdx], isTalking: true });
+
+                        const nextBubbleIdx = bubbleIdx + 1;
                         setBubbleIdx(nextBubbleIdx);
                     }
                 }
@@ -50,14 +50,17 @@ export const Yeti = ({ position, rotation, rb: cubeMenRef }) => {
                     }
                 }
             }
-        };
+        },
+        [collisionOb, bubbleIdx, cartState, hitCnt]
+    );
 
+    useEffect(() => {
         window.addEventListener("keydown", handleKeyDown);
 
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [collisionOb, bubbleIdx, cartState, hitCnt]);
+    }, [handleKeyDown]);
 
     return (
         <group position={position} rotation={rotation}>

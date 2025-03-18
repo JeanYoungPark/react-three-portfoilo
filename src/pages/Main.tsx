@@ -1,6 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { Physics, RapierRigidBody } from "@react-three/rapier";
-import { createContext, MutableRefObject, RefObject, Suspense, useRef } from "react";
+import { createContext, RefObject, Suspense, useRef } from "react";
 import { KeyboardControls } from "@react-three/drei";
 import "../css/main.min.css";
 import { Particles } from "../components/Particles";

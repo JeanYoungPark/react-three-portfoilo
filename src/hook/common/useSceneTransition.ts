@@ -12,8 +12,8 @@ export const useSceneTransition = ({ cubeManRef }: Props) => {
 
     const currentSceneIndex = useRef(1);
     const transitionProgress = useRef(0);
-    const targetPosition = useRef(new Vector3(...CAMERA_POSITIONS[1].camera));
-    const targetLookAt = useRef(new Vector3(...CAMERA_POSITIONS[1].lookAtOffset));
+    const targetPosition = useRef(CAMERA_POSITIONS[1].camera);
+    const targetLookAt = useRef(CAMERA_POSITIONS[1].lookAtOffset);
 
     // 메인 함수 이름을 목적에 맞게 변경
     const handleSceneTransition = ({ direction }: { direction: number }) => {
@@ -54,8 +54,8 @@ export const useSceneTransition = ({ cubeManRef }: Props) => {
 
     // 카메라 목표 위치 업데이트
     const updateCameraPosition = (nextIndex: number) => {
-        targetPosition.current.set(...CAMERA_POSITIONS[nextIndex].camera);
-        targetLookAt.current.set(...CAMERA_POSITIONS[nextIndex].lookAtOffset);
+        targetPosition.current = CAMERA_POSITIONS[nextIndex].camera;
+        targetLookAt.current = CAMERA_POSITIONS[nextIndex].lookAtOffset;
     };
 
     // 캐릭터 위치 업데이트
