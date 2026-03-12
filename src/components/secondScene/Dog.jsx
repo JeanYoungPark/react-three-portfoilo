@@ -40,7 +40,7 @@ export const Dog = ({ position, rotation }) => {
                 }
             }
         },
-        [collisionOb, cartState, bubbleIdx]
+        [collisionOb, cartState, bubbleIdx, setAnim, setIsTalking]
     );
 
     useEffect(() => {

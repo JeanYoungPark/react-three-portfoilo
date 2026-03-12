@@ -1,5 +1,4 @@
 import { RefObject, useRef } from "react";
-import { Vector3 } from "three";
 import { CAMERA_POSITIONS, CUBE_MEN_POSITIONS, STAND_BY_CAMERA_TIME_MILLS } from "../../constants/cameraConstants";
 import { useCartStore } from "../../store/cartStore";
 import { RapierRigidBody } from "@react-three/rapier";

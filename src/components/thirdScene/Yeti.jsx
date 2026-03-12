@@ -51,7 +51,7 @@ export const Yeti = ({ position, rotation, rb: cubeMenRef }) => {
                 }
             }
         },
-        [collisionOb, bubbleIdx, cartState, hitCnt]
+        [collisionOb, bubbleIdx, cartState, hitCnt, setAnim, setIsTalking]
     );
 
     useEffect(() => {

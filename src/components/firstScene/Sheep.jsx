@@ -45,7 +45,7 @@ export const Sheep = ({ position, rotation }) => {
                 }
             }
         },
-        [collisionOb, cartState, bubbleIdx]
+        [collisionOb, cartState, bubbleIdx, setAnim, setIsTalking]
     );
 
     useEffect(() => {

@@ -40,7 +40,7 @@ export const Wolf = ({ position, rotation }) => {
                 }
             }
         },
-        [collisionOb, bubbleIdx, cartState]
+        [collisionOb, bubbleIdx, cartState, setAnim, setIsTalking]
     );
 
     useEffect(() => {

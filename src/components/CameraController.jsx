@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
+import { useCallback, useContext, useEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Vector3 } from "three";
 import { useCartStore } from "../store/cartStore";
@@ -26,16 +26,17 @@ export const CameraController = () => {
 
     useEffect(() => {
         setInitCameraState();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleScroll = (event) => {
+    const handleScroll = useCallback((event) => {
         event.preventDefault();
 
         if (cartState === "done" && !isTalking) {
             const direction = event.deltaY > 0 ? 1 : -1;
             handleSceneTransition({ direction });
         }
-    };
+    }, [cartState, isTalking, handleSceneTransition]);
 
     useEffect(() => {
         window.addEventListener("wheel", handleScroll, { passive: false });
@@ -43,7 +44,7 @@ export const CameraController = () => {
         return () => {
             window.removeEventListener("wheel", handleScroll);
         };
-    }, []);
+    }, [handleScroll]);
 
     useFrame((state, delta) => {
         if (!cubeManRef.current) return;

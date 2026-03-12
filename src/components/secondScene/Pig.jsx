@@ -40,7 +40,7 @@ export const Pig = ({ position, rotation }) => {
                 }
             }
         },
-        [collisionOb, bubbleIdx, cartState]
+        [collisionOb, bubbleIdx, cartState, setAnim, setIsTalking]
     );
 
     useEffect(() => {
